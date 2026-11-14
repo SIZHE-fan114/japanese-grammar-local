@@ -1,0 +1,82 @@
+{
+  "schema_version": 3,
+  "subject_id": "japanese",
+  "course_id": "japanese-grammar-core",
+  "title": "日本語文法 · 核心语法掌握",
+  "nodes": [
+    {
+      "topic_id": "jp01-copula-particles",
+      "title": "1. 判断句与基本助词：だ・の・な 与 は・が",
+      "member": true
+    },
+    {
+      "topic_id": "jp02-spo-object-particles",
+      "title": "2. 主谓宾句型、核心格助词与自他动词",
+      "member": true
+    },
+    {
+      "topic_id": "jp03-adjectives-and-mo",
+      "title": "3. 形容词活用与包含助词「も」",
+      "member": true
+    },
+    {
+      "topic_id": "jp04-verbs-existence-past",
+      "title": "4. 动词分类、存在句（ある・いる）与过去时",
+      "member": true
+    },
+    {
+      "topic_id": "jp05-negation-system",
+      "title": "5. 否定型完整体系：名词・形容词・动词",
+      "member": true
+    },
+    {
+      "topic_id": "jp06-modifiers-and-listing",
+      "title": "6. 连体修饰语序与并列列举助词",
+      "member": true
+    }
+  ],
+  "edges": [
+    {
+      "from": "jp01-copula-particles",
+      "to": "jp02-spo-object-particles",
+      "type": "prerequisite",
+      "reason": "掌握主题「は」与主格「が」及定语「の・な」规则，才能分辨「SはOをV」「SがOをV」及「の」避开双重「を」。"
+    },
+    {
+      "from": "jp02-spo-object-particles",
+      "to": "jp03-adjectives-and-mo",
+      "type": "prerequisite",
+      "reason": "助词「も」既直接覆盖「は/が/を」，又需后置叠加于「に/へ/から/で」之上；な形容词活用复用「だ/の/な」。"
+    },
+    {
+      "from": "jp02-spo-object-particles",
+      "to": "jp04-verbs-existence-past",
+      "type": "prerequisite",
+      "reason": "动词分类与存在句「ある・いる」直接承接格助词「を/が/に」与自他动词对立体系。"
+    },
+    {
+      "from": "jp03-adjectives-and-mo",
+      "to": "jp05-negation-system",
+      "type": "prerequisite",
+      "reason": "完整否定体系涵盖い形容词与な形容词的活用切换。"
+    },
+    {
+      "from": "jp04-verbs-existence-past",
+      "to": "jp05-negation-system",
+      "type": "prerequisite",
+      "reason": "动词「ない形」及「ある → ない」「来る → こない」等不规则否定以动词三大分类为基础。"
+    },
+    {
+      "from": "jp04-verbs-existence-past",
+      "to": "jp06-modifiers-and-listing",
+      "type": "prerequisite",
+      "reason": "连体修饰小句需要纯熟运用动词辞书形与过去简体「〜た」。"
+    },
+    {
+      "from": "jp05-negation-system",
+      "to": "jp06-modifiers-and-listing",
+      "type": "prerequisite",
+      "reason": "状态表达小句与动词小句修饰名词时需自由运用「〜じゃない」「〜なかった」等否定形。"
+    }
+  ]
+}

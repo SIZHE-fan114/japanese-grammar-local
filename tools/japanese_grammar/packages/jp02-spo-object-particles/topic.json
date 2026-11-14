@@ -1,0 +1,1230 @@
+{
+  "id": "jp02-spo-object-particles",
+  "title": "2. 主谓宾句型、核心格助词与自他动词",
+  "subject_id": "japanese",
+  "course_id": "japanese-grammar-core",
+  "course_title": "日本語文法 · 核心语法掌握",
+  "topic_format_version": 2,
+  "topic_kind": "lesson",
+  "training_mode": "atomic_retrieval",
+  "version": "jp-grammar-b29ac0309ae4",
+  "content_version": "b29ac0309ae415a2",
+  "course_version": "2c0589397073ff8a",
+  "source_rem_id": "Pu9aItzklny3OlLlK",
+  "source_sha256": "b29ac0309ae415a2e07692fc62d6f2e76af20ddfd6af6d1b91a65b19a836d63a",
+  "sections": [
+    {
+      "id": "sec-jp02-spo",
+      "title": "一、主谓宾句型：「SはOをV」与「SがOをV」",
+      "level": 1,
+      "parent_id": null
+    },
+    {
+      "id": "sec-jp02-particles",
+      "title": "二、四大核心格助词（を・に・へ・で）与双重「を」限制",
+      "level": 1,
+      "parent_id": null
+    },
+    {
+      "id": "sec-jp02-transitivity",
+      "title": "三、自动词与他动词、成对词表及「要る・分かる」",
+      "level": 1,
+      "parent_id": null
+    }
+  ],
+  "introductions": [
+    {
+      "id": "intro-jp02-spo",
+      "section_id": "sec-jp02-spo",
+      "title": "日语主谓宾默认模板「S は O を V」与改用「S が O を V」的四大场景",
+      "html": "<h3>日语“主谓宾”默认模板：S は + O を + 他动词</h3><p>在独立日常主句中，表达“主—谓—宾”时最普遍的模板是 <code>S は + O を + 他动词</code>（日语语序为主—宾—谓）。由于日常谈话中主语常是双方已知背景，<code>S は</code> 出现的频率远高于 <code>S が</code>——它把主语平稳设为主题，将注意力推向后面的核心新信息「做了什么」：</p><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>私<rp>(</rp><rt>わたし</rt><rp>)</rp></ruby>は<ruby>朝<rp>(</rp><rt>あさ</rt><rp>)</rp></ruby>ご<ruby>飯<rp>(</rp><rt>はん</rt><rp>)</rp></ruby>を<ruby>食<rp>(</rp><rt>た</rt><rp>)</rp></ruby>べた。</div><div class=\"jp-romaji\">watashi wa asagohan o tabeta.</div><div class=\"jp-zh\">至于我呢，吃了早饭。</div></div><p><strong>确定「S は」后连续省略主语</strong>：一旦句首用 <code>S は</code>（或 <code>S も</code>）立住主题，后文哪怕连续出现十几个动作，也可以省去主语，直接简化成 <code>O を + 他动词</code>（如太宰治文本中在「この原田内助も……」之后连续使用 <span class=\"jp-term\"><ruby>眼<rp>(</rp><rt>め</rt><rp>)</rp></ruby>を<ruby>固<rp>(</rp><rt>かた</rt><rp>)</rp></ruby>くつぶって<span class=\"jp-romaji\"> me o kataku tsubutte</span></span>（紧紧闭上眼睛）、<span class=\"jp-term\"><ruby>論語<rp>(</rp><rt>ろんご</rt><rp>)</rp></ruby>をひらいて<span class=\"jp-romaji\"> rongo o hiraite</span></span>（翻开《论语》）、<span class=\"jp-term\"><ruby>酒<rp>(</rp><rt>さけ</rt><rp>)</rp></ruby>を<ruby>飲<rp>(</rp><rt>の</rt><rp>)</rp></ruby>んで<span class=\"jp-romaji\"> sake o nonde</span></span>（喝酒） 等连串结构）。</p><h3>主谓宾句子何时必须改用「S が + O を + 他动词」？</h3><p>在以下 <strong>4 种特定场景</strong>下，必须将主语助词换为「が」：</p><ol><li><strong>追查或强调“到底是谁干的”（指认施动者）</strong>：<div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>誰<rp>(</rp><rt>だれ</rt><rp>)</rp></ruby>が<ruby>窓<rp>(</rp><rt>まど</rt><rp>)</rp></ruby>を<ruby>開<rp>(</rp><rt>あ</rt><rp>)</rp></ruby>けた？ → <ruby>私<rp>(</rp><rt>わたし</rt><rp>)</rp></ruby>が<ruby>窓<rp>(</rp><rt>まど</rt><rp>)</rp></ruby>を<ruby>開<rp>(</rp><rt>あ</rt><rp>)</rp></ruby>けた。</div><div class=\"jp-romaji\">dare ga mado o aketa? → watashi ga mado o aketa.</div><div class=\"jp-zh\">谁把窗户打开的？→ 是我把窗户打开的！</div></div></li><li><strong>突发状况或新人物首次登场（刚升空的火箭）</strong>：<div class=\"jp-ex\"><div class=\"jp-ja\">あっ、<ruby>猫<rp>(</rp><rt>ねこ</rt><rp>)</rp></ruby>が<ruby>魚<rp>(</rp><rt>さかな</rt><rp>)</rp></ruby>を<ruby>盗<rp>(</rp><rt>ぬす</rt><rp>)</rp></ruby>んだ！</div><div class=\"jp-romaji\">a, neko ga sakana o nusunda!</div><div class=\"jp-zh\">啊，有只猫偷了鱼！<span class=\"jp-note\">—— 猫是突然闯入视野的新信息</span></div></div></li><li><strong>缩进从句（定语小句、条件句）内部作小主语</strong>：全句大主题用「は」，定语从句内小主语退居「が」：<div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>私<rp>(</rp><rt>わたし</rt><rp>)</rp></ruby>は<ruby>母<rp>(</rp><rt>はは</rt><rp>)</rp></ruby>が<ruby>作<rp>(</rp><rt>つく</rt><rp>)</rp></ruby>った<ruby>料理<rp>(</rp><rt>りょうり</rt><rp>)</rp></ruby>を<ruby>食<rp>(</rp><rt>た</rt><rp>)</rp></ruby>べた。</div><div class=\"jp-romaji\">watashi wa haha ga tsukutta ryōri o tabeta.</div><div class=\"jp-zh\">我吃了妈妈做的菜。<span class=\"jp-note\">—— 大主题「私は」+ 定语从句小主语「母が」</span></div></div></li><li><strong>宾语被提前加上「は」进行对比时（O は S が + 动词）</strong>：<div class=\"jp-ex\"><div class=\"jp-ja\">この<ruby>蜆<rp>(</rp><rt>しじみ</rt><rp>)</rp></ruby>は、<ruby>原田内助<rp>(</rp><rt>はらだないじょ</rt><rp>)</rp></ruby>が<ruby>全部<rp>(</rp><rt>ぜんぶ</rt><rp>)</rp></ruby><ruby>買<rp>(</rp><rt>か</rt><rp>)</rp></ruby>いしめた。</div><div class=\"jp-romaji\">kono shijimi wa, harada naijo ga zenbu kaishimeta.</div><div class=\"jp-zh\">至于这些蚬子呢，是原田内助全买光了。</div></div></li></ol>"
+    },
+    {
+      "id": "intro-jp02-particles",
+      "section_id": "sec-jp02-particles",
+      "title": "动词周围四大核心格助词、场所「に/で」辨析与双重「を」限制",
+      "html": "<h3>一、动词周围的四大核心格助词：を・に・へ・で</h3><p>日语谓语/动词永远放在句末，因此需要名词后面的<strong>格助词（Phrase Particles）</strong>作为桥梁把各成分扣到动词上：</p><ul><li><strong>宾语助词「を」（读作 o，罗马字写作 wo）</strong>：标示动作直接承受对象（直接宾语），也可与移动动词连用表示离开的起点或穿过的空间（因为「部屋」不是目的地终点，不用「に」）：<div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>を<ruby>勉強<rp>(</rp><rt>べんきょう</rt><rp>)</rp></ruby>する。</div><div class=\"jp-romaji\">nihongo o benkyō suru.</div><div class=\"jp-zh\">学习日语。</div></div><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>部屋<rp>(</rp><rt>へや</rt><rp>)</rp></ruby>を<ruby>出<rp>(</rp><rt>で</rt><rp>)</rp></ruby>る。</div><div class=\"jp-romaji\">heya o deru.</div><div class=\"jp-zh\">离开房间。<span class=\"jp-note\">—— 离开的起点空间</span></div></div></li><li><strong>目标助词「に」（Target / Placement Marker，相当于 to / at / into）</strong>：标示移动终点、静态存在场所、动作落脚归宿与特定时间点：<div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>日本<rp>(</rp><rt>にほん</rt><rp>)</rp></ruby>に<ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>く。</div><div class=\"jp-romaji\">nihon ni iku.</div><div class=\"jp-zh\">去日本。<span class=\"jp-note\">—— 移动终点</span></div></div><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>猫<rp>(</rp><rt>ねこ</rt><rp>)</rp></ruby>は<ruby>部屋<rp>(</rp><rt>へや</rt><rp>)</rp></ruby>にいる。</div><div class=\"jp-romaji\">neko wa heya ni iru.</div><div class=\"jp-zh\">猫在房间里。<span class=\"jp-note\">—— 静态存在点</span></div></div><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>本<rp>(</rp><rt>ほん</rt><rp>)</rp></ruby>を<ruby>机<rp>(</rp><rt>つくえ</rt><rp>)</rp></ruby>の<ruby>上<rp>(</rp><rt>うえ</rt><rp>)</rp></ruby>に<ruby>置<rp>(</rp><rt>お</rt><rp>)</rp></ruby>く。</div><div class=\"jp-romaji\">hon o tsukue no ue ni oku.</div><div class=\"jp-zh\">把书放在桌子上。<span class=\"jp-note\">—— 动作落脚归宿</span></div></div><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>九時<rp>(</rp><rt>くじ</rt><rp>)</rp></ruby>に<ruby>着<rp>(</rp><rt>つ</rt><rp>)</rp></ruby>きます。</div><div class=\"jp-romaji\">kuji ni tsukimasu.</div><div class=\"jp-zh\">九点到达。<span class=\"jp-note\">—— 具体时间点</span></div></div></li><li><strong>方向助词「へ」（Directional Marker，助词读作 e，相当于 towards）</strong>：仅标示朝向的大致物理方向，不强调最终是否到达；<strong>不可用于非方向性的抽象转化</strong>：<div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>日本<rp>(</rp><rt>にほん</rt><rp>)</rp></ruby>へ<ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>った。</div><div class=\"jp-romaji\">nihon e itta.</div><div class=\"jp-zh\">朝日本的方向去了。</div></div><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>医者<rp>(</rp><rt>いしゃ</rt><rp>)</rp></ruby>になる。</div><div class=\"jp-romaji\">isha ni naru.</div><div class=\"jp-zh\">成为医生。<span class=\"jp-note\">—— 抽象转化只能用「に」</span></div></div><div class=\"jp-bad-ex\"><span class=\"jp-bad\">× 医者へなる</span><span class=\"jp-note\">（「へ」不可用于非物理方向的状态转化）</span></div></li><li><strong>范围/手段助词「で」（Context / Domain Marker，相当于 at / in / by / with）</strong>：标示活动场所或工具/交通手段：<div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>図書館<rp>(</rp><rt>としょかん</rt><rp>)</rp></ruby>で<ruby>勉強<rp>(</rp><rt>べんきょう</rt><rp>)</rp></ruby>する。</div><div class=\"jp-romaji\">toshokan de benkyō suru.</div><div class=\"jp-zh\">在图书馆学习。<span class=\"jp-note\">—— 动作开展的空间域</span></div></div><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>車<rp>(</rp><rt>くるま</rt><rp>)</rp></ruby>で行く。</div><div class=\"jp-romaji\">kuruma de iku.</div><div class=\"jp-zh\">坐车去。<span class=\"jp-note\">—— 所用交通工具/手段</span></div></div></li></ul><h3>二、核心辨析：静态落脚点「に」vs 动态活动域「で」</h3><div class=\"jp-ex\"><div class=\"jp-ja\">ホテルに<ruby>車<rp>(</rp><rt>くるま</rt><rp>)</rp></ruby>をとめる。</div><div class=\"jp-romaji\">hoteru ni kuruma o tomeru.</div><div class=\"jp-zh\">把车停在饭店。<span class=\"jp-note\">—— 「に」关注物体最终停放落脚在何处</span></div></div><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>図書館<rp>(</rp><rt>としょかん</rt><rp>)</rp></ruby>で<ruby>昼寝<rp>(</rp><rt>ひるね</rt><rp>)</rp></ruby>する。</div><div class=\"jp-romaji\">toshokan de hirune suru.</div><div class=\"jp-zh\">在图书馆午睡。<span class=\"jp-note\">—— 「で」关注活动在哪个空间范围内展开</span></div></div><h3>三、语法铁律：双重「を」限制（Double-O Constraint）</h3><p>在一个动词领地内，<strong>绝对不能同时出现两个「を」</strong>。以「勉強（する）」为例：「勉強する」可作整体动词，也可拆成「勉強をする」。一旦要加入直接宾语「日本語」，必须二选一修正：</p><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>を<ruby>勉強<rp>(</rp><rt>べんきょう</rt><rp>)</rp></ruby>する。</div><div class=\"jp-romaji\">nihongo o benkyō suru.</div><div class=\"jp-zh\">学习日语。<span class=\"jp-note\">—— 把「勉強する」当整体动词，只留一个「を」</span></div></div><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>の<ruby>勉強<rp>(</rp><rt>べんきょう</rt><rp>)</rp></ruby>をする。</div><div class=\"jp-romaji\">nihongo no benkyō o suru.</div><div class=\"jp-zh\">做日语的学习。<span class=\"jp-note\">—— 用「の」合并成单一名词短语，再接「をする」</span></div></div><div class=\"jp-bad-ex\"><span class=\"jp-bad\">× 日本語を勉強をする</span><span class=\"jp-note\">（一句话里出现两个「を」，违反双重「を」限制）</span></div>"
+    },
+    {
+      "id": "intro-jp02-transitivity",
+      "section_id": "sec-jp02-transitivity",
+      "title": "自动词与他动词、成对词表及「要る・分かる」的「が」句型",
+      "html": "<h3>一、自动词与他动词的核心定义及成对现象</h3><p><strong>他动词（Transitive Verb）</strong>描述由明确施动者主动施加的动作，必须用「を」标示直接宾语（<code>[施动者]が/は + [宾语]を + 他动词</code>）；<strong>自动词（Intransitive Verb）</strong>描述自然发生、无直接人为干预的客观变化，<strong>绝对不能带直接宾语「を」</strong>，事物本身作主语用「が」（<code>[主语/现象]が/は + 自动词</code>）。</p><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>私<rp>(</rp><rt>わたし</rt><rp>)</rp></ruby>が<ruby>電気<rp>(</rp><rt>でんき</rt><rp>)</rp></ruby>をつけた。</div><div class=\"jp-romaji\">watashi ga denki o tsuketa.</div><div class=\"jp-zh\">我把灯打开了。<span class=\"jp-note\">—— 他动词 + を</span></div></div><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>電気<rp>(</rp><rt>でんき</rt><rp>)</rp></ruby>がついた。</div><div class=\"jp-romaji\">denki ga tsuita.</div><div class=\"jp-zh\">灯亮了。<span class=\"jp-note\">—— 自动词 + が</span></div></div><div class=\"jp-bad-ex\"><span class=\"jp-bad\">× 窓開いた / 電気消える</span><span class=\"jp-note\">（标准语法中自动词必须用「が」标示主语（应为「窓が開いた」「電気が消える」））</span></div><table class=\"jp-table\"><thead><tr><th>动作概念</th><th>他动词（施动者 + を）</th><th>自动词（现象/主语 + が）</th></tr></thead><tbody><tr><td>开</td><td><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>窓<rp>(</rp><rt>まど</rt><rp>)</rp></ruby>を<ruby>開<rp>(</rp><rt>あ</rt><rp>)</rp></ruby>ける</div><div class=\"jp-romaji\">mado o akeru</div><div class=\"jp-zh\">打开窗户</div></div></td><td><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>窓<rp>(</rp><rt>まど</rt><rp>)</rp></ruby>が<ruby>開<rp>(</rp><rt>あ</rt><rp>)</rp></ruby>く</div><div class=\"jp-romaji\">mado ga aku</div><div class=\"jp-zh\">窗户开了</div></div></td></tr><tr><td>关</td><td><div class=\"jp-ex\"><div class=\"jp-ja\">ドアを<ruby>閉<rp>(</rp><rt>し</rt><rp>)</rp></ruby>める</div><div class=\"jp-romaji\">doa o shimeru</div><div class=\"jp-zh\">关门</div></div></td><td><div class=\"jp-ex\"><div class=\"jp-ja\">ドアが<ruby>閉<rp>(</rp><rt>し</rt><rp>)</rp></ruby>まる</div><div class=\"jp-romaji\">doa ga shimaru</div><div class=\"jp-zh\">门关上了</div></div></td></tr><tr><td>开灯 / 关灯</td><td><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>灯<rp>(</rp><rt>あか</rt><rp>)</rp></ruby>りをつける／<ruby>消<rp>(</rp><rt>け</rt><rp>)</rp></ruby>す</div><div class=\"jp-romaji\">akari o tsukeru / kesu</div><div class=\"jp-zh\">开灯 / 熄灯</div></div></td><td><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>灯<rp>(</rp><rt>あか</rt><rp>)</rp></ruby>りがつく／<ruby>消<rp>(</rp><rt>き</rt><rp>)</rp></ruby>える</div><div class=\"jp-romaji\">akari ga tsuku / kieru</div><div class=\"jp-zh\">灯亮了 / 灯灭了</div></div></td></tr><tr><td>放入 / 进入</td><td><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>箱<rp>(</rp><rt>はこ</rt><rp>)</rp></ruby>に<ruby>入<rp>(</rp><rt>い</rt><rp>)</rp></ruby>れる</div><div class=\"jp-romaji\">hako ni ireru</div><div class=\"jp-zh\">放进盒子里</div></div></td><td><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>箱<rp>(</rp><rt>はこ</rt><rp>)</rp></ruby>に<ruby>入<rp>(</rp><rt>はい</rt><rp>)</rp></ruby>る</div><div class=\"jp-romaji\">hako ni hairu</div><div class=\"jp-zh\">进入盒子里</div></div></td></tr></tbody></table><h3>二、及物度标度：「要る」「分かる」为什么接「が」而不接「を」</h3><p>英语把 <em>need / want / understand</em> 划在他动词一侧；但日语界限划得更高，将表示心理倾向或必要状态的「要る（いる，需要）」「分かる（わかる，明白）」「足りない（たりない，不够）」归为<strong>自动词/状态动词</strong>。因此被需要或理解的对象 B 才是语法主语，必须用「が」，而体验者 A（如省略或写出时）用「に（は）」表示“对 A 而言（to/for A）”：</p><div class=\"jp-ex\"><div class=\"jp-ja\">（<ruby>私<rp>(</rp><rt>わたし</rt><rp>)</rp></ruby>には）パソコンがいります。</div><div class=\"jp-romaji\">(watashi ni wa) pasokon ga irimasu.</div><div class=\"jp-zh\">（对我来说）需要电脑。<span class=\"jp-note\">—— 完整结构为 A に（は）B が 要る</span></div></div><div class=\"jp-bad-ex\"><span class=\"jp-bad\">× パソコンをいります / パソコンを私が要る</span><span class=\"jp-note\">（「要る」是不及物状态动词，绝不可接「を」）</span></div><div class=\"jp-ex\"><div class=\"jp-ja\">（<ruby>私<rp>(</rp><rt>わたし</rt><rp>)</rp></ruby>には）<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>が<ruby>分<rp>(</rp><rt>わ</rt><rp>)</rp></ruby>からない。</div><div class=\"jp-romaji\">(watashi ni wa) nihongo ga wakaranai.</div><div class=\"jp-zh\">（对我来说）我不懂日语。</div></div><div class=\"jp-ex\"><div class=\"jp-ja\">（<ruby>彼<rp>(</rp><rt>かれ</rt><rp>)</rp></ruby>には）<ruby>時間<rp>(</rp><rt>じかん</rt><rp>)</rp></ruby>が<ruby>足<rp>(</rp><rt>た</rt><rp>)</rp></ruby>りない。</div><div class=\"jp-romaji\">(kare ni wa) jikan ga tarinai.</div><div class=\"jp-zh\">（对他来说）时间不够。</div></div><p><strong>如果写作中非要用「を」表达“需要”</strong>，必须换成他动词短语 <span class=\"jp-term\"><ruby>必要<rp>(</rp><rt>ひつよう</rt><rp>)</rp></ruby>とする<span class=\"jp-romaji\"> hitsuyō to suru</span></span>（需要）：<div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>彼<rp>(</rp><rt>かれ</rt><rp>)</rp></ruby>がパソコンを<ruby>必要<rp>(</rp><rt>ひつよう</rt><rp>)</rp></ruby>とする。</div><div class=\"jp-romaji\">kare ga pasokon o hitsuyō to suru.</div><div class=\"jp-zh\">他需要电脑。</div></div><div class=\"jp-tip\"><strong>情感类自动词提示：</strong>注意上述 <code>A に（は）B が 状态动词</code> 模板适用于必要、可能、理解、不足等状态评估；表达具体外部对象的情感类动词一般不直接套用此「A に B が」规则。</div>"
+    }
+  ],
+  "introduction": {
+    "id": "intro-jp02-spo",
+    "section_id": "sec-jp02-spo",
+    "title": "日语主谓宾默认模板「S は O を V」与改用「S が O を V」的四大场景",
+    "html": "<h3>日语“主谓宾”默认模板：S は + O を + 他动词</h3><p>在独立日常主句中，表达“主—谓—宾”时最普遍的模板是 <code>S は + O を + 他动词</code>（日语语序为主—宾—谓）。由于日常谈话中主语常是双方已知背景，<code>S は</code> 出现的频率远高于 <code>S が</code>——它把主语平稳设为主题，将注意力推向后面的核心新信息「做了什么」：</p><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>私<rp>(</rp><rt>わたし</rt><rp>)</rp></ruby>は<ruby>朝<rp>(</rp><rt>あさ</rt><rp>)</rp></ruby>ご<ruby>飯<rp>(</rp><rt>はん</rt><rp>)</rp></ruby>を<ruby>食<rp>(</rp><rt>た</rt><rp>)</rp></ruby>べた。</div><div class=\"jp-romaji\">watashi wa asagohan o tabeta.</div><div class=\"jp-zh\">至于我呢，吃了早饭。</div></div><p><strong>确定「S は」后连续省略主语</strong>：一旦句首用 <code>S は</code>（或 <code>S も</code>）立住主题，后文哪怕连续出现十几个动作，也可以省去主语，直接简化成 <code>O を + 他动词</code>（如太宰治文本中在「この原田内助も……」之后连续使用 <span class=\"jp-term\"><ruby>眼<rp>(</rp><rt>め</rt><rp>)</rp></ruby>を<ruby>固<rp>(</rp><rt>かた</rt><rp>)</rp></ruby>くつぶって<span class=\"jp-romaji\"> me o kataku tsubutte</span></span>（紧紧闭上眼睛）、<span class=\"jp-term\"><ruby>論語<rp>(</rp><rt>ろんご</rt><rp>)</rp></ruby>をひらいて<span class=\"jp-romaji\"> rongo o hiraite</span></span>（翻开《论语》）、<span class=\"jp-term\"><ruby>酒<rp>(</rp><rt>さけ</rt><rp>)</rp></ruby>を<ruby>飲<rp>(</rp><rt>の</rt><rp>)</rp></ruby>んで<span class=\"jp-romaji\"> sake o nonde</span></span>（喝酒） 等连串结构）。</p><h3>主谓宾句子何时必须改用「S が + O を + 他动词」？</h3><p>在以下 <strong>4 种特定场景</strong>下，必须将主语助词换为「が」：</p><ol><li><strong>追查或强调“到底是谁干的”（指认施动者）</strong>：<div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>誰<rp>(</rp><rt>だれ</rt><rp>)</rp></ruby>が<ruby>窓<rp>(</rp><rt>まど</rt><rp>)</rp></ruby>を<ruby>開<rp>(</rp><rt>あ</rt><rp>)</rp></ruby>けた？ → <ruby>私<rp>(</rp><rt>わたし</rt><rp>)</rp></ruby>が<ruby>窓<rp>(</rp><rt>まど</rt><rp>)</rp></ruby>を<ruby>開<rp>(</rp><rt>あ</rt><rp>)</rp></ruby>けた。</div><div class=\"jp-romaji\">dare ga mado o aketa? → watashi ga mado o aketa.</div><div class=\"jp-zh\">谁把窗户打开的？→ 是我把窗户打开的！</div></div></li><li><strong>突发状况或新人物首次登场（刚升空的火箭）</strong>：<div class=\"jp-ex\"><div class=\"jp-ja\">あっ、<ruby>猫<rp>(</rp><rt>ねこ</rt><rp>)</rp></ruby>が<ruby>魚<rp>(</rp><rt>さかな</rt><rp>)</rp></ruby>を<ruby>盗<rp>(</rp><rt>ぬす</rt><rp>)</rp></ruby>んだ！</div><div class=\"jp-romaji\">a, neko ga sakana o nusunda!</div><div class=\"jp-zh\">啊，有只猫偷了鱼！<span class=\"jp-note\">—— 猫是突然闯入视野的新信息</span></div></div></li><li><strong>缩进从句（定语小句、条件句）内部作小主语</strong>：全句大主题用「は」，定语从句内小主语退居「が」：<div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>私<rp>(</rp><rt>わたし</rt><rp>)</rp></ruby>は<ruby>母<rp>(</rp><rt>はは</rt><rp>)</rp></ruby>が<ruby>作<rp>(</rp><rt>つく</rt><rp>)</rp></ruby>った<ruby>料理<rp>(</rp><rt>りょうり</rt><rp>)</rp></ruby>を<ruby>食<rp>(</rp><rt>た</rt><rp>)</rp></ruby>べた。</div><div class=\"jp-romaji\">watashi wa haha ga tsukutta ryōri o tabeta.</div><div class=\"jp-zh\">我吃了妈妈做的菜。<span class=\"jp-note\">—— 大主题「私は」+ 定语从句小主语「母が」</span></div></div></li><li><strong>宾语被提前加上「は」进行对比时（O は S が + 动词）</strong>：<div class=\"jp-ex\"><div class=\"jp-ja\">この<ruby>蜆<rp>(</rp><rt>しじみ</rt><rp>)</rp></ruby>は、<ruby>原田内助<rp>(</rp><rt>はらだないじょ</rt><rp>)</rp></ruby>が<ruby>全部<rp>(</rp><rt>ぜんぶ</rt><rp>)</rp></ruby><ruby>買<rp>(</rp><rt>か</rt><rp>)</rp></ruby>いしめた。</div><div class=\"jp-romaji\">kono shijimi wa, harada naijo ga zenbu kaishimeta.</div><div class=\"jp-zh\">至于这些蚬子呢，是原田内助全买光了。</div></div></li></ol>"
+  },
+  "modules": [],
+  "content_order": [
+    {
+      "kind": "introduction",
+      "id": "intro-jp02-spo"
+    },
+    {
+      "kind": "introduction",
+      "id": "intro-jp02-particles"
+    },
+    {
+      "kind": "introduction",
+      "id": "intro-jp02-transitivity"
+    }
+  ],
+  "content_nodes": [],
+  "references": [],
+  "memory_chunks": [
+    {
+      "id": "chunk-jp02-spo-default",
+      "introduction_id": "intro-jp02-spo",
+      "title": "默认主谓宾模板「S は + O を + 他动词」与主题后省略",
+      "html": "<p>主句平铺直叙主谓宾事件首选「S は + O を + 他动词」，立住主题后下文连续动作常省去主语只留「O を + 动词」。</p>",
+      "anchors": [
+        {
+          "start": 0,
+          "end": 27,
+          "quote": "日语“主谓宾”默认模板：S は + O を + 他动词"
+        }
+      ],
+      "points": [
+        {
+          "id": "p-jp02-spo-wa",
+          "text": "日常叙事主谓宾默认模板为「S は + O を + 他动词」，立住主题后可连续省略主语。"
+        }
+      ]
+    },
+    {
+      "id": "chunk-jp02-spo-ga",
+      "introduction_id": "intro-jp02-spo",
+      "title": "改用「S が + O を + 他动词」的四大特定场景",
+      "html": "<p>指认施动者、突发新事件、定语从句内小主语（大主题は+小主语が）以及宾语提前作主题（OはSがV）时主语须用「が」。</p>",
+      "anchors": [
+        {
+          "start": 434,
+          "end": 463,
+          "quote": "主谓宾句子何时必须改用「S が + O を + 他动词」？"
+        }
+      ],
+      "points": [
+        {
+          "id": "p-jp02-spo-ga-sub",
+          "text": "指认施动者、突发新事件、从句内小主语及「O は S が V」前置对比时，主语须用「が」。"
+        }
+      ]
+    },
+    {
+      "id": "chunk-jp02-o-ni-e-de",
+      "introduction_id": "intro-jp02-particles",
+      "title": "四大核心格助词「を・に・へ・で」的职能与「に vs で」场所辨析",
+      "html": "<p>「を」标宾语与离开起点；「に」锁定终点/存在点/时间/转化；「へ」仅表大致物理方向；「で」标动态活动域与手段。</p>",
+      "anchors": [
+        {
+          "start": 0,
+          "end": 22,
+          "quote": "一、动词周围的四大核心格助词：を・に・へ・で"
+        },
+        {
+          "start": 905,
+          "end": 931,
+          "quote": "二、核心辨析：静态落脚点「に」vs 动态活动域「で」"
+        }
+      ],
+      "points": [
+        {
+          "id": "p-jp02-o-marker",
+          "text": "「を」标示直接宾语及移动动词离开的起点空间（部屋を出る）。"
+        },
+        {
+          "id": "p-jp02-ni-e-diff",
+          "text": "「に」精准锁定移动终点、存在点、时间点及抽象转化（医者になる）；「へ」（读 e）仅指物理大致方向。"
+        },
+        {
+          "id": "p-jp02-ni-vs-de",
+          "text": "场所区分：「に」表物体静态落脚点（ホテルに車をとめる）；「で」表动态活动场所域与工具手段（図書館で昼寝する・車で行く）。"
+        }
+      ]
+    },
+    {
+      "id": "chunk-jp02-double-o",
+      "introduction_id": "intro-jp02-particles",
+      "title": "双重「を」限制（Double-O Constraint）",
+      "html": "<p>一个动词句内绝不能同时存在两个「を」；需改作「日本語を勉強する」或「日本語の勉強をする」。</p>",
+      "anchors": [
+        {
+          "start": 1070,
+          "end": 1105,
+          "quote": "三、语法铁律：双重「を」限制（Double-O Constraint）"
+        }
+      ],
+      "points": [
+        {
+          "id": "p-jp02-double-o",
+          "text": "同一动词领地内禁止两个「を」，须合并成「〜を勉強する」或用「の」连接成「〜の勉強をする」。"
+        }
+      ]
+    },
+    {
+      "id": "chunk-jp02-trans-pairs",
+      "introduction_id": "intro-jp02-transitivity",
+      "title": "自他动词对立规则与核心成对动词表",
+      "html": "<p>他动词带「を」，自动词只带「が」；掌握 開ける/開く、閉める/閉まる、つける/つく、消す/消える、入れる/入る。</p>",
+      "anchors": [
+        {
+          "start": 0,
+          "end": 19,
+          "quote": "一、自动词与他动词的核心定义及成对现象"
+        }
+      ],
+      "points": [
+        {
+          "id": "p-jp02-trans-rule",
+          "text": "他动词描述人为施动配「を」；自动词描述客观变化主语配「が」且禁止带「を」。"
+        },
+        {
+          "id": "p-jp02-trans-pairs",
+          "text": "牢记核心自他成对动词：開ける/開く、閉める/閉まる、つける/つく、消す/消える、入れる/入る。"
+        }
+      ]
+    },
+    {
+      "id": "chunk-jp02-iru-wakaru",
+      "introduction_id": "intro-jp02-transitivity",
+      "title": "「要る・分かる」的自动词本质与「A に（は）B が」句型",
+      "html": "<p>「要る・分かる・足りない」属自动词，对象 B 用「が」，体验者 A 用「に（は）」；需用「を」时换他动词「必要とする」。</p>",
+      "anchors": [
+        {
+          "start": 638,
+          "end": 668,
+          "quote": "二、及物度标度：「要る」「分かる」为什么接「が」而不接「を」"
+        }
+      ],
+      "points": [
+        {
+          "id": "p-jp02-iru-ga",
+          "text": "「要る」「分かる」「足りない」在日语中是自动词，所需/理解对象用「が」（パソコンがいります）；用「を」须改用「必要とする」。"
+        },
+        {
+          "id": "p-jp02-ni-experiencer",
+          "text": "「A に（は）B が」中的「に」表示“对 A 而言（to/for A）”，一般不用于外部情感类动词。"
+        }
+      ]
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "fc-jp02-01",
+      "title": "默认主谓宾句型「S は O を V」",
+      "point_ids": [
+        "p-jp02-spo-wa"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "请按主句常规平铺直叙模板，依次填入主题助词与直接宾语助词：\n私{{blank:b1}}朝ご飯{{blank:b2}}食べた。（我吃了早饭。（主句常规陈述））",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">请按主句常规平铺直叙模板，依次填入主题助词与直接宾语助词：</p><p class=\"jp-ja\"><ruby>私<rp>(</rp><rt>わたし</rt><rp>)</rp></ruby>{{blank:b1}}<ruby>朝<rp>(</rp><rt>あさ</rt><rp>)</rp></ruby>ご<ruby>飯<rp>(</rp><rt>はん</rt><rp>)</rp></ruby>{{blank:b2}}<ruby>食<rp>(</rp><rt>た</rt><rp>)</rp></ruby>べた。</p><p class=\"jp-romaji\">watashi [ ? ] asagohan [ ? ] tabeta.</p><p class=\"jp-zh\">我吃了早饭。（主句常规陈述）</p></div>",
+      "reference_answer": "は；を",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>私<rp>(</rp><rt>わたし</rt><rp>)</rp></ruby><strong>は</strong><ruby>朝<rp>(</rp><rt>あさ</rt><rp>)</rp></ruby>ご<ruby>飯<rp>(</rp><rt>はん</rt><rp>)</rp></ruby><strong>を</strong><ruby>食<rp>(</rp><rt>た</rt><rp>)</rp></ruby>べた。</div><div class=\"jp-romaji\">watashi wa asagohan o tabeta.</div><p>主句常规讲“某人做了某事”时首选「S は + O を + 他动词」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "主题助词",
+            "answers": [
+              "は"
+            ]
+          },
+          {
+            "id": "b2",
+            "label": "宾格助词",
+            "answers": [
+              "を"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp02-02",
+      "title": "立住主题后省略主语仅留「O を V」",
+      "point_ids": [
+        "p-jp02-spo-wa"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "上文已立住主题，填入后继连串动作中的宾语助词：\n酒{{blank:b1}}飲んで（喝了酒（之后……））",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">上文已立住主题，填入后继连串动作中的宾语助词：</p><p class=\"jp-ja\"><ruby>酒<rp>(</rp><rt>さけ</rt><rp>)</rp></ruby>{{blank:b1}}<ruby>飲<rp>(</rp><rt>の</rt><rp>)</rp></ruby>んで</p><p class=\"jp-romaji\">sake [ ? ] nonde</p><p class=\"jp-zh\">喝了酒（之后……）</p></div>",
+      "reference_answer": "を",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>酒<rp>(</rp><rt>さけ</rt><rp>)</rp></ruby><strong>を</strong><ruby>飲<rp>(</rp><rt>の</rt><rp>)</rp></ruby>んで</div><div class=\"jp-romaji\">sake o nonde</div><p>确立主题后主语常省略，只保留核心的「O を + 动词」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "宾格助词",
+            "answers": [
+              "を"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp02-03",
+      "title": "突发状况「S が O を V」",
+      "point_ids": [
+        "p-jp02-spo-ga-sub"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "播报突发画面且新角色首次登场，依次填入主语与宾语助词：\nあっ、猫{{blank:b1}}魚{{blank:b2}}盗んだ！（啊，有只猫偷了鱼！）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">播报突发画面且新角色首次登场，依次填入主语与宾语助词：</p><p class=\"jp-ja\">あっ、<ruby>猫<rp>(</rp><rt>ねこ</rt><rp>)</rp></ruby>{{blank:b1}}<ruby>魚<rp>(</rp><rt>さかな</rt><rp>)</rp></ruby>{{blank:b2}}<ruby>盗<rp>(</rp><rt>ぬす</rt><rp>)</rp></ruby>んだ！</p><p class=\"jp-romaji\">a, neko [ ? ] sakana [ ? ] nusunda!</p><p class=\"jp-zh\">啊，有只猫偷了鱼！</p></div>",
+      "reference_answer": "が；を",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\">あっ、<ruby>猫<rp>(</rp><rt>ねこ</rt><rp>)</rp></ruby><strong>が</strong><ruby>魚<rp>(</rp><rt>さかな</rt><rp>)</rp></ruby><strong>を</strong><ruby>盗<rp>(</rp><rt>ぬす</rt><rp>)</rp></ruby>んだ！</div><div class=\"jp-romaji\">a, neko ga sakana o nusunda!</div><p>突发事件及新人物首次亮相属于新信息（火箭），主语用「が」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "主格助词",
+            "answers": [
+              "が"
+            ]
+          },
+          {
+            "id": "b2",
+            "label": "宾格助词",
+            "answers": [
+              "を"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp02-04",
+      "title": "大主题「は」+ 从句内小主语「が」",
+      "point_ids": [
+        "p-jp02-spo-ga-sub"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "区分主句大主题（我）与定语从句内部小主语（妈妈）：\n私{{blank:b1}}母{{blank:b2}}作った料理を食べた。（我吃了妈妈做的菜。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">区分主句大主题（我）与定语从句内部小主语（妈妈）：</p><p class=\"jp-ja\"><ruby>私<rp>(</rp><rt>わたし</rt><rp>)</rp></ruby>{{blank:b1}}<ruby>母<rp>(</rp><rt>はは</rt><rp>)</rp></ruby>{{blank:b2}}<ruby>作<rp>(</rp><rt>つく</rt><rp>)</rp></ruby>った<ruby>料理<rp>(</rp><rt>りょうり</rt><rp>)</rp></ruby>を<ruby>食<rp>(</rp><rt>た</rt><rp>)</rp></ruby>べた。</p><p class=\"jp-romaji\">watashi [ ? ] haha [ ? ] tsukutta ryōri o tabeta.</p><p class=\"jp-zh\">我吃了妈妈做的菜。</p></div>",
+      "reference_answer": "は；が",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>私<rp>(</rp><rt>わたし</rt><rp>)</rp></ruby><strong>は</strong><ruby>母<rp>(</rp><rt>はは</rt><rp>)</rp></ruby><strong>が</strong><ruby>作<rp>(</rp><rt>つく</rt><rp>)</rp></ruby>った<ruby>料理<rp>(</rp><rt>りょうり</rt><rp>)</rp></ruby>を<ruby>食<rp>(</rp><rt>た</rt><rp>)</rp></ruby>べた。</div><div class=\"jp-romaji\">watashi wa haha ga tsukutta ryōri o tabeta.</div><p>「は」统领全句大主题，定语从句内部的小主语必须退居为「が」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "主句大主题",
+            "answers": [
+              "は"
+            ]
+          },
+          {
+            "id": "b2",
+            "label": "从句小主语",
+            "answers": [
+              "が"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp02-05",
+      "title": "宾语前置对比「O は S が V」",
+      "point_ids": [
+        "p-jp02-spo-ga-sub"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "将宾语“这些蚬子”提前作主题，后面留守主语指认执行者：\nこの蜆{{blank:b1}}、原田内助{{blank:b2}}全部買いしめた。（至于这些蚬子，是原田内助全买光了。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">将宾语“这些蚬子”提前作主题，后面留守主语指认执行者：</p><p class=\"jp-ja\">この<ruby>蜆<rp>(</rp><rt>しじみ</rt><rp>)</rp></ruby>{{blank:b1}}、<ruby>原田内助<rp>(</rp><rt>はらだないじょ</rt><rp>)</rp></ruby>{{blank:b2}}<ruby>全部<rp>(</rp><rt>ぜんぶ</rt><rp>)</rp></ruby><ruby>買<rp>(</rp><rt>か</rt><rp>)</rp></ruby>いしめた。</p><p class=\"jp-romaji\">kono shijimi [ ? ], harada naijo [ ? ] zenbu kaishimeta.</p><p class=\"jp-zh\">至于这些蚬子，是原田内助全买光了。</p></div>",
+      "reference_answer": "は；が",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\">この<ruby>蜆<rp>(</rp><rt>しじみ</rt><rp>)</rp></ruby><strong>は</strong>、<ruby>原田内助<rp>(</rp><rt>はらだないじょ</rt><rp>)</rp></ruby><strong>が</strong><ruby>全部<rp>(</rp><rt>ぜんぶ</rt><rp>)</rp></ruby><ruby>買<rp>(</rp><rt>か</rt><rp>)</rp></ruby>いしめた。</div><div class=\"jp-romaji\">kono shijimi wa, harada naijo ga zenbu kaishimeta.</div><p>宾语用「は」提前对比后，后面的主语要用「が」标明。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "前置宾语主题",
+            "answers": [
+              "は"
+            ]
+          },
+          {
+            "id": "b2",
+            "label": "留守主语标识",
+            "answers": [
+              "が"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp02-06",
+      "title": "直接宾语助词「を」",
+      "point_ids": [
+        "p-jp02-o-marker"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "填入标示直接承受动作对象的格助词：\n日本語{{blank:b1}}勉強する。（学习日语。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">填入标示直接承受动作对象的格助词：</p><p class=\"jp-ja\"><ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>{{blank:b1}}<ruby>勉強<rp>(</rp><rt>べんきょう</rt><rp>)</rp></ruby>する。</p><p class=\"jp-romaji\">nihongo [ ? ] benkyō suru.</p><p class=\"jp-zh\">学习日语。</p></div>",
+      "reference_answer": "を",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby><strong>を</strong><ruby>勉強<rp>(</rp><rt>べんきょう</rt><rp>)</rp></ruby>する。</div><div class=\"jp-romaji\">nihongo o benkyō suru.</div><p>「勉強する」作为他动词，直接宾语用「を」标示。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "宾格助词",
+            "answers": [
+              "を"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp02-07",
+      "title": "移动离开的起点助词「を」",
+      "point_ids": [
+        "p-jp02-o-marker"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "房间并非到达目标而是离开的起点，与移动动词「出る」连用时应填：\n部屋{{blank:b1}}出る。（离开房间。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">房间并非到达目标而是离开的起点，与移动动词「出る」连用时应填：</p><p class=\"jp-ja\"><ruby>部屋<rp>(</rp><rt>へや</rt><rp>)</rp></ruby>{{blank:b1}}<ruby>出<rp>(</rp><rt>で</rt><rp>)</rp></ruby>る。</p><p class=\"jp-romaji\">heya [ ? ] deru.</p><p class=\"jp-zh\">离开房间。</p></div>",
+      "reference_answer": "を",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>部屋<rp>(</rp><rt>へや</rt><rp>)</rp></ruby><strong>を</strong><ruby>出<rp>(</rp><rt>で</rt><rp>)</rp></ruby>る。</div><div class=\"jp-romaji\">heya o deru.</div><p>与「出る」等移动动词连用表示离开某地时不用「に」，而用「を」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "离开起点助词",
+            "answers": [
+              "を"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp02-08",
+      "title": "精准终点目标「に」",
+      "point_ids": [
+        "p-jp02-ni-e-diff"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "精准锁定移动的最终目标地点（to，到达终点日本）：\n日本{{blank:b1}}行く。（去日本（目标终点是日本）。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">精准锁定移动的最终目标地点（to，到达终点日本）：</p><p class=\"jp-ja\"><ruby>日本<rp>(</rp><rt>にほん</rt><rp>)</rp></ruby>{{blank:b1}}<ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>く。</p><p class=\"jp-romaji\">nihon [ ? ] iku.</p><p class=\"jp-zh\">去日本（目标终点是日本）。</p></div>",
+      "reference_answer": "に",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>日本<rp>(</rp><rt>にほん</rt><rp>)</rp></ruby><strong>に</strong><ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>く。</div><div class=\"jp-romaji\">nihon ni iku.</div><p>「に」像精准落点，锁定移动的最终到达目标。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "目标终点助词",
+            "answers": [
+              "に"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp02-09",
+      "title": "大致物理方向「へ」",
+      "point_ids": [
+        "p-jp02-ni-e-diff"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "强调“朝着日本的大致方向”（towards），并不强调是否抵达：\n日本{{blank:b1}}行った。（朝日本的方向去了。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">强调“朝着日本的大致方向”（towards），并不强调是否抵达：</p><p class=\"jp-ja\"><ruby>日本<rp>(</rp><rt>にほん</rt><rp>)</rp></ruby>{{blank:b1}}<ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>った。</p><p class=\"jp-romaji\">nihon [ ? ] itta.</p><p class=\"jp-zh\">朝日本的方向去了。</p></div>",
+      "reference_answer": "へ",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>日本<rp>(</rp><rt>にほん</rt><rp>)</rp></ruby><strong>へ</strong><ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>った。</div><div class=\"jp-romaji\">nihon e itta.</div><p>「へ」（作助词读 e）仅指朝某方向行进，较「に」更侧重方向感。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "方向助词",
+            "answers": [
+              "へ"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp02-10",
+      "title": "抽象转化结果只用「に」",
+      "point_ids": [
+        "p-jp02-ni-e-diff"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "表示非物理方向的身份/状态转化，填入目标助词：\n医者{{blank:b1}}なる。（成为医生。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">表示非物理方向的身份/状态转化，填入目标助词：</p><p class=\"jp-ja\"><ruby>医者<rp>(</rp><rt>いしゃ</rt><rp>)</rp></ruby>{{blank:b1}}なる。</p><p class=\"jp-romaji\">isha [ ? ] naru.</p><p class=\"jp-zh\">成为医生。</p></div>",
+      "reference_answer": "に",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>医者<rp>(</rp><rt>いしゃ</rt><rp>)</rp></ruby><strong>に</strong>なる。</div><div class=\"jp-romaji\">isha ni naru.</div><p>「成为……」属于抽象转化目标，只能用「に」，不能说「*医者へなる」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "转化目标助词",
+            "answers": [
+              "に"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp02-11",
+      "title": "特定时间点「に」",
+      "point_ids": [
+        "p-jp02-ni-e-diff"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "标示动作发生的具体时间点：\n九時{{blank:b1}}着きます。（九点到达。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">标示动作发生的具体时间点：</p><p class=\"jp-ja\"><ruby>九時<rp>(</rp><rt>くじ</rt><rp>)</rp></ruby>{{blank:b1}}<ruby>着<rp>(</rp><rt>つ</rt><rp>)</rp></ruby>きます。</p><p class=\"jp-romaji\">kuji [ ? ] tsukimasu.</p><p class=\"jp-zh\">九点到达。</p></div>",
+      "reference_answer": "に",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>九時<rp>(</rp><rt>くじ</rt><rp>)</rp></ruby><strong>に</strong><ruby>着<rp>(</rp><rt>つ</rt><rp>)</rp></ruby>きます。</div><div class=\"jp-romaji\">kuji ni tsukimasu.</div><p>具体的时刻目标点使用「に」标记。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "时间点助词",
+            "answers": [
+              "に"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp02-12",
+      "title": "静态落脚归宿「に」",
+      "point_ids": [
+        "p-jp02-ni-vs-de"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "强调车最终停放落脚在饭店这一附着点：\nホテル{{blank:b1}}車をとめる。（把车停在饭店。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">强调车最终停放落脚在饭店这一附着点：</p><p class=\"jp-ja\">ホテル{{blank:b1}}<ruby>車<rp>(</rp><rt>くるま</rt><rp>)</rp></ruby>をとめる。</p><p class=\"jp-romaji\">hoteru [ ? ] kuruma o tomeru.</p><p class=\"jp-zh\">把车停在饭店。</p></div>",
+      "reference_answer": "に",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\">ホテル<strong>に</strong><ruby>車<rp>(</rp><rt>くるま</rt><rp>)</rp></ruby>をとめる。</div><div class=\"jp-romaji\">hoteru ni kuruma o tomeru.</div><p>关注物体最终停留/附着的位置时用「に」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "静态落脚助词",
+            "answers": [
+              "に"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp02-13",
+      "title": "动态活动空间域「で」",
+      "point_ids": [
+        "p-jp02-ni-vs-de"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "强调“午睡”这项动态活动在图书馆空间范围内展开：\n図書館{{blank:b1}}昼寝する。（在图书馆午睡。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">强调“午睡”这项动态活动在图书馆空间范围内展开：</p><p class=\"jp-ja\"><ruby>図書館<rp>(</rp><rt>としょかん</rt><rp>)</rp></ruby>{{blank:b1}}<ruby>昼寝<rp>(</rp><rt>ひるね</rt><rp>)</rp></ruby>する。</p><p class=\"jp-romaji\">toshokan [ ? ] hirune suru.</p><p class=\"jp-zh\">在图书馆午睡。</p></div>",
+      "reference_answer": "で",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>図書館<rp>(</rp><rt>としょかん</rt><rp>)</rp></ruby><strong>で</strong><ruby>昼寝<rp>(</rp><rt>ひるね</rt><rp>)</rp></ruby>する。</div><div class=\"jp-romaji\">toshokan de hirune suru.</div><p>动作发生或持续展开的空间范围使用「で」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "活动场所助词",
+            "answers": [
+              "で"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp02-14",
+      "title": "交通工具与手段「で」",
+      "point_ids": [
+        "p-jp02-ni-vs-de"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "标示所使用的交通工具或手段：\n車{{blank:b1}}行く。（坐车去。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">标示所使用的交通工具或手段：</p><p class=\"jp-ja\"><ruby>車<rp>(</rp><rt>くるま</rt><rp>)</rp></ruby>{{blank:b1}}<ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>く。</p><p class=\"jp-romaji\">kuruma [ ? ] iku.</p><p class=\"jp-zh\">坐车去。</p></div>",
+      "reference_answer": "で",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>車<rp>(</rp><rt>くるま</rt><rp>)</rp></ruby><strong>で</strong><ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>く。</div><div class=\"jp-romaji\">kuruma de iku.</div><p>工具、方式、交通手段统一用「で」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "工具/手段助词",
+            "answers": [
+              "で"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp02-15",
+      "title": "静态存在场所「に」",
+      "point_ids": [
+        "p-jp02-ni-vs-de"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "与存在动词「いる」连用标示静态存在位置：\n猫は部屋{{blank:b1}}いる。（猫在房间里。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">与存在动词「いる」连用标示静态存在位置：</p><p class=\"jp-ja\"><ruby>猫<rp>(</rp><rt>ねこ</rt><rp>)</rp></ruby>は<ruby>部屋<rp>(</rp><rt>へや</rt><rp>)</rp></ruby>{{blank:b1}}いる。</p><p class=\"jp-romaji\">neko wa heya [ ? ] iru.</p><p class=\"jp-zh\">猫在房间里。</p></div>",
+      "reference_answer": "に",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>猫<rp>(</rp><rt>ねこ</rt><rp>)</rp></ruby>は<ruby>部屋<rp>(</rp><rt>へや</rt><rp>)</rp></ruby><strong>に</strong>いる。</div><div class=\"jp-romaji\">neko wa heya ni iru.</div><p>表示静态人或物存在于某处时，场所后用「に」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "存在场所助词",
+            "answers": [
+              "に"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp02-16",
+      "title": "遵守双重「を」限制（改用「の」连接）",
+      "point_ids": [
+        "p-jp02-double-o"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "用名词短语结构表达“做日语的学习”，依次填入连接助词与宾语助词：\n日本語{{blank:b1}}勉強{{blank:b2}}する。（做日语的学习。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">用名词短语结构表达“做日语的学习”，依次填入连接助词与宾语助词：</p><p class=\"jp-ja\"><ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>{{blank:b1}}<ruby>勉強<rp>(</rp><rt>べんきょう</rt><rp>)</rp></ruby>{{blank:b2}}する。</p><p class=\"jp-romaji\">nihongo [ ? ] benkyō [ ? ] suru.</p><p class=\"jp-zh\">做日语的学习。</p></div>",
+      "reference_answer": "の；を",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby><strong>の</strong><ruby>勉強<rp>(</rp><rt>べんきょう</rt><rp>)</rp></ruby><strong>を</strong>する。</div><div class=\"jp-romaji\">nihongo no benkyō o suru.</div><p>通过「の」把「日本語の勉強」组合成单个名词短语，从而全句只留一个「を」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "名词连接助词",
+            "answers": [
+              "の"
+            ]
+          },
+          {
+            "id": "b2",
+            "label": "宾语助词",
+            "answers": [
+              "を"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp02-17",
+      "title": "双重「を」限制：整体动词法",
+      "point_ids": [
+        "p-jp02-double-o"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "把「勉強する」看作不可拆分的整体动词，直接标示“学习日语”：\n毎日日本語{{blank:b1}}勉強する。（每天学习日语。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">把「勉強する」看作不可拆分的整体动词，直接标示“学习日语”：</p><p class=\"jp-ja\"><ruby>毎日<rp>(</rp><rt>まいにち</rt><rp>)</rp></ruby><ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>{{blank:b1}}<ruby>勉強<rp>(</rp><rt>べんきょう</rt><rp>)</rp></ruby>する。</p><p class=\"jp-romaji\">mainichi nihongo [ ? ] benkyō suru.</p><p class=\"jp-zh\">每天学习日语。</p></div>",
+      "reference_answer": "を",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>毎日<rp>(</rp><rt>まいにち</rt><rp>)</rp></ruby><ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby><strong>を</strong><ruby>勉強<rp>(</rp><rt>べんきょう</rt><rp>)</rp></ruby>する。</div><div class=\"jp-romaji\">mainichi nihongo o benkyō suru.</div><p>使用整体复合动词「勉強する」，只在「日本語」后用一次「を」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "宾格助词",
+            "answers": [
+              "を"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp02-18",
+      "title": "他动词句型：明确施动者 + 宾语を",
+      "point_ids": [
+        "p-jp02-trans-rule"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "强调“是我把灯打开的”（他动词句型）：\n私{{blank:b1}}電気{{blank:b2}}つけた。（我把灯打开了。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">强调“是我把灯打开的”（他动词句型）：</p><p class=\"jp-ja\"><ruby>私<rp>(</rp><rt>わたし</rt><rp>)</rp></ruby>{{blank:b1}}<ruby>電気<rp>(</rp><rt>でんき</rt><rp>)</rp></ruby>{{blank:b2}}つけた。</p><p class=\"jp-romaji\">watashi [ ? ] denki [ ? ] tsuketa.</p><p class=\"jp-zh\">我把灯打开了。</p></div>",
+      "reference_answer": "が；を",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>私<rp>(</rp><rt>わたし</rt><rp>)</rp></ruby><strong>が</strong><ruby>電気<rp>(</rp><rt>でんき</rt><rp>)</rp></ruby><strong>を</strong>つけた。</div><div class=\"jp-romaji\">watashi ga denki o tsuketa.</div><p>「つける」是他动词，须用「を」带直接宾语，「私が」标识明确施动者。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "施动者标识",
+            "answers": [
+              "が"
+            ]
+          },
+          {
+            "id": "b2",
+            "label": "直接宾语",
+            "answers": [
+              "を"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp02-19",
+      "title": "自动词句型：客观状态变化用「が」",
+      "point_ids": [
+        "p-jp02-trans-rule"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "描述客观现象（灯自己亮了），填入正确的助词：\n電気{{blank:b1}}ついた。（灯亮了。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">描述客观现象（灯自己亮了），填入正确的助词：</p><p class=\"jp-ja\"><ruby>電気<rp>(</rp><rt>でんき</rt><rp>)</rp></ruby>{{blank:b1}}ついた。</p><p class=\"jp-romaji\">denki [ ? ] tsuita.</p><p class=\"jp-zh\">灯亮了。</p></div>",
+      "reference_answer": "が",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>電気<rp>(</rp><rt>でんき</rt><rp>)</rp></ruby><strong>が</strong>ついた。</div><div class=\"jp-romaji\">denki ga tsuita.</div><p>「つく」是自动词，事物自身作主语用「が」标记。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "主格助词",
+            "answers": [
+              "が"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp02-20",
+      "title": "他动词「開けた」配「を」",
+      "point_ids": [
+        "p-jp02-trans-rule"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "询问“谁人为打开了窗户？”，填入正确的助词：\n誰が窓{{blank:b1}}開けた？（谁把窗户打开的？）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">询问“谁人为打开了窗户？”，填入正确的助词：</p><p class=\"jp-ja\"><ruby>誰<rp>(</rp><rt>だれ</rt><rp>)</rp></ruby>が<ruby>窓<rp>(</rp><rt>まど</rt><rp>)</rp></ruby>{{blank:b1}}<ruby>開<rp>(</rp><rt>あ</rt><rp>)</rp></ruby>けた？</p><p class=\"jp-romaji\">dare ga mado [ ? ] aketa?</p><p class=\"jp-zh\">谁把窗户打开的？</p></div>",
+      "reference_answer": "を",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>誰<rp>(</rp><rt>だれ</rt><rp>)</rp></ruby>が<ruby>窓<rp>(</rp><rt>まど</rt><rp>)</rp></ruby><strong>を</strong><ruby>開<rp>(</rp><rt>あ</rt><rp>)</rp></ruby>けた？</div><div class=\"jp-romaji\">dare ga mado o aketa?</div><p>「開ける」是他动词，宾语「窓」配「を」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "直接宾语助词",
+            "answers": [
+              "を"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp02-21",
+      "title": "自动词「開いた」配「が」",
+      "point_ids": [
+        "p-jp02-trans-rule"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "询问“窗户怎么自己开了？”，填入正确的助词：\n窓{{blank:b1}}どうして開いた？（窗户怎么自己开了？）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">询问“窗户怎么自己开了？”，填入正确的助词：</p><p class=\"jp-ja\"><ruby>窓<rp>(</rp><rt>まど</rt><rp>)</rp></ruby>{{blank:b1}}どうして<ruby>開<rp>(</rp><rt>あ</rt><rp>)</rp></ruby>いた？</p><p class=\"jp-romaji\">mado [ ? ] dōshite aita?</p><p class=\"jp-zh\">窗户怎么自己开了？</p></div>",
+      "reference_answer": "が",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>窓<rp>(</rp><rt>まど</rt><rp>)</rp></ruby><strong>が</strong>どうして<ruby>開<rp>(</rp><rt>あ</rt><rp>)</rp></ruby>いた？</div><div class=\"jp-romaji\">mado ga dōshite aita?</div><p>「開く」是自动词，只能以「が」标记「窓」作主语。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "主格助词",
+            "answers": [
+              "が"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp02-22",
+      "title": "自他成对动词：閉める ↔ 閉まる",
+      "point_ids": [
+        "p-jp02-trans-pairs"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "对应“关门”，请填入表示“门自己关上”的【自动词原形】：\nドアが{{blank:b1}}。（门关上了。（自动词原形））",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">对应“关门”，请填入表示“门自己关上”的【自动词原形】：</p><p class=\"jp-ja\">ドアが{{blank:b1}}。</p><p class=\"jp-romaji\">doa ga [ ? ].</p><p class=\"jp-zh\">门关上了。（自动词原形）</p></div>",
+      "reference_answer": "閉まる",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\">ドアが<strong><ruby>閉<rp>(</rp><rt>し</rt><rp>)</rp></ruby>まる</strong>。</div><div class=\"jp-romaji\">doa ga shimaru.</div><p>他动词「閉める（shimeru）」对应自动词「閉まる（shimaru）」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "自动词原形",
+            "answers": [
+              "閉まる",
+              "しまる"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp02-23",
+      "title": "自他成对动词：消える ↔ 消す",
+      "point_ids": [
+        "p-jp02-trans-pairs"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "对应“灯灭了”，请填入表示“人为关灯”的【他动词原形】：\n灯りを{{blank:b1}}。（把灯关掉（熄灯）。（他动词原形））",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">对应“灯灭了”，请填入表示“人为关灯”的【他动词原形】：</p><p class=\"jp-ja\"><ruby>灯<rp>(</rp><rt>あか</rt><rp>)</rp></ruby>りを{{blank:b1}}。</p><p class=\"jp-romaji\">akari o [ ? ].</p><p class=\"jp-zh\">把灯关掉（熄灯）。（他动词原形）</p></div>",
+      "reference_answer": "消す",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>灯<rp>(</rp><rt>あか</rt><rp>)</rp></ruby>りを<strong><ruby>消<rp>(</rp><rt>け</rt><rp>)</rp></ruby>す</strong>。</div><div class=\"jp-romaji\">akari o kesu.</div><p>自动词「消える（kieru）」对应他动词「消す（kesu）」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "他动词原形",
+            "answers": [
+              "消す",
+              "けす"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp02-24",
+      "title": "自他成对动词：入れる ↔ 入る",
+      "point_ids": [
+        "p-jp02-trans-pairs"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "对应“放进盒里”，请填入表示“进入里面”的【自动词原形】：\n箱に{{blank:b1}}。（进入盒子里。（自动词原形））",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">对应“放进盒里”，请填入表示“进入里面”的【自动词原形】：</p><p class=\"jp-ja\"><ruby>箱<rp>(</rp><rt>はこ</rt><rp>)</rp></ruby>に{{blank:b1}}。</p><p class=\"jp-romaji\">hako ni [ ? ].</p><p class=\"jp-zh\">进入盒子里。（自动词原形）</p></div>",
+      "reference_answer": "入る",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>箱<rp>(</rp><rt>はこ</rt><rp>)</rp></ruby>に<strong><ruby>入<rp>(</rp><rt>はい</rt><rp>)</rp></ruby>る</strong>。</div><div class=\"jp-romaji\">hako ni hairu.</div><p>他动词「入れる（ireru）」对应自动词「入る（hairu）」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "自动词原形",
+            "answers": [
+              "入る",
+              "はいる"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp02-25",
+      "title": "「要る」作自动词搭配「が」",
+      "point_ids": [
+        "p-jp02-iru-ga"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "使用状态动词「要る（いります）」表达“我需要电脑”，填入正确助词：\nパソコン{{blank:b1}}いります。（需要电脑。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">使用状态动词「要る（いります）」表达“我需要电脑”，填入正确助词：</p><p class=\"jp-ja\">パソコン{{blank:b1}}いります。</p><p class=\"jp-romaji\">pasokon [ ? ] irimasu.</p><p class=\"jp-zh\">需要电脑。</p></div>",
+      "reference_answer": "が",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\">パソコン<strong>が</strong>いります。</div><div class=\"jp-romaji\">pasokon ga irimasu.</div><p>「要る」在日语中属于自动词/状态动词，被需要的对象「パソコン」是语法主语，只能接「が」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "主格助词",
+            "answers": [
+              "が"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp02-26",
+      "title": "使用「を」时须改用「必要とする」",
+      "point_ids": [
+        "p-jp02-iru-ga"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "当助词已选「を」表达“他需要电脑”时，填入唯一合法的【他动词短语】：\n彼がパソコンを{{blank:b1}}。（他需要电脑。（他动词短语））",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">当助词已选「を」表达“他需要电脑”时，填入唯一合法的【他动词短语】：</p><p class=\"jp-ja\"><ruby>彼<rp>(</rp><rt>かれ</rt><rp>)</rp></ruby>がパソコンを{{blank:b1}}。</p><p class=\"jp-romaji\">kare ga pasokon o [ ? ].</p><p class=\"jp-zh\">他需要电脑。（他动词短语）</p></div>",
+      "reference_answer": "必要とする",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>彼<rp>(</rp><rt>かれ</rt><rp>)</rp></ruby>がパソコンを<strong><ruby>必要<rp>(</rp><rt>ひつよう</rt><rp>)</rp></ruby>とする</strong>。</div><div class=\"jp-romaji\">kare ga pasokon o hitsuyō to suru.</div><p>想用直接宾语「を」时，须改用他动词短语「必要とする」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "他动词短语",
+            "answers": [
+              "必要とする",
+              "ひつようとする"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp02-27",
+      "title": "「分かる」配主格助词「が」",
+      "point_ids": [
+        "p-jp02-iru-ga"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "「分かる」与「要る」同属状态自动词，表达“不懂日语”应填：\n日本語{{blank:b1}}分からない。（我不懂日语。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">「分かる」与「要る」同属状态自动词，表达“不懂日语”应填：</p><p class=\"jp-ja\"><ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>{{blank:b1}}<ruby>分<rp>(</rp><rt>わ</rt><rp>)</rp></ruby>からない。</p><p class=\"jp-romaji\">nihongo [ ? ] wakaranai.</p><p class=\"jp-zh\">我不懂日语。</p></div>",
+      "reference_answer": "が",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby><strong>が</strong><ruby>分<rp>(</rp><rt>わ</rt><rp>)</rp></ruby>からない。</div><div class=\"jp-romaji\">nihongo ga wakaranai.</div><p>理解的对象「日本語」在日语里作「分かる」的语法主语，使用「が」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "主格助词",
+            "answers": [
+              "が"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp02-28",
+      "title": "「A に（は）B が 〜」完整双助词结构",
+      "point_ids": [
+        "p-jp02-ni-experiencer"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "补全“对他来说，时间不够”中“对象（to him）”与“主语”助词：\n彼{{blank:b1}}時間{{blank:b2}}足りない。（对他而言时间不够。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">补全“对他来说，时间不够”中“对象（to him）”与“主语”助词：</p><p class=\"jp-ja\"><ruby>彼<rp>(</rp><rt>かれ</rt><rp>)</rp></ruby>{{blank:b1}}<ruby>時間<rp>(</rp><rt>じかん</rt><rp>)</rp></ruby>{{blank:b2}}<ruby>足<rp>(</rp><rt>た</rt><rp>)</rp></ruby>りない。</p><p class=\"jp-romaji\">kare [ ? ] jikan [ ? ] tarinai.</p><p class=\"jp-zh\">对他而言时间不够。</p></div>",
+      "reference_answer": "に；が",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>彼<rp>(</rp><rt>かれ</rt><rp>)</rp></ruby><strong>に</strong><ruby>時間<rp>(</rp><rt>じかん</rt><rp>)</rp></ruby><strong>が</strong><ruby>足<rp>(</rp><rt>た</rt><rp>)</rp></ruby>りない。</div><div class=\"jp-romaji\">kare ni jikan ga tarinai.</div><p>「に」标示“对于 A 而言”，「が」标示真正不足的主体「時間」（亦可主题化为「彼には」）。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "对象助词",
+            "answers": [
+              "に"
+            ]
+          },
+          {
+            "id": "b2",
+            "label": "主语助词",
+            "answers": [
+              "が"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp02-29",
+      "title": "综合复盘：场所「に・で」与起点「を」",
+      "point_ids": [
+        "p-jp02-ni-vs-de",
+        "p-jp02-o-marker"
+      ],
+      "learning_phases": [
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "依次填入静态落脚、动态活动域及移动离开起点助词：\n本を机の上{{blank:b1}}置く。 ／ 図書館{{blank:b2}}勉強する。 ／ 部屋{{blank:b3}}出る。（把书放在桌上 ／ 在图书馆学习 ／ 离开房间）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">依次填入静态落脚、动态活动域及移动离开起点助词：</p><p class=\"jp-ja\"><ruby>本<rp>(</rp><rt>ほん</rt><rp>)</rp></ruby>を<ruby>机<rp>(</rp><rt>つくえ</rt><rp>)</rp></ruby>の<ruby>上<rp>(</rp><rt>うえ</rt><rp>)</rp></ruby>{{blank:b1}}<ruby>置<rp>(</rp><rt>お</rt><rp>)</rp></ruby>く。 ／ <ruby>図書館<rp>(</rp><rt>としょかん</rt><rp>)</rp></ruby>{{blank:b2}}<ruby>勉強<rp>(</rp><rt>べんきょう</rt><rp>)</rp></ruby>する。 ／ <ruby>部屋<rp>(</rp><rt>へや</rt><rp>)</rp></ruby>{{blank:b3}}<ruby>出<rp>(</rp><rt>で</rt><rp>)</rp></ruby>る。</p><p class=\"jp-romaji\">hon o tsukue no ue [ ? ] oku. / toshokan [ ? ] benkyō suru. / heya [ ? ] deru.</p><p class=\"jp-zh\">把书放在桌上 ／ 在图书馆学习 ／ 离开房间</p></div>",
+      "reference_answer": "に；で；を",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>本<rp>(</rp><rt>ほん</rt><rp>)</rp></ruby>を<ruby>机<rp>(</rp><rt>つくえ</rt><rp>)</rp></ruby>の<ruby>上<rp>(</rp><rt>うえ</rt><rp>)</rp></ruby><strong>に</strong><ruby>置<rp>(</rp><rt>お</rt><rp>)</rp></ruby>く。 ／ <ruby>図書館<rp>(</rp><rt>としょかん</rt><rp>)</rp></ruby><strong>で</strong><ruby>勉強<rp>(</rp><rt>べんきょう</rt><rp>)</rp></ruby>する。 ／ <ruby>部屋<rp>(</rp><rt>へや</rt><rp>)</rp></ruby><strong>を</strong><ruby>出<rp>(</rp><rt>で</rt><rp>)</rp></ruby>る。</div><div class=\"jp-romaji\">hon o tsukue no ue ni oku. / toshokan de benkyō suru. / heya o deru.</div><p>静态归宿用「に」，活动场所用「で」，移动脱离起点用「を」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "落脚点",
+            "answers": [
+              "に"
+            ]
+          },
+          {
+            "id": "b2",
+            "label": "活动域",
+            "answers": [
+              "で"
+            ]
+          },
+          {
+            "id": "b3",
+            "label": "离开起点",
+            "answers": [
+              "を"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp02-30",
+      "title": "综合复盘：自他动词与「要る」助词搭配",
+      "point_ids": [
+        "p-jp02-trans-rule",
+        "p-jp02-trans-pairs",
+        "p-jp02-iru-ga"
+      ],
+      "learning_phases": [
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "补全“打开窗户”（他动词原形）、“窗户开了”（助词）及“需要电脑”（助词）：\n窓を{{blank:b1}}。 ／ 窓{{blank:b2}}開く。 ／ パソコン{{blank:b3}}いる。（打开窗户 ／ 窗户开了 ／ 需要电脑）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">补全“打开窗户”（他动词原形）、“窗户开了”（助词）及“需要电脑”（助词）：</p><p class=\"jp-ja\"><ruby>窓<rp>(</rp><rt>まど</rt><rp>)</rp></ruby>を{{blank:b1}}。 ／ <ruby>窓<rp>(</rp><rt>まど</rt><rp>)</rp></ruby>{{blank:b2}}<ruby>開<rp>(</rp><rt>あ</rt><rp>)</rp></ruby>く。 ／ パソコン{{blank:b3}}いる。</p><p class=\"jp-romaji\">mado o [ ? ]. / mado [ ? ] aku. / pasokon [ ? ] iru.</p><p class=\"jp-zh\">打开窗户 ／ 窗户开了 ／ 需要电脑</p></div>",
+      "reference_answer": "開ける；が；が",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>窓<rp>(</rp><rt>まど</rt><rp>)</rp></ruby>を<strong><ruby>開<rp>(</rp><rt>あ</rt><rp>)</rp></ruby>ける</strong>。 ／ <ruby>窓<rp>(</rp><rt>まど</rt><rp>)</rp></ruby><strong>が</strong><ruby>開<rp>(</rp><rt>あ</rt><rp>)</rp></ruby>く。 ／ パソコン<strong>が</strong>いる。</div><div class=\"jp-romaji\">mado o akeru. / mado ga aku. / pasokon ga iru.</div><p>他动词「開ける」配「を」，自动词「開く」和状态动词「要る」都配「が」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "他动词原形",
+            "answers": [
+              "開ける",
+              "あける"
+            ]
+          },
+          {
+            "id": "b2",
+            "label": "自动词主语",
+            "answers": [
+              "が"
+            ]
+          },
+          {
+            "id": "b3",
+            "label": "「要る」主语",
+            "answers": [
+              "が"
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,872 @@
+{
+  "id": "jp05-negation-system",
+  "title": "5. 否定型完整体系：名词・形容词・动词",
+  "subject_id": "japanese",
+  "course_id": "japanese-grammar-core",
+  "course_title": "日本語文法 · 核心语法掌握",
+  "topic_format_version": 2,
+  "topic_kind": "lesson",
+  "training_mode": "atomic_retrieval",
+  "version": "jp-grammar-2d8c8ac0cfa8",
+  "content_version": "2d8c8ac0cfa8d1a3",
+  "course_version": "2c0589397073ff8a",
+  "source_rem_id": "Pu9aItzklny3OlLlK",
+  "source_sha256": "2d8c8ac0cfa8d1a3c690322d1a6c02c18eefd182d11b426d0c8f9be9c05b9f11",
+  "sections": [
+    {
+      "id": "sec-jp05-distinction",
+      "title": "一、三大区分法则：名词/な形否定 vs 动词否定与「んじゃない」",
+      "level": 1,
+      "parent_id": null
+    },
+    {
+      "id": "sec-jp05-three-classes",
+      "title": "二、三大词类否定变形全规律与所有必记特例",
+      "level": 1,
+      "parent_id": null
+    }
+  ],
+  "introductions": [
+    {
+      "id": "intro-jp05-distinction",
+      "section_id": "sec-jp05-distinction",
+      "title": "快速区分名词否定与动词否定的三大方法及「〜んじゃない」避坑",
+      "html": "<h3>一、本质差异与三大快速区分法</h3><p>区分日语中<strong>名词否定</strong>与<strong>动词否定</strong>的核心在于：<strong>名词自身不变，靠外部助词「では / じゃ」连接否定；动词自身词干变形，直接咬合「ない」</strong>。</p><ol><li><strong>方法一（看中间有没有「では / じゃ」）</strong>：名词必须通过格助词「で」+ 提示助词「は」（口语缩读为「じゃ」）连接（<code>学生 ＋ じゃ ＋ ない ＝ 学生じゃない</code>、<code>先生 ＋ では ＋ ない ＝ 先生ではない</code>）；而动词直接词干变形加「ない」，中间绝不会出现「じゃ」（<code>行く → 行かない</code>，绝不说 <code>*行くじゃない</code>；<code>食べる → 食べない</code>）。</li><li><strong>方法二（看词本体是否变音）</strong>：名词词身完整无损（如 <code>学生 gakusei</code>、<code>日本人 nihonjin</code> 去掉否定词尾仍是完整名词）；动词词尾元音变成 /a/ 段或去掉「る」（<code>書か＋ない</code>←書く、<code>飲ま＋ない</code>←飲む、<code>食べ＋ない</code>←食べる），剩下的是不能独立成词的词干。</li><li><strong>方法三（看敬体词尾结尾）</strong>：动词敬体否定必定以<strong>「〜ません」</strong>结尾（<code>飲みません</code>、<code>行きません</code>）；名词敬体否定保留「では / じゃ」，以<strong>「〜じゃありません / 〜じゃないです / 〜ではありません」</strong>结尾（<code>学生じゃありません</code>、<code>学生じゃないです</code>、<code>会社員ではありません</code>）。</li></ol><h3>二、避坑提示：口语「动词 + んじゃない」是什么？</h3><p>日剧和动漫中的「<span class=\"jp-term\"><ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>くんじゃない！<span class=\"jp-romaji\"> ikun janai!</span></span>（不准去！）」或「<span class=\"jp-term\"><ruby>食<rp>(</rp><rt>た</rt><rp>)</rp></ruby>べるんじゃない？<span class=\"jp-romaji\"> taberun janai?</span></span>（是不是要吃啊？）」不是普通动词否定：</p><ul><li><strong>行かない</strong>：单纯陈述“不去”（动词否定）。</li><li><strong>行くんじゃない</strong>：由 <code>行く ＋ の（缩读为 ん）＋ ではない</code> 构成，通过「の/ん」将动词名词化后套用名词否定框架，表达<strong>强烈禁止命令</strong>（“不准去！”）或<strong>反问揣测</strong>。</li></ul>"
+    },
+    {
+      "id": "intro-jp05-three-classes",
+      "section_id": "sec-jp05-three-classes",
+      "title": "名词・形容词・动词否定变形完整规则与核心特例",
+      "html": "<h3>一、名词（体言）与な形容词：全员统一、谨防“い结尾伪装者”</h3><p><strong>1. 名词否定公式（零例外）</strong>：无论本土词 <span class=\"jp-term\"><ruby>雨<rp>(</rp><rt>あめ</rt><rp>)</rp></ruby><span class=\"jp-romaji\"> ame</span></span>（雨）、汉语词 <span class=\"jp-term\"><ruby>学生<rp>(</rp><rt>がくせい</rt><rp>)</rp></ruby><span class=\"jp-romaji\"> gakusei</span></span>（学生）、还是外来语 <span class=\"jp-term\">ホテル<span class=\"jp-romaji\"> hoteru</span></span>（酒店）（哪怕词尾刚好长得像「い」或「る」如 <code>先生</code>、<code>ホテル</code>），<strong>唯一公式</strong>都是：<code>名词 + じゃない / ではない</code>（敬体：<code>じゃありません / じゃないです / ではありません</code>）：<code>雨じゃない</code>、<code>ホテルじゃない</code>。</p><p><strong>2. な形容词（形容动词）</strong>：去掉连体词尾「な」后完全当作名词处理：<code>静かじゃない</code>、<code>簡単じゃない</code>。务必牢记以下“以「い」结尾的伪装者”：</p><div class=\"jp-ex\"><div class=\"jp-ja\">きれい → きれい<strong>じゃない</strong> ／ <ruby>嫌<rp>(</rp><rt>きら</rt><rp>)</rp></ruby>い → <ruby>嫌<rp>(</rp><rt>きら</rt><rp>)</rp></ruby>い<strong>じゃない</strong> ／ <ruby>有名<rp>(</rp><rt>ゆうめい</rt><rp>)</rp></ruby> → <ruby>有名<rp>(</rp><rt>ゆうめい</rt><rp>)</rp></ruby><strong>じゃない</strong></div><div class=\"jp-romaji\">kirei janai / kirai janai / yūmei janai</div><div class=\"jp-zh\">不漂亮 ／ 不讨厌 ／ 不有名<span class=\"jp-note\">—— 绝不能说「*きれくない」</span></div></div><h3>二、い形容词：去「い」换「く」+ ない，唯一特例「いい → よくない」</h3><p>所有真正的「い形容词」直接把末尾送假名「い」改为「くない」（敬体 <code>〜くないです / 〜くありません</code>）：<span class=\"jp-term\"><ruby>高<rp>(</rp><rt>たか</rt><rp>)</rp></ruby>い → <ruby>高<rp>(</rp><rt>たか</rt><rp>)</rp></ruby>くない<span class=\"jp-romaji\"> takai → takakunai</span></span>（不高/不贵）、<span class=\"jp-term\">おいしい → おいしくない<span class=\"jp-romaji\"> oishii → oishikunai</span></span>（不好吃）。</p><div class=\"jp-tip\"><strong>唯一特例「いい（好）」：</strong>发生任何活用（含否定、过去时）时必须先还原为古语原形<strong>「よい」</strong>，因此否定为<strong>「よくない」</strong>（绝不能说 <code>*いくない</code>）。</div><h3>三、动词否定（未然形 + ない）与必记特殊音变</h3><ul><li><strong>一段动词（ru动词）</strong>：识别特征为以「る」结尾且前假名在 i/e 段，直接砍掉「る」加「ない」：<code>食べる → 食べない</code>、<code>見る → 見ない</code>。</li><li><strong>五段动词（u动词）</strong>：词尾假名从 u 段变为同行 a 段加「ない」：<code>書く (kaku) → 書かない (kakanai)</code>、<code>飲む (nomu) → 飲まない (nomanai)</code>、<code>作る (tsukuru) → 作らない (tsukuranai)</code>。<strong>两处必记特例</strong>：<ol><li><strong>「う」结尾变成「わ」（而不是「あ」）</strong>：<code>買う (kau) → 買わない (kawanai，不买)</code>。</li><li><strong>「ある」（存在/有）</strong>：简体否定直接为<strong>「ない」</strong>（敬体依然是「ありません」）。</li></ol></li><li><strong>不规则动词（仅两个）</strong>：<code>する → しない</code>、<code>来る（くる）→ 来ない（こない）</code>（汉字「来」的读音从 <em>ku</em> 变为 <em>ko</em>）。</li></ul>"
+    }
+  ],
+  "introduction": {
+    "id": "intro-jp05-distinction",
+    "section_id": "sec-jp05-distinction",
+    "title": "快速区分名词否定与动词否定的三大方法及「〜んじゃない」避坑",
+    "html": "<h3>一、本质差异与三大快速区分法</h3><p>区分日语中<strong>名词否定</strong>与<strong>动词否定</strong>的核心在于：<strong>名词自身不变，靠外部助词「では / じゃ」连接否定；动词自身词干变形，直接咬合「ない」</strong>。</p><ol><li><strong>方法一（看中间有没有「では / じゃ」）</strong>：名词必须通过格助词「で」+ 提示助词「は」（口语缩读为「じゃ」）连接（<code>学生 ＋ じゃ ＋ ない ＝ 学生じゃない</code>、<code>先生 ＋ では ＋ ない ＝ 先生ではない</code>）；而动词直接词干变形加「ない」，中间绝不会出现「じゃ」（<code>行く → 行かない</code>，绝不说 <code>*行くじゃない</code>；<code>食べる → 食べない</code>）。</li><li><strong>方法二（看词本体是否变音）</strong>：名词词身完整无损（如 <code>学生 gakusei</code>、<code>日本人 nihonjin</code> 去掉否定词尾仍是完整名词）；动词词尾元音变成 /a/ 段或去掉「る」（<code>書か＋ない</code>←書く、<code>飲ま＋ない</code>←飲む、<code>食べ＋ない</code>←食べる），剩下的是不能独立成词的词干。</li><li><strong>方法三（看敬体词尾结尾）</strong>：动词敬体否定必定以<strong>「〜ません」</strong>结尾（<code>飲みません</code>、<code>行きません</code>）；名词敬体否定保留「では / じゃ」，以<strong>「〜じゃありません / 〜じゃないです / 〜ではありません」</strong>结尾（<code>学生じゃありません</code>、<code>学生じゃないです</code>、<code>会社員ではありません</code>）。</li></ol><h3>二、避坑提示：口语「动词 + んじゃない」是什么？</h3><p>日剧和动漫中的「<span class=\"jp-term\"><ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>くんじゃない！<span class=\"jp-romaji\"> ikun janai!</span></span>（不准去！）」或「<span class=\"jp-term\"><ruby>食<rp>(</rp><rt>た</rt><rp>)</rp></ruby>べるんじゃない？<span class=\"jp-romaji\"> taberun janai?</span></span>（是不是要吃啊？）」不是普通动词否定：</p><ul><li><strong>行かない</strong>：单纯陈述“不去”（动词否定）。</li><li><strong>行くんじゃない</strong>：由 <code>行く ＋ の（缩读为 ん）＋ ではない</code> 构成，通过「の/ん」将动词名词化后套用名词否定框架，表达<strong>强烈禁止命令</strong>（“不准去！”）或<strong>反问揣测</strong>。</li></ul>"
+  },
+  "modules": [],
+  "content_order": [
+    {
+      "kind": "introduction",
+      "id": "intro-jp05-distinction"
+    },
+    {
+      "kind": "introduction",
+      "id": "intro-jp05-three-classes"
+    }
+  ],
+  "content_nodes": [],
+  "references": [],
+  "memory_chunks": [
+    {
+      "id": "chunk-jp05-noun-vs-verb-neg",
+      "introduction_id": "intro-jp05-distinction",
+      "title": "名词与动词否定的三大本质差异及「んじゃない」避坑",
+      "html": "<p>名词靠中介「では/じゃ」（敬体 〜じゃありません/〜ではありません），动词词干变形直接咬合「ない」（敬体 〜ません）；「んじゃない」为名词化禁止/反问。</p>",
+      "anchors": [
+        {
+          "start": 0,
+          "end": 14,
+          "quote": "一、本质差异与三大快速区分法"
+        },
+        {
+          "start": 495,
+          "end": 520,
+          "quote": "二、避坑提示：口语「动词 + んじゃない」是什么？"
+        }
+      ],
+      "points": [
+        {
+          "id": "p-jp05-dewa-ja",
+          "text": "名词否定须借助「では/じゃ」（敬体 〜じゃありません/〜ではありません），动词词干变形直接接「ない」（敬体 〜ません），词尾并发生元音切换或去る。"
+        },
+        {
+          "id": "p-jp05-no-janai-trap",
+          "text": "「动词简体 + んじゃない」是「の(ん) + ではない」的名词化结构，表强烈禁止或反问揣测，区别于动词普通否定。"
+        }
+      ]
+    },
+    {
+      "id": "chunk-jp05-noun-adj-neg",
+      "introduction_id": "intro-jp05-three-classes",
+      "title": "名词（零例外）、な形容词伪装者与い形容词「いい → よくない」",
+      "html": "<p>名词含 ホテル、先生 零例外接 じゃない/ではない；な形容词 きれい・嫌い・有名 同理；い形容词去「い」加「くない」，特例「いい → よくない」。</p>",
+      "anchors": [
+        {
+          "start": 0,
+          "end": 29,
+          "quote": "一、名词（体言）与な形容词：全员统一、谨防“い结尾伪装者”"
+        },
+        {
+          "start": 400,
+          "end": 435,
+          "quote": "二、い形容词：去「い」换「く」+ ない，唯一特例「いい → よくない」"
+        }
+      ],
+      "points": [
+        {
+          "id": "p-jp05-noun-na-neg",
+          "text": "所有名词（如 雨・ホテル）和な形容词（如 静か・簡単・きれい・嫌い・有名）均按「词干 + じゃない / ではない」否定。"
+        },
+        {
+          "id": "p-jp05-i-adj-neg",
+          "text": "い形容词去「い」加「くない」（敬体 〜くないです / 〜くありません）；唯一特例「いい」须还原「よい」变为「よくない」。"
+        }
+      ]
+    },
+    {
+      "id": "chunk-jp05-verb-neg",
+      "introduction_id": "intro-jp05-three-classes",
+      "title": "动词一段/五段/不规则「ない形」及三大特殊音变",
+      "html": "<p>一段去る+ない；五段u变a+ない（「う→わ」如 買わない）；ある→ない（敬体ありません）；する→しない；来る(くる)→来ない(こない)。</p>",
+      "anchors": [
+        {
+          "start": 635,
+          "end": 658,
+          "quote": "三、动词否定（未然形 + ない）与必记特殊音变"
+        }
+      ],
+      "points": [
+        {
+          "id": "p-jp05-ru-u-neg",
+          "text": "一段动词去「る」加「ない」；五段动词词尾 u 段变同行 a 段加「ない」，其中「う」结尾必须变「わ」（買う → 買わない）。"
+        },
+        {
+          "id": "p-jp05-verb-neg-exc",
+          "text": "存在动词「ある」简体否定为「ない」（敬体「ありません」）；不规则动词「する → しない」、「来る（くる）→ 来ない（こない）」。"
+        }
+      ]
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "fc-jp05-01",
+      "title": "名词否定中介「じゃ / では」",
+      "point_ids": [
+        "p-jp05-dewa-ja"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "依次填入名词简体否定（口语缩读 vs 书面正式）所需的中介助词：\n学生{{blank:b1}}ない（口语） ／ 先生{{blank:b2}}ない（书面）（不是学生（口语） ／ 不是老师（书面））",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">依次填入名词简体否定（口语缩读 vs 书面正式）所需的中介助词：</p><p class=\"jp-ja\"><ruby>学生<rp>(</rp><rt>がくせい</rt><rp>)</rp></ruby>{{blank:b1}}ない（口语） ／ <ruby>先生<rp>(</rp><rt>せんせい</rt><rp>)</rp></ruby>{{blank:b2}}ない（书面）</p><p class=\"jp-romaji\">gakusei [ ? ] nai / sensei [ ? ] nai</p><p class=\"jp-zh\">不是学生（口语） ／ 不是老师（书面）</p></div>",
+      "reference_answer": "じゃ；では",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>学生<rp>(</rp><rt>がくせい</rt><rp>)</rp></ruby><strong>じゃ</strong>ない ／ <ruby>先生<rp>(</rp><rt>せんせい</rt><rp>)</rp></ruby><strong>では</strong>ない</div><div class=\"jp-romaji\">gakusei janai / sensei dewa nai</div><p>名词自身不变，必须靠格助词「で」与提示助词「は」（口语缩读「じゃ」）连接否定。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "口语中介",
+            "answers": [
+              "じゃ"
+            ]
+          },
+          {
+            "id": "b2",
+            "label": "书面中介",
+            "answers": [
+              "では"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp05-02",
+      "title": "名词正式敬体否定「〜ではありません」",
+      "point_ids": [
+        "p-jp05-dewa-ja"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "使用正式书面礼貌否定结尾，补全“不是公司职员”：\n会社員{{blank:b1}}。（不是公司职员。（正式礼貌否定））",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">使用正式书面礼貌否定结尾，补全“不是公司职员”：</p><p class=\"jp-ja\"><ruby>会社員<rp>(</rp><rt>かいしゃいん</rt><rp>)</rp></ruby>{{blank:b1}}。</p><p class=\"jp-romaji\">kaishain [ ? ].</p><p class=\"jp-zh\">不是公司职员。（正式礼貌否定）</p></div>",
+      "reference_answer": "ではありません",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>会社員<rp>(</rp><rt>かいしゃいん</rt><rp>)</rp></ruby><strong>ではありません</strong>。</div><div class=\"jp-romaji\">kaishain dewa arimasen.</div><p>名词敬体否定在「では/じゃ」后接「ありません」（或口语「〜じゃないです」）。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "正式敬体否定",
+            "answers": [
+              "ではありません"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp05-03",
+      "title": "动词敬体否定「飲みません」",
+      "point_ids": [
+        "p-jp05-dewa-ja"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "写出五段动词「飲む（喝）」的【敬体否定】（不喝）：\n{{blank:b1}}（不喝（敬体））",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">写出五段动词「飲む（喝）」的【敬体否定】（不喝）：</p><p class=\"jp-ja\">{{blank:b1}}</p><p class=\"jp-romaji\">[ ? ]（飲む → 敬体否定）</p><p class=\"jp-zh\">不喝（敬体）</p></div>",
+      "reference_answer": "飲みません",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><strong><ruby>飲<rp>(</rp><rt>の</rt><rp>)</rp></ruby>みません</strong></div><div class=\"jp-romaji\">nomimasen</div><p>动词敬体否定必定以「〜ません」结尾（词干「飲み」+「ません」）。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "敬体否定",
+            "answers": [
+              "飲みません",
+              "のみません"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp05-04",
+      "title": "动词敬体否定「行きません」",
+      "point_ids": [
+        "p-jp05-dewa-ja"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "写出动词「行く（去）」的【敬体否定】（不去）：\n{{blank:b1}}（不去（敬体））",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">写出动词「行く（去）」的【敬体否定】（不去）：</p><p class=\"jp-ja\">{{blank:b1}}</p><p class=\"jp-romaji\">[ ? ]（行く → 敬体否定）</p><p class=\"jp-zh\">不去（敬体）</p></div>",
+      "reference_answer": "行きません",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><strong><ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>きません</strong></div><div class=\"jp-romaji\">ikimasen</div><p>五段动词「行く」的ます形词干为「行き」，加「ません」构成敬体否定。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "敬体否定",
+            "answers": [
+              "行きません",
+              "いきません"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp05-05",
+      "title": "避坑对比：「行く＋んじゃない」强烈禁止",
+      "point_ids": [
+        "p-jp05-no-janai-trap"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "用形式名词化借用名词否定框架表达强烈禁止命令“不准去！”：\n行く{{blank:b1}}！（不准去！（强烈禁止语气））",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">用形式名词化借用名词否定框架表达强烈禁止命令“不准去！”：</p><p class=\"jp-ja\"><ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>く{{blank:b1}}！</p><p class=\"jp-romaji\">iku [ ? ]!</p><p class=\"jp-zh\">不准去！（强烈禁止语气）</p></div>",
+      "reference_answer": "んじゃない",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>く<strong>んじゃない</strong>！</div><div class=\"jp-romaji\">ikun janai!</div><p>「行く＋の(ん)＋ではない」借用名词否定结构表达强烈禁止“不准去！”，不是客观否定。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "形式名词化否定",
+            "answers": [
+              "んじゃない",
+              "のではない"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp05-06",
+      "title": "与禁止区分：客观陈述“不去”（动词否定）",
+      "point_ids": [
+        "p-jp05-no-janai-trap"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "与「行くんじゃない」相反，单纯客观陈述“不去”（「行く」的【简体否定】）是：\n{{blank:b1}}（不去（客观陈述））",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">与「行くんじゃない」相反，单纯客观陈述“不去”（「行く」的【简体否定】）是：</p><p class=\"jp-ja\">{{blank:b1}}</p><p class=\"jp-romaji\">[ ? ]（行く → 简体否定）</p><p class=\"jp-zh\">不去（客观陈述）</p></div>",
+      "reference_answer": "行かない",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><strong><ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>かない</strong></div><div class=\"jp-romaji\">ikanai</div><p>动词直接未然形变形加「ない」（く→か+ない），客观表示“不去”。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "行く 简体否定",
+            "answers": [
+              "行かない",
+              "いかない"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp05-07",
+      "title": "外来语名词以「る」结尾也不例外",
+      "point_ids": [
+        "p-jp05-noun-na-neg"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "写出「ホテル（酒店）」的【简体否定】“不是酒店”：\n{{blank:b1}}（不是酒店（简体））",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">写出「ホテル（酒店）」的【简体否定】“不是酒店”：</p><p class=\"jp-ja\">{{blank:b1}}</p><p class=\"jp-romaji\">[ ? ]（ホテル → 简体否定）</p><p class=\"jp-zh\">不是酒店（简体）</p></div>",
+      "reference_answer": "ホテルじゃない",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><strong>ホテルじゃない</strong>（书面：ホテルではない）</div><div class=\"jp-romaji\">hoteru janai</div><p>日语名词否定全员零例外，外来语词尾长得像「る」依然直接加「じゃない / ではない」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "ホテル 简体否定",
+            "answers": [
+              "ホテルじゃない",
+              "ホテルではない"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp05-08",
+      "title": "な形容词伪装者「きれい」否定",
+      "point_ids": [
+        "p-jp05-noun-na-neg"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "写出「きれい（漂亮）」的【简体否定】（不漂亮）：\n{{blank:b1}}（不漂亮（简体））",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">写出「きれい（漂亮）」的【简体否定】（不漂亮）：</p><p class=\"jp-ja\">{{blank:b1}}</p><p class=\"jp-romaji\">[ ? ]（きれい → 简体否定）</p><p class=\"jp-zh\">不漂亮（简体）</p></div>",
+      "reference_answer": "きれいじゃない",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><strong><ruby>綺麗<rp>(</rp><rt>きれい</rt><rp>)</rp></ruby>じゃない</strong>（或：きれいじゃない）</div><div class=\"jp-romaji\">kirei janai</div><p>「きれい」是な形容词，去掉「な」按名词规则接「じゃない / ではない」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "きれい 简体否定",
+            "answers": [
+              "きれいじゃない",
+              "きれいではない",
+              "綺麗じゃない",
+              "綺麗ではない"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp05-09",
+      "title": "另两个常见“い结尾”な形容词否定",
+      "point_ids": [
+        "p-jp05-noun-na-neg"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "分别写出「嫌い（讨厌）」与「有名（有名）」的【口语简体否定】：\n嫌い → {{blank:b1}} ／ 有名 → {{blank:b2}}（不讨厌 ／ 不有名（简体口语））",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">分别写出「嫌い（讨厌）」与「有名（有名）」的【口语简体否定】：</p><p class=\"jp-ja\"><ruby>嫌<rp>(</rp><rt>きら</rt><rp>)</rp></ruby>い → {{blank:b1}} ／ <ruby>有名<rp>(</rp><rt>ゆうめい</rt><rp>)</rp></ruby> → {{blank:b2}}</p><p class=\"jp-romaji\">kirai → [ ? ] / yūmei → [ ? ]</p><p class=\"jp-zh\">不讨厌 ／ 不有名（简体口语）</p></div>",
+      "reference_answer": "嫌いじゃない；有名じゃない",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><strong><ruby>嫌<rp>(</rp><rt>きら</rt><rp>)</rp></ruby>いじゃない</strong> ／ <strong><ruby>有名<rp>(</rp><rt>ゆうめい</rt><rp>)</rp></ruby>じゃない</strong></div><div class=\"jp-romaji\">kirai janai / yūmei janai</div><p>「嫌い」与「有名」均属な形容词，必须用「じゃない / ではない」否定。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "嫌い 否定",
+            "answers": [
+              "嫌いじゃない",
+              "きらいじゃない",
+              "嫌いではない",
+              "きらいではない"
+            ]
+          },
+          {
+            "id": "b2",
+            "label": "有名 否定",
+            "answers": [
+              "有名じゃない",
+              "ゆうめいじゃない",
+              "有名ではない",
+              "ゆうめいではない"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp05-10",
+      "title": "い形容词否定「おいしい」",
+      "point_ids": [
+        "p-jp05-i-adj-neg"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "写出い形容词「おいしい（好吃）」的【简体否定】（不好吃）：\n{{blank:b1}}（不好吃（简体））",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">写出い形容词「おいしい（好吃）」的【简体否定】（不好吃）：</p><p class=\"jp-ja\">{{blank:b1}}</p><p class=\"jp-romaji\">[ ? ]（おいしい → 简体否定）</p><p class=\"jp-zh\">不好吃（简体）</p></div>",
+      "reference_answer": "おいしくない",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><strong>おいしくない</strong></div><div class=\"jp-romaji\">oishikunai</div><p>い形容词去掉末尾送假名「い」变成「く」再接「ない」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "おいしい 简体否定",
+            "answers": [
+              "おいしくない",
+              "美味しくない"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp05-11",
+      "title": "い形容词唯一特例「いい → よくない」",
+      "point_ids": [
+        "p-jp05-i-adj-neg"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "写出「いい（好）」的【简体否定】（不好）：\n{{blank:b1}}（不好（简体））",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">写出「いい（好）」的【简体否定】（不好）：</p><p class=\"jp-ja\">{{blank:b1}}</p><p class=\"jp-romaji\">[ ? ]（いい → 简体否定）</p><p class=\"jp-zh\">不好（简体）</p></div>",
+      "reference_answer": "よくない",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><strong>よくない</strong></div><div class=\"jp-romaji\">yokunai</div><p>「いい」变否定（及过去式）前必须还原成「よい」，再变为「よくない」（绝不可说「*いくない」）。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "いい 简体否定",
+            "answers": [
+              "よくない",
+              "良くない"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp05-12",
+      "title": "い形容词敬体否定「高くありません」",
+      "point_ids": [
+        "p-jp05-i-adj-neg"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "用「ありません」系正式敬体写出「高い（高/贵）」的【非过去否定】：\n{{blank:b1}}（不高 / 不贵（礼貌敬体））",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">用「ありません」系正式敬体写出「高い（高/贵）」的【非过去否定】：</p><p class=\"jp-ja\">{{blank:b1}}</p><p class=\"jp-romaji\">[ ? ]（高い → 正式非过去否定敬体）</p><p class=\"jp-zh\">不高 / 不贵（礼貌敬体）</p></div>",
+      "reference_answer": "高くありません",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><strong><ruby>高<rp>(</rp><rt>たか</rt><rp>)</rp></ruby>くありません</strong></div><div class=\"jp-romaji\">takaku arimasen</div><p>い形容词礼貌敬体否定可将「〜くない」改为「〜くないです」或更正式的「〜くありません」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "高い 敬体否定",
+            "answers": [
+              "高くありません",
+              "たかくありません"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp05-13",
+      "title": "一段动词简体否定「食べる / 見る」",
+      "point_ids": [
+        "p-jp05-ru-u-neg"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "分别写出「食べる（吃）」与「見る（看）」的【非过去否定简体】：\n食べる → {{blank:b1}} ／ 見る → {{blank:b2}}（不吃 ／ 不看（简体））",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">分别写出「食べる（吃）」与「見る（看）」的【非过去否定简体】：</p><p class=\"jp-ja\"><ruby>食<rp>(</rp><rt>た</rt><rp>)</rp></ruby>べる → {{blank:b1}} ／ <ruby>見<rp>(</rp><rt>み</rt><rp>)</rp></ruby>る → {{blank:b2}}</p><p class=\"jp-romaji\">taberu → [ ? ] / miru → [ ? ]</p><p class=\"jp-zh\">不吃 ／ 不看（简体）</p></div>",
+      "reference_answer": "食べない；見ない",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><strong><ruby>食<rp>(</rp><rt>た</rt><rp>)</rp></ruby>べない</strong> ／ <strong><ruby>見<rp>(</rp><rt>み</rt><rp>)</rp></ruby>ない</strong></div><div class=\"jp-romaji\">tabenai / minai</div><p>一段动词规则极为简单：直接去掉「る」加「ない」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "食べる 否定",
+            "answers": [
+              "食べない",
+              "たべない"
+            ]
+          },
+          {
+            "id": "b2",
+            "label": "見る 否定",
+            "answers": [
+              "見ない",
+              "みない"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp05-14",
+      "title": "五段动词简体否定（u段变a段）",
+      "point_ids": [
+        "p-jp05-ru-u-neg"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "分别写出「書く」「飲む」「作る」的【非过去否定简体】：\n書く → {{blank:b1}} ／ 飲む → {{blank:b2}} ／ 作る → {{blank:b3}}（不写 ／ 不喝 ／ 不做）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">分别写出「書く」「飲む」「作る」的【非过去否定简体】：</p><p class=\"jp-ja\"><ruby>書<rp>(</rp><rt>か</rt><rp>)</rp></ruby>く → {{blank:b1}} ／ <ruby>飲<rp>(</rp><rt>の</rt><rp>)</rp></ruby>む → {{blank:b2}} ／ <ruby>作<rp>(</rp><rt>つく</rt><rp>)</rp></ruby>る → {{blank:b3}}</p><p class=\"jp-romaji\">kaku → [ ? ] / nomu → [ ? ] / tsukuru → [ ? ]</p><p class=\"jp-zh\">不写 ／ 不喝 ／ 不做</p></div>",
+      "reference_answer": "書かない；飲まない；作らない",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><strong><ruby>書<rp>(</rp><rt>か</rt><rp>)</rp></ruby>かない</strong> ／ <strong><ruby>飲<rp>(</rp><rt>の</rt><rp>)</rp></ruby>まない</strong> ／ <strong><ruby>作<rp>(</rp><rt>つく</rt><rp>)</rp></ruby>らない</strong></div><div class=\"jp-romaji\">kakanai / nomanai / tsukuranai</div><p>五段动词未然形变化：ku→ka、mu→ma、ru→ra，然后直接加「ない」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "書く 否定",
+            "answers": [
+              "書かない",
+              "かかない"
+            ]
+          },
+          {
+            "id": "b2",
+            "label": "飲む 否定",
+            "answers": [
+              "飲まない",
+              "のまない"
+            ]
+          },
+          {
+            "id": "b3",
+            "label": "作る 否定",
+            "answers": [
+              "作らない",
+              "つくらない"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp05-15",
+      "title": "五段特殊音变：「う」结尾变「わ」",
+      "point_ids": [
+        "p-jp05-ru-u-neg"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "写出「買う（买）」的【非过去否定简体】（不买）：\n{{blank:b1}}（不买（简体））",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">写出「買う（买）」的【非过去否定简体】（不买）：</p><p class=\"jp-ja\">{{blank:b1}}</p><p class=\"jp-romaji\">[ ? ]（買う → 简体否定）</p><p class=\"jp-zh\">不买（简体）</p></div>",
+      "reference_answer": "買わない",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><strong><ruby>買<rp>(</rp><rt>か</rt><rp>)</rp></ruby>わない</strong></div><div class=\"jp-romaji\">kawanai</div><p>以「う」结尾的五段动词（如「買う kau」）否定形变「わ」，得「買わない（kawanai）」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "買う 简体否定",
+            "answers": [
+              "買わない",
+              "かわない"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp05-16",
+      "title": "存在动词「ある」简体 vs 敬体否定",
+      "point_ids": [
+        "p-jp05-verb-neg-exc"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "用存在动词「ある」表达“没有钱”，依次写出【简体否定】与【敬体否定】：\n简体：お金が{{blank:b1}}。 ／ 敬体：お金が{{blank:b2}}。（没有钱（简体）／ 没有钱（敬体））",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">用存在动词「ある」表达“没有钱”，依次写出【简体否定】与【敬体否定】：</p><p class=\"jp-ja\">简体：お<ruby>金<rp>(</rp><rt>かね</rt><rp>)</rp></ruby>が{{blank:b1}}。 ／ 敬体：お<ruby>金<rp>(</rp><rt>かね</rt><rp>)</rp></ruby>が{{blank:b2}}。</p><p class=\"jp-romaji\">okane ga [ ? ]. / okane ga [ ? ].</p><p class=\"jp-zh\">没有钱（简体）／ 没有钱（敬体）</p></div>",
+      "reference_answer": "ない；ありません",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\">お<ruby>金<rp>(</rp><rt>かね</rt><rp>)</rp></ruby>が<strong>ない</strong>。 ／ お<ruby>金<rp>(</rp><rt>かね</rt><rp>)</rp></ruby>が<strong>ありません</strong>。</div><div class=\"jp-romaji\">okane ga nai. / okane ga arimasen.</div><p>「ある」的简体否定是特例「ない」（绝不说 *あらない），但敬体仍遵循五段ます形为「ありません」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "简体否定",
+            "answers": [
+              "ない"
+            ]
+          },
+          {
+            "id": "b2",
+            "label": "敬体否定",
+            "answers": [
+              "ありません"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp05-17",
+      "title": "两大不规则动词的简体否定",
+      "point_ids": [
+        "p-jp05-verb-neg-exc"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "分别写出「する」和「来る（くる）」的【简体否定】：\nする → {{blank:b1}} ／ 来る → {{blank:b2}}（不做 ／ 不来（简体））",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">分别写出「する」和「来る（くる）」的【简体否定】：</p><p class=\"jp-ja\">する → {{blank:b1}} ／ <ruby>来<rp>(</rp><rt>く</rt><rp>)</rp></ruby>る → {{blank:b2}}</p><p class=\"jp-romaji\">suru → [ ? ] / kuru → [ ? ]</p><p class=\"jp-zh\">不做 ／ 不来（简体）</p></div>",
+      "reference_answer": "しない；来ない",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><strong>しない</strong> ／ <strong><ruby>来<rp>(</rp><rt>こ</rt><rp>)</rp></ruby>ない</strong></div><div class=\"jp-romaji\">shinai / konai</div><p>「する → しない」，「来る（くる）→ 来ない（こない）」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "する 简体否定",
+            "answers": [
+              "しない"
+            ]
+          },
+          {
+            "id": "b2",
+            "label": "来る 简体否定",
+            "answers": [
+              "来ない",
+              "こない"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp05-18",
+      "title": "不规则动词「来ない」的假名读音",
+      "point_ids": [
+        "p-jp05-verb-neg-exc"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "动词「来る（くる）」变为否定「来ない」后，汉字「来」的读音发生变化；请仅用【平假名】写出「来ない」的完整读音：\n来ない ＝ {{blank:b1}}（不来（读音检查））",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">动词「来る（くる）」变为否定「来ない」后，汉字「来」的读音发生变化；请仅用【平假名】写出「来ない」的完整读音：</p><p class=\"jp-ja\">来ない ＝ {{blank:b1}}</p><p class=\"jp-romaji\">来ない（请填完整平假名读音）</p><p class=\"jp-zh\">不来（读音检查）</p></div>",
+      "reference_answer": "こない",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>来<rp>(</rp><rt>こ</rt><rp>)</rp></ruby>ない ＝ <strong>こない</strong></div><div class=\"jp-romaji\">konai</div><p>「来る」辞书形读「くる (kuru)」，变否定时汉字「来」变为「こ (ko)」，写作「こない」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "平假名读音",
+            "answers": [
+              "こない"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp05-19",
+      "title": "综合复盘：な形伪装者 vs い形特例",
+      "point_ids": [
+        "p-jp05-noun-na-neg",
+        "p-jp05-i-adj-neg"
+      ],
+      "learning_phases": [
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "对比写出「綺麗（漂亮）」与「いい（好）」的【简体否定】：\n綺麗 → {{blank:b1}} ／ いい → {{blank:b2}}（不漂亮 ／ 不好（简体））",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">对比写出「綺麗（漂亮）」与「いい（好）」的【简体否定】：</p><p class=\"jp-ja\"><ruby>綺麗<rp>(</rp><rt>きれい</rt><rp>)</rp></ruby> → {{blank:b1}} ／ いい → {{blank:b2}}</p><p class=\"jp-romaji\">kirei → [ ? ] / ii → [ ? ]</p><p class=\"jp-zh\">不漂亮 ／ 不好（简体）</p></div>",
+      "reference_answer": "綺麗じゃない；よくない",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><strong><ruby>綺麗<rp>(</rp><rt>きれい</rt><rp>)</rp></ruby>じゃない</strong> ／ <strong>よくない</strong></div><div class=\"jp-romaji\">kirei janai / yokunai</div><p>「綺麗/きれい」实为な形容词须加「じゃない」；「いい」是唯一须先还原为「よい」的い形容词，变「よくない」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "綺麗 简体否定",
+            "answers": [
+              "綺麗じゃない",
+              "きれいじゃない",
+              "綺麗ではない",
+              "きれいではない"
+            ]
+          },
+          {
+            "id": "b2",
+            "label": "いい 简体否定",
+            "answers": [
+              "よくない",
+              "良くない"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp05-20",
+      "title": "综合复盘：动词否定四大特例总检",
+      "point_ids": [
+        "p-jp05-ru-u-neg",
+        "p-jp05-verb-neg-exc"
+      ],
+      "learning_phases": [
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "依次写出四大必考陷阱动词的【简体否定】（買う・ある・する・来る）：\n買う → {{blank:b1}} ／ ある → {{blank:b2}} ／ する → {{blank:b3}} ／ 来る → {{blank:b4}}（不买 ／ 没有 ／ 不做 ／ 不来）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">依次写出四大必考陷阱动词的【简体否定】（買う・ある・する・来る）：</p><p class=\"jp-ja\"><ruby>買<rp>(</rp><rt>か</rt><rp>)</rp></ruby>う → {{blank:b1}} ／ ある → {{blank:b2}} ／ する → {{blank:b3}} ／ <ruby>来<rp>(</rp><rt>く</rt><rp>)</rp></ruby>る → {{blank:b4}}</p><p class=\"jp-romaji\">kau → [ ? ] / aru → [ ? ] / suru → [ ? ] / kuru → [ ? ]</p><p class=\"jp-zh\">不买 ／ 没有 ／ 不做 ／ 不来</p></div>",
+      "reference_answer": "買わない；ない；しない；来ない",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><strong><ruby>買<rp>(</rp><rt>か</rt><rp>)</rp></ruby>わない</strong> ／ <strong>ない</strong> ／ <strong>しない</strong> ／ <strong><ruby>来<rp>(</rp><rt>こ</rt><rp>)</rp></ruby>ない</strong></div><div class=\"jp-romaji\">kawanai / nai / shinai / konai</div><p>「う→わ（買わない）」、「ある→ない」、「する→しない」、「来る(くる)→来ない(こない)」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "買う 否定",
+            "answers": [
+              "買わない",
+              "かわない"
+            ]
+          },
+          {
+            "id": "b2",
+            "label": "ある 否定",
+            "answers": [
+              "ない"
+            ]
+          },
+          {
+            "id": "b3",
+            "label": "する 否定",
+            "answers": [
+              "しない"
+            ]
+          },
+          {
+            "id": "b4",
+            "label": "来る 否定",
+            "answers": [
+              "来ない",
+              "こない"
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

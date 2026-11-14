@@ -1,0 +1,515 @@
+import argparse
+from contextlib import contextmanager, closing
+from datetime import datetime, timezone
+import hashlib
+import json
+import os
+from pathlib import Path
+import secrets
+import shutil
+import sqlite3
+import sys
+import tempfile
+import zipfile
+
+from .config import Settings
+from .service import DomainError, LearningService, create_learning_service
+from .access import AccessStore, FEATURES
+from .catalog import Catalog
+from .account_admin import AccountAdmin
+from .topic_structure import has_atomic, atomic_state, sectioned_training
+from .atomic_content import is_atomic
+
+
+def output(data):
+    print(json.dumps(data, ensure_ascii=False, indent=2))
+
+
+def make_service(settings, learner='local', topic_id=None, *, review=False):
+    catalog = Catalog.load(settings)
+    course = catalog.topic(topic_id or catalog.default_topic_id)
+    service = create_learning_service(course, settings.data_dir, learner_id=learner)
+    if review and course.get('modules'):
+        from .review import ReviewBackend
+        ReviewBackend(service)
+    return service
+
+
+def review_status(settings, learner, topic_id):
+    """Read-only local overview; never initialize a learner or import old scores."""
+    from .practice import REVIEW_POLICY
+    course = Catalog.load(settings).topic(topic_id)
+    result = {'learner_id': learner, 'topic_id': topic_id, 'course_version': course['version'],
+              'enabled': False, 'lesson_status': 'not_started', 'pause': None, 'due': [],
+              'active': [], 'next_due_at': None, 'policy': REVIEW_POLICY.to_dict(), 'ratings': {}}
+    database = settings.data_dir / 'learning.sqlite3'
+    if not database.exists():
+        return result
+    with closing(sqlite3.connect(database.resolve().as_uri() + '?mode=ro', uri=True)) as con:
+        con.row_factory = sqlite3.Row
+        tables = {row[0] for row in con.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+        if 'topics' in tables:
+            row = con.execute('SELECT body FROM topics WHERE learner=? AND topic=?', (learner, topic_id)).fetchone()
+            if row:
+                lesson = json.loads(row['body'])
+                result.update(lesson_status=lesson['status'], pause=lesson['pause'])
+                if has_atomic(course):
+                    from .atomic_api import review_summary
+                    summary = review_summary(course, lesson)
+                    points = atomic_state(lesson)
+                    atomic = dict(enabled=True, training_mode='atomic_retrieval', policy=points['policy'],
+                                  points=[{'id': point_id, 'mastered': p['mastered'], 'due_at': p['due_at'],
+                                           'memory_initialized': p['card_json'] is not None}
+                                          for point_id, p in points['points'].items()], **summary)
+                    if not sectioned_training(course):
+                        result.update(atomic)
+                        return result
+                    result['atomic'] = atomic
+        if 'review_cards' not in tables:
+            return result
+        result['enabled'] = True
+        key = (learner, topic_id)
+        paused = con.execute('SELECT event_id,reason FROM review_topic_pauses WHERE learner=? AND topic=?', key).fetchone()
+        if paused:
+            result['pause'] = dict(paused)
+        result['active'] = []
+        for row in con.execute("SELECT id,module,body FROM review_sessions WHERE learner=? AND topic=? AND version=? AND status='in_progress'", (*key, course['version'])):
+            state = json.loads(row['body'])
+            result['active'].append({'session_id': row['id'], 'module_id': row['module'],
+                                     'policy_version': state['policy']['version'],
+                                     'practice_error_count': state['practice_error_count'],
+                                     'practice_answered_count': state['practice_answered_count']})
+        if not result['pause']:
+            result['next_due_at'] = con.execute('SELECT MIN(due_at) FROM review_cards WHERE learner=? AND topic=? AND version=? AND active_session IS NULL', (*key, course['version'])).fetchone()[0]
+            result['due'] = [dict(row) for row in con.execute('SELECT module AS module_id,due_at,revision AS schedule_revision FROM review_cards WHERE learner=? AND topic=? AND version=? AND active_session IS NULL AND due_at<=? ORDER BY due_at,module', (*key, course['version'], datetime.now(timezone.utc).isoformat()))]
+        result['ratings'] = {str(row['mastery']): row['count'] for row in con.execute('SELECT mastery,COUNT(*) AS count FROM review_ratings WHERE learner=? AND topic=? AND version=? GROUP BY mastery', (*key, course['version']))}
+    return result
+
+
+def make_access_store(settings):
+    catalog = Catalog.load(settings)
+    from .training_content import TrainingCatalog
+    return AccessStore(settings.data_dir, [{'id': topic['id'], 'title': topic['title']} for topic in catalog.topics.values()]
+                       + TrainingCatalog(settings.data_dir).permissions(catalog.topics))
+
+
+def split_permissions(value):
+    return None if value is None else [item.strip() for item in value.split(',') if item.strip()]
+
+
+def make_help_store(settings):
+    from .help_requests import HelpRequestStore
+    from .subjects import Subjects
+    catalog = Catalog.load(settings)
+    return HelpRequestStore(catalog, make_access_store(settings), Subjects(settings, catalog))
+
+
+def learner_statuses(settings):
+    store = make_access_store(settings)
+    with closing(sqlite3.connect(store.db_path)) as con:
+        con.row_factory = sqlite3.Row
+        has_topics = con.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='topics'").fetchone()
+        records = con.execute('SELECT learner,topic,version,body FROM topics ORDER BY learner,topic').fetchall() if has_topics else []
+    principals = {item['learner_id']: item for item in store.list_principals()}
+    result = []
+    seen = set()
+    for row in records:
+        state = json.loads(row['body'])
+        identity = principals.get(row['learner'], {'learner_id': row['learner'], 'role': 'legacy', 'display_name': row['learner']})
+        result.append({**identity, 'topic_id': row['topic'], 'course_version': row['version'],
+                       'status': state['status'], 'revision': state['revision'], 'pause': state['pause']})
+        seen.add(row['learner'])
+    result.extend({**identity, 'status': 'not_started', 'pause': None}
+                  for learner_id, identity in principals.items() if learner_id not in seen)
+    return result
+
+
+@contextmanager
+def server_lock(root):
+    root.mkdir(parents=True, exist_ok=True)
+    with (root / 'server.lock').open('a+b') as handle:
+        handle.seek(0, 2)
+        if handle.tell() == 0:
+            handle.write(b'0')
+            handle.flush()
+        handle.seek(0)
+        try:
+            if os.name == 'nt':
+                import msvcrt
+                msvcrt.locking(handle.fileno(), msvcrt.LK_NBLCK, 1)
+            else:
+                import fcntl
+                fcntl.flock(handle.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except OSError:
+            raise DomainError('server_running', '此数据目录已有学习服务运行。', 409)
+        try:
+            yield
+        finally:
+            handle.seek(0)
+            if os.name == 'nt':
+                msvcrt.locking(handle.fileno(), msvcrt.LK_UNLCK, 1)
+            else:
+                fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
+
+
+def backup_bundle(settings, destination=None):
+    if settings.catalog_path.exists() or settings.guide_path.exists() or (settings.data_dir / 'subjects.json').exists():
+        from .site_backup import backup_site
+        return backup_site(settings, destination)
+    service = make_service(settings)
+    timestamp = datetime.now().strftime('%Y%m%d-%H%M%S-%f')
+    destination = Path(destination or settings.data_dir / 'backups' / f'learning-{timestamp}.zip')
+    if destination.exists():
+        raise DomainError('backup_exists', '备份目标已存在。', 422)
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix='backup-', dir=settings.data_dir) as folder:
+        temporary = Path(folder)
+        service.backup(temporary / 'learning.sqlite3')
+        with closing(sqlite3.connect(temporary / 'learning.sqlite3')) as snapshot:
+            saved_version = snapshot.execute('SELECT version FROM topics WHERE learner=? AND topic=?', ('local', service.topic_id)).fetchone()[0]
+        course_bytes = settings.course_path.read_bytes()
+        live_course = json.loads(course_bytes)
+        if live_course['version'] != saved_version or live_course != service.course:
+            raise DomainError('backup_version_changed', '备份期间课程发生变化，请重新备份。', 409)
+        (temporary / 'course.json').write_bytes(course_bytes)
+        sources_file = settings.course_path.with_name(settings.course_path.stem + '.sources.json')
+        sources = json.loads(sources_file.read_text(encoding='utf-8')) if sources_file.exists() else {}
+        source_path = Path(sources.get('source_path', ''))
+        if sources and not source_path.is_file():
+            raise DomainError('source_missing', '课程原稿缺失，无法生成完整备份。', 422)
+        if source_path.is_file():
+            source_bytes = source_path.read_bytes()
+            if hashlib.sha256(source_bytes).hexdigest() != service.course['source_sha256']:
+                raise DomainError('source_changed', '原稿已变化，请先完成新版本导入后再备份。', 409)
+            (temporary / 'source.md').write_bytes(source_bytes)
+        answers = Path(sources['answers_path']) if sources.get('answers_path') else settings.course_path.with_name(settings.course_path.stem + '.answers.json')
+        if answers.is_file():
+            answers_bytes = answers.read_bytes()
+            answers_data = json.loads(answers_bytes)
+            if answers_data.get('source_sha256') != service.course['source_sha256']:
+                raise DomainError('answers_changed', '答案表与课程来源版本不同，无法生成完整备份。', 409)
+            for question in service.questions.values():
+                row = answers_data.get('answers', {}).get(question['id'], {})
+                if any(row.get(key) != question[key] for key in ('reference_answer', 'answer_type', 'constraints')):
+                    raise DomainError('answers_changed', '答案表与课程内容不一致，无法生成完整备份。', 409)
+            (temporary / 'answers.json').write_bytes(answers_bytes)
+        elif sources:
+            raise DomainError('answers_missing', '独立答案表缺失，无法生成完整备份。', 422)
+        manifest = {'format': 1, 'created_at': timestamp, 'topic_id': service.topic_id,
+                    'course_version': service.course['version'], 'sha256': {}}
+        for file in temporary.iterdir():
+            manifest['sha256'][file.name] = hashlib.sha256(file.read_bytes()).hexdigest()
+        with zipfile.ZipFile(destination, 'x', compression=zipfile.ZIP_DEFLATED) as archive:
+            for file in temporary.iterdir():
+                archive.write(file, file.name)
+            archive.writestr('manifest.json', json.dumps(manifest, ensure_ascii=False, indent=2))
+    return {'backup': str(destination), 'sha256': hashlib.sha256(destination.read_bytes()).hexdigest(),
+            'contains': [*manifest['sha256'], 'manifest.json']}
+
+
+def restore_bundle(backup, destination):
+    destination = Path(destination)
+    if destination.exists():
+        raise DomainError('restore_exists', '恢复目标必须是尚不存在的新目录，避免覆盖现有数据。', 422)
+    with zipfile.ZipFile(backup) as archive:
+        if json.loads(archive.read('manifest.json')).get('format') == 2:
+            from .site_backup import restore_site
+            return restore_site(backup, destination)
+    with zipfile.ZipFile(backup) as archive:
+        names = archive.namelist()
+        if (len(names) != len(set(names)) or not {'course.json', 'learning.sqlite3', 'manifest.json'} <= set(names)
+                or set(names) - {'course.json', 'learning.sqlite3', 'manifest.json', 'source.md', 'answers.json'}
+                or any(info.file_size > 100_000_000 for info in archive.infolist())):
+            raise DomainError('invalid_backup', '备份结构不符合预期。', 422)
+        manifest = json.loads(archive.read('manifest.json'))
+        blobs = {name: archive.read(name) for name in names if name != 'manifest.json'}
+        if manifest.get('format') != 1 or any(hashlib.sha256(blob).hexdigest() != manifest['sha256'].get(name) for name, blob in blobs.items()):
+            raise DomainError('invalid_backup', '备份校验失败。', 422)
+    course = json.loads(blobs['course.json'])
+    if course['version'] != manifest['course_version'] or course['id'] != manifest['topic_id']:
+        raise DomainError('invalid_backup', '课程版本校验失败。', 422)
+    destination.mkdir(parents=True)
+    (destination / 'courses').mkdir()
+    course_path = destination / 'courses/digits-to-letters.json'
+    course_path.write_bytes(blobs['course.json'])
+    if 'answers.json' in blobs:
+        course_path.with_name('digits-to-letters.answers.json').write_bytes(blobs['answers.json'])
+    if 'source.md' in blobs:
+        (destination / 'sources').mkdir()
+        (destination / 'sources/source.md').write_bytes(blobs['source.md'])
+        course_path.with_name('digits-to-letters.sources.json').write_text(json.dumps({
+            'source_path': str((destination / 'sources/source.md').resolve()),
+            'answers_path': str(course_path.with_name('digits-to-letters.answers.json').resolve()),
+            'source_sha256': course['source_sha256']}, ensure_ascii=False, indent=2), encoding='utf-8')
+    (destination / 'learning.sqlite3').write_bytes(blobs['learning.sqlite3'])
+    with closing(sqlite3.connect(destination / 'learning.sqlite3')) as con:
+        if con.execute('PRAGMA integrity_check').fetchone()[0] != 'ok':
+            raise DomainError('invalid_backup', '恢复数据库完整性检查失败。', 422)
+    service = create_learning_service(course, destination)
+    service.recover_interrupted()
+    state = service.state()
+    return {'restored_to': str(destination), 'topic_id': state['topic_id'], 'status': state['status'],
+            'course_version': state['course_version'], 'revision': state['revision'],
+            'modules': state.get('modules', []), 'pause': state['pause'],
+            'visited_step_count': len(state.get('steps', state.get('history', [])))}
+
+
+def main():
+    parser = argparse.ArgumentParser(description='本机数学学习网站与管理命令')
+    parser.add_argument('--data-dir', type=Path, default=None)
+    sub = parser.add_subparsers(dest='command', required=True)
+    graph = sub.add_parser('graph-import', help='独立校验、预览或更新课程图谱，不导入 Topic 正文')
+    graph.add_argument('--source', type=Path, required=True)
+    graph.add_argument('--apply', action='store_true', help='安装整份图谱；默认只显示差异')
+    graph.add_argument('--expected-revision', help='可选并发检查：上次预览的 previous_revision，首次为 none')
+    graph.add_argument('--preview-html', type=Path, help='生成可离线打开的交互式图谱')
+    for command in ('author-prepare', 'author-import', 'author-install'):
+        author = sub.add_parser(command, help='本机作者 Markdown / Topic v2 JSON 导入：准备来源包、入库或一键执行')
+        if command != 'author-install':
+            author.add_argument('--source', type=Path, required=True)
+            author.add_argument('--topic-id', required=True)
+            author.add_argument('--run-dir', type=Path, help='新审核产物目录；默认 D:/Artifacts/GraspMemoEdu/author-import/runs')
+        else:
+            author.add_argument('--package', type=Path, required=True)
+        if command != 'author-prepare':
+            author.add_argument('--subject', required=True)
+            author.add_argument('--course', required=True, help='已有 Course ID；普通 Topic 不覆盖，v2 纯引论可更新')
+            author.add_argument('--unit', help='已有章节 ID；多章节课程必须指定')
+    serve = sub.add_parser('serve')
+    serve.add_argument('--port', type=int)
+    serve.add_argument('--instance-id')
+    status = sub.add_parser('status')
+    status.add_argument('--learner', default='local')
+    status.add_argument('--topic', help='指定 Topic；默认目录中的首个 Topic')
+    status.add_argument('--list-learners', action='store_true', help='列出游客/账号标识和进度，供精确解锁使用')
+    unlock = sub.add_parser('unlock')
+    unlock.add_argument('--learner', required=True)
+    unlock.add_argument('--topic', required=True)
+    unlock.add_argument('--module', required=True)
+    unlock.add_argument('--pause-event', required=True)
+    review_status_command = sub.add_parser('review-status', help='只读查看指定学习者 Topic 的复习排期、暂停事件和规则')
+    review_status_command.add_argument('--learner', required=True)
+    review_status_command.add_argument('--topic', required=True)
+    review_unlock = sub.add_parser('review-unlock', help='按精确事件解除 Topic 的复习暂停，同时恢复暂停的 Lesson')
+    review_unlock.add_argument('--learner', required=True)
+    review_unlock.add_argument('--topic', required=True)
+    review_unlock.add_argument('--pause-event', required=True)
+    backup = sub.add_parser('backup')
+    backup.add_argument('--output', type=Path)
+    restore = sub.add_parser('restore')
+    restore.add_argument('--backup', type=Path, required=True)
+    restore.add_argument('--destination', type=Path, required=True)
+    pair = sub.add_parser('pair')
+    pair.add_argument('--origin', required=True, help='Exact HTTPS origin, without a path')
+    export = sub.add_parser('export-web')
+    export.add_argument('--output', type=Path, required=True)
+    export.add_argument('--api-origin', default='', help='固定 HTTPS 后端地址；留空用于本机同源页面')
+    account_create = sub.add_parser('account-create', help='由本机管理者创建账号，并仅显示一次邀请码')
+    account_create.add_argument('--name', required=True, help='账号显示名称')
+    account_create.add_argument('--topics', help='逗号分隔的 Topic 标识；默认当前已配置的全部 Topic')
+    account_create.add_argument('--features', help='逗号分隔的功能权限；默认 ' + ','.join(FEATURES))
+    account_create.add_argument('--purpose', choices=('learner', 'test'), default='learner')
+    account_create.add_argument('--admin', action='store_true', help='创建管理员；必须用 --output 私密导出，支持测试用途')
+    account_create.add_argument('--output', type=Path, help='私密 JSON 路径，必须位于数据目录 admin 下；省略保留一次性终端输出')
+    provision = sub.add_parser('account-provision', help='安全创建可重试批次，邀请码只写入私密 JSON')
+    provision.add_argument('--batch', required=True)
+    provision.add_argument('--learners', type=int, default=10)
+    provision.add_argument('--tests', type=int, default=5)
+    provision.add_argument('--admins', type=int, default=0, help='创建不记录学习状态的管理员账号')
+    provision.add_argument('--output', type=Path, required=True)
+    for account_parser in (account_create, provision):
+        account_parser.add_argument('--advanced-learner', action='store_true', help='创建高阶学习者；默认普通')
+        account_parser.add_argument('--student', action='store_true', help='创建学员；默认非学员')
+    for operation, help_text in [('account-disable', '停用账号并注销全部会话'),
+                                 ('account-enable', '重新启用账号'),
+                                 ('account-revoke-sessions', '注销账号的全部会话，保留邀请码')]:
+        command = sub.add_parser(operation, help=help_text)
+        command.add_argument('--learner', required=True)
+    rotate = sub.add_parser('account-rotate', help='更换邀请码并注销全部会话，新码只写入私密 JSON')
+    rotate.add_argument('--learner', required=True)
+    rotate.add_argument('--output', type=Path, required=True)
+    sub.add_parser('account-list', help='查看账号及当前 Topic/功能权限，不显示邀请码')
+    admin_names = sub.add_parser('account-sync-admin-names', help='从标准输入的私密摘要清单同步管理员备注名；不修改学员昵称')
+    admin_names.add_argument('--dry-run', action='store_true')
+    usage_report = sub.add_parser('judge-usage-report', help='只读查询每日判题用量，包含零用量账号和游客，不显示邀请码')
+    usage_report.add_argument('--day', help='北京时间日期 YYYY-MM-DD；默认今天')
+    usage_report.add_argument('--role', choices=('all', 'account', 'guest'), default='all')
+    usage_report.add_argument('--learner', help='只查看指定 learner_id')
+    feedback = sub.add_parser('feedback-list', help='仅在本机查看收到的支持与内容纠错反馈')
+    feedback.add_argument('--limit', type=int, default=30)
+    help_default = sub.add_parser('help-admin-default', help='设置未单独分配学员的默认答疑管理员')
+    help_default.add_argument('--admin', required=True, help='管理员账号 learner_id')
+    help_assign = sub.add_parser('help-assign', help='设置学员的答疑管理员；已有请求同时按新归属隔离')
+    help_assign.add_argument('--learner', required=True, help='学员账号 learner_id')
+    help_owner = help_assign.add_mutually_exclusive_group(required=True)
+    help_owner.add_argument('--admin', help='管理员账号 learner_id')
+    help_owner.add_argument('--default-admin', action='store_true', help='恢复默认答疑管理员')
+    sub.add_parser('help-assignments', help='查看学员与答疑管理员的对应关系，不含邀请码')
+    permissions = sub.add_parser('account-permissions', help='设置账号权限；下一次 API 请求生效')
+    permissions.add_argument('--learner', required=True, help='account-list 返回的账号 learner_id')
+    permissions.add_argument('--topics', help='逗号分隔 Topic 标识；空字符串清空；省略则保留')
+    permissions.add_argument('--features', help='逗号分隔功能权限；空字符串清空；省略则保留')
+    permissions.add_argument('--default-topics', action='store_true', help='恢复默认开放全部当前及后续 Topic')
+    permissions.add_argument('--default-features', action='store_true', help='恢复默认开放全部当前及后续功能')
+    tier = permissions.add_mutually_exclusive_group()
+    tier.add_argument('--advanced-learner', dest='is_advanced_learner', action='store_const', const=True, default=None,
+                      help='设为高阶学习者；现有 Topic 和功能授权继续生效')
+    tier.add_argument('--standard-learner', dest='is_advanced_learner', action='store_const', const=False,
+                      help='恢复普通学习者资格')
+    student = permissions.add_mutually_exclusive_group()
+    student.add_argument('--student', dest='is_student', action='store_const', const=True, default=None,
+                         help='设为学员；独立于普通或高阶资格')
+    student.add_argument('--non-student', dest='is_student', action='store_const', const=False,
+                         help='设为非学员；保留普通或高阶资格')
+    args = parser.parse_args()
+    try:
+        if args.command == 'restore':
+            output(restore_bundle(args.backup, args.destination))
+            return
+        settings = Settings.load(args.data_dir)
+        if args.command == 'serve':
+            if args.port is not None:
+                settings.port = args.port
+                settings.__post_init__()
+            if args.instance_id:
+                settings.instance_id = args.instance_id
+            import uvicorn
+            from .api import create_app
+            with server_lock(settings.data_dir):
+                uvicorn.run(create_app(settings), host='127.0.0.1', port=settings.port, access_log=False, proxy_headers=False)
+        elif args.command == 'graph-import':
+            from .course_graph import import_graph, preview_html
+            result = import_graph(settings, args.source, apply=args.apply, expected_revision=args.expected_revision)
+            if args.preview_html:
+                result.update(preview_html(settings, args.source, args.preview_html))
+            output(result)
+        elif args.command in ('author-prepare', 'author-import', 'author-install'):
+            from .author_import import prepare_topic
+            from .topic_install import install_topic
+            if args.command == 'author-install':
+                output(install_topic(settings, args.package, subject_id=args.subject, course_id=args.course, unit_id=args.unit))
+            else:
+                Catalog._identifier(args.topic_id)
+                # Resolve destination mistakes before spending tokens on API review.
+                if args.command == 'author-import':
+                    from .subjects import Subjects
+                    catalog = Catalog.load(settings)
+                    Subjects(settings, catalog).authorize_course(args.subject, args.course)
+                    if args.topic_id in catalog.topics:
+                        from .topic_runtime import is_introduction
+                        if not (is_introduction(catalog.topics[args.topic_id]) and args.course in catalog.topic_courses[args.topic_id]):
+                            raise ValueError('Topic ID already exists; use author-install with the approved package to check idempotency')
+                stamp = datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S-%f')
+                folder = args.run_dir or Path('D:/Artifacts/GraspMemoEdu/author-import/runs') / (args.topic_id + '-' + stamp)
+                manifest = prepare_topic(args.source, args.topic_id, folder)
+                if manifest['status'] != 'approved':
+                    output({'status': 'failed', 'package': str(folder), 'report': str(folder / 'manifest.json'),
+                            'error': manifest.get('error'), 'stage': manifest.get('stage')})
+                    raise SystemExit(1)
+                result = {'status': 'approved', 'package': str(folder), 'report': str(folder / 'manifest.json')}
+                if args.command == 'author-import':
+                    result.update(install_topic(settings, folder, subject_id=args.subject, course_id=args.course, unit_id=args.unit))
+                output(result)
+        elif args.command == 'status':
+            if args.list_learners:
+                output({'learners': learner_statuses(settings)})
+            else:
+                state = make_service(settings, args.learner, args.topic).state()
+                fields = ['topic_id', 'learner_id', 'status', 'revision', 'pause']
+                fields += ['training_mode', 'phase', 'learned_count', 'point_count'] if state.get('training_mode') == 'atomic_retrieval' else ['modules']
+                output({k: state[k] for k in fields})
+        elif args.command == 'unlock':
+            state = make_service(settings, args.learner, args.topic, review=True).unlock(args.topic, args.module, args.pause_event)
+            output({'status': state['status'], 'attempt_id': state['attempt_id'], 'pause': state['pause']})
+        elif args.command == 'review-status':
+            output(review_status(settings, args.learner, args.topic))
+        elif args.command == 'review-unlock':
+            learner = make_service(settings, args.learner, args.topic, review=True)
+            if is_atomic(learner.course):
+                output(learner.unlock(args.topic, 'atomic', args.pause_event))
+            else:
+                output(learner.review_backend.unlock_topic(pause_event_id=args.pause_event))
+        elif args.command == 'backup':
+            output(backup_bundle(settings, args.output))
+        elif args.command == 'account-create':
+            store = make_access_store(settings)
+            if args.admin and args.output is None:
+                raise DomainError('account_export_required', '创建管理员必须通过 --output 保存私密邀请码清单。', 422)
+            if args.output is not None:
+                output(AccountAdmin(store).create(args.name, split_permissions(args.topics),
+                       split_permissions(args.features), purpose=args.purpose, output=args.output,
+                       is_advanced_learner=args.advanced_learner, is_student=args.student, is_admin=args.admin))
+            else:
+                output(store.create_account(args.name, split_permissions(args.topics),
+                                            split_permissions(args.features), purpose=args.purpose,
+                                            is_advanced_learner=args.advanced_learner, is_student=args.student))
+        elif args.command == 'account-provision':
+            output(AccountAdmin(make_access_store(settings)).provision(
+                args.batch, learners=args.learners, tests=args.tests, admins=args.admins, output=args.output,
+                is_advanced_learner=args.advanced_learner, is_student=args.student))
+        elif args.command in ('account-disable', 'account-enable'):
+            output(make_access_store(settings).set_enabled(args.learner, args.command == 'account-enable'))
+        elif args.command == 'account-revoke-sessions':
+            output(make_access_store(settings).revoke_sessions(args.learner))
+        elif args.command == 'account-rotate':
+            output(AccountAdmin(make_access_store(settings)).rotate(args.learner, output=args.output))
+        elif args.command == 'account-list':
+            output({'accounts': make_access_store(settings).list_principals(accounts_only=True)})
+        elif args.command == 'account-sync-admin-names':
+            from .admin_names import sync_admin_names
+            output(sync_admin_names(make_access_store(settings), json.load(sys.stdin), args.dry_run))
+        elif args.command == 'judge-usage-report':
+            from .public_limits import judge_usage_report
+            output(judge_usage_report(settings.data_dir, day=args.day, role=args.role, learner_id=args.learner))
+        elif args.command == 'feedback-list':
+            database = settings.data_dir / 'learning.sqlite3'
+            rows = []
+            if database.exists():
+                with closing(sqlite3.connect(database)) as con:
+                    con.row_factory = sqlite3.Row
+                    if con.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='feedback'").fetchone():
+                        rows = [dict(row) for row in con.execute('SELECT * FROM feedback ORDER BY created_at DESC,id DESC LIMIT ?', (max(1, min(500, args.limit)),))]
+            output({'feedback': rows})
+        elif args.command == 'help-admin-default':
+            output(make_help_store(settings).set_default_admin(args.admin))
+        elif args.command == 'help-assign':
+            output(make_help_store(settings).assign_admin(args.learner, None if args.default_admin else args.admin))
+        elif args.command == 'help-assignments':
+            output(make_help_store(settings).assignments())
+        elif args.command == 'account-permissions':
+            if args.topics is None and args.features is None and not args.default_topics and not args.default_features and args.is_advanced_learner is None and args.is_student is None:
+                raise DomainError('permissions_required', '请指定权限列表、恢复默认权限或学习者资格。', 422)
+            output(make_access_store(settings).set_permissions(
+                args.learner, split_permissions(args.topics), split_permissions(args.features),
+                reset_topics=args.default_topics, reset_features=args.default_features,
+                is_advanced_learner=args.is_advanced_learner, is_student=args.is_student))
+        elif args.command == 'pair':
+            # An exact origin and a local, manually supplied credential are both required.
+            origins = tuple(dict.fromkeys([*settings.allowed_origins, args.origin]))
+            Settings(data_dir=settings.data_dir, port=settings.port, allowed_origins=origins)
+            settings.data_dir.mkdir(parents=True, exist_ok=True)
+            credential, salt = secrets.token_urlsafe(32), secrets.token_hex(16)
+            (settings.data_dir / 'pairing.json').write_text(json.dumps({'salt': salt, 'digest': hashlib.sha256((salt + credential).encode()).hexdigest()}), encoding='utf-8')
+            config = {'course_path': str(settings.course_path), 'judge_project': str(settings.judge_project),
+                      'port': settings.port, 'allowed_origins': origins,
+                      'public_api_origin': settings.public_api_origin,
+                      'catalog_path': str(settings.catalog_path), 'guide_path': str(settings.guide_path)}
+            (settings.data_dir / 'settings.json').write_text(json.dumps(config, ensure_ascii=False, indent=2), encoding='utf-8')
+            print('请将下面的本机配对码输入你信任的学习网页；不要发给他人。新增来源需重启学习服务后生效。')
+            print(credential)
+        elif args.command == 'export-web':
+            if args.api_origin:
+                Settings(public_api_origin=args.api_origin)
+            if args.output.exists():
+                raise DomainError('export_exists', '导出目标必须是新目录。', 422)
+            shutil.copytree(Path(__file__).resolve().parent.parent / 'web', args.output)
+            (args.output / 'deployment.json').write_text(json.dumps({'api_origin': args.api_origin}, indent=2) + '\n', encoding='utf-8')
+            (args.output / '.nojekyll').write_text('', encoding='utf-8')
+            output({'static_export': str(args.output), 'published': False, 'contains_course_or_credentials': False})
+    except (DomainError, FileNotFoundError, ValueError) as exc:
+        print(str(exc), file=sys.stderr)
+        raise SystemExit(2)
+
+
+if __name__ == '__main__':
+    main()

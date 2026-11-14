@@ -1,0 +1,911 @@
+{
+  "id": "jp06-modifiers-and-listing",
+  "title": "6. 连体修饰语序与并列列举助词",
+  "subject_id": "japanese",
+  "course_id": "japanese-grammar-core",
+  "course_title": "日本語文法 · 核心语法掌握",
+  "topic_format_version": 2,
+  "topic_kind": "lesson",
+  "training_mode": "atomic_retrieval",
+  "version": "jp-grammar-3fe05abe2efe",
+  "content_version": "3fe05abe2efe7a59",
+  "course_version": "2c0589397073ff8a",
+  "source_rem_id": "Pu9aItzklny3OlLlK",
+  "source_sha256": "3fe05abe2efe7a593be688a63779b928215b92946e6d050b126c96caae01791c",
+  "sections": [
+    {
+      "id": "sec-jp06-modifiers",
+      "title": "一、连体修饰句（3.10.1〜3.10.3）与语序本质（3.10.4）",
+      "level": 1,
+      "parent_id": null
+    },
+    {
+      "id": "sec-jp06-noun-particles",
+      "title": "二、名词关联助词：と（3.11.2）、や/とか（3.11.3）与万能の（3.11.4〜3.11.5）",
+      "level": 1,
+      "parent_id": null
+    }
+  ],
+  "introductions": [
+    {
+      "id": "intro-jp06-modifiers",
+      "section_id": "sec-jp06-modifiers",
+      "title": "无关系代词的连体修饰小句（3.10.1〜3.10.3）与谓语后置铁律（3.10.4）",
+      "html": "<h3>一、核心概念与状态表达小句修饰名词（3.10.1〜3.10.2）</h3><p>英语定语从句需要关系代词（<em>who / which / that</em>）并放在名词后面；日语<strong>不需要任何关系代词</strong>，动词活用形和状态小句在行为上如同「い形容词」，<strong>直接放在被修饰名词之前</strong>。</p><p><strong>状态表达小句修饰名词规律</strong>：在所有否定与过去活用形态中，名词和な形容词小句可直接前置修饰名词，形态与在句末独立结句时完全一致；<strong>只有“非过去肯定”不得用「だ」直接修饰名词</strong>，必须按词类分别替换为<strong>「の」</strong>（名词）或<strong>「な」</strong>（な形容词）。</p><table class=\"jp-table\"><thead><tr><th>时态 / 极性</th><th>能否直接用句末形态修饰名词</th><th>正确示例</th></tr></thead><tbody><tr><td>非过去肯定</td><td><strong>不可以直接用「だ」</strong>（名词→「の」，な形→「な」）</td><td><ruby>学生<rp>(</rp><rt>がくせい</rt><rp>)</rp></ruby><strong>の</strong><ruby>人<rp>(</rp><rt>ひと</rt><rp>)</rp></ruby> ／ <ruby>静<rp>(</rp><rt>しず</rt><rp>)</rp></ruby>か<strong>な</strong><ruby>部屋<rp>(</rp><rt>へや</rt><rp>)</rp></ruby></td></tr><tr><td>非过去否定</td><td>可以（直接用「じゃない / ではない」）</td><td><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>学生<rp>(</rp><rt>がくせい</rt><rp>)</rp></ruby>じゃない<ruby>人<rp>(</rp><rt>ひと</rt><rp>)</rp></ruby>は、<ruby>学校<rp>(</rp><rt>がっこう</rt><rp>)</rp></ruby>に<ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>かない。</div><div class=\"jp-romaji\">gakusei janai hito wa, gakkō ni ikanai.</div><div class=\"jp-zh\">不是学生的人不去学校。</div></div></td></tr><tr><td>过去肯定</td><td>可以（直接用「だった」）</td><td><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>子供<rp>(</rp><rt>こども</rt><rp>)</rp></ruby>だったアリスが<ruby>立派<rp>(</rp><rt>りっぱ</rt><rp>)</rp></ruby>な<ruby>大人<rp>(</rp><rt>おとな</rt><rp>)</rp></ruby>になった。</div><div class=\"jp-romaji\">kodomo datta arisu ga rippa na otona ni natta.</div><div class=\"jp-zh\">曾经是孩子的爱丽丝成了优秀的大人。</div></div></td></tr><tr><td>过去肯定（带时间）</td><td>可以（直接用「だった」）</td><td><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>先週<rp>(</rp><rt>せんしゅう</rt><rp>)</rp></ruby>に<ruby>医者<rp>(</rp><rt>いしゃ</rt><rp>)</rp></ruby>だったボブは、<ruby>仕事<rp>(</rp><rt>しごと</rt><rp>)</rp></ruby>を<ruby>辞<rp>(</rp><rt>や</rt><rp>)</rp></ruby>めた。</div><div class=\"jp-romaji\">senshū ni isha datta bobu wa, shigoto o yameta.</div><div class=\"jp-zh\">上周还是医生的鲍勃辞职了。</div></div></td></tr><tr><td>过去否定</td><td>可以（直接用「じゃなかった」）</td><td><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>友達<rp>(</rp><rt>ともだち</rt><rp>)</rp></ruby>じゃなかったアリスは、いい<ruby>友達<rp>(</rp><rt>ともだち</rt><rp>)</rp></ruby>になった。</div><div class=\"jp-romaji\">tomodachi janakatta arisu wa, ii tomodachi ni natta.</div><div class=\"jp-zh\">过去不是朋友的爱丽丝成了好朋友。</div></div></td></tr></tbody></table><p><strong>补充：名词直接并列（Chaining of nouns）</strong>：多个名词直接组合构成复合词时中间不加任何助词，如 <span class=\"jp-term\"><ruby>国際教育<rp>(</rp><rt>こくさいきょういく</rt><rp>)</rp></ruby>センター<span class=\"jp-romaji\"> kokusai kyōiku sentā</span></span>（国际教育中心）、<span class=\"jp-term\"><ruby>登場人物<rp>(</rp><rt>とうじょうじんぶつ</rt><rp>)</rp></ruby><span class=\"jp-romaji\"> tōjō jinbutsu</span></span>（登场人物）、<span class=\"jp-term\"><ruby>立入禁止<rp>(</rp><rt>たちいりきんし</rt><rp>)</rp></ruby><span class=\"jp-romaji\"> tachiiri kinshi</span></span>（禁止入内）。</p><h3>二、动词小句修饰名词与嵌套定语（3.10.3）</h3><p>任何完整动词小句（包含时间、场所、主语、宾语），只要谓语保持<strong>简体（辞书形・〜ない形・〜た形・〜なかった形）</strong>，都能直接置于名词前作定语，甚至多层嵌套：</p><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>先週<rp>(</rp><rt>せんしゅう</rt><rp>)</rp></ruby>に<ruby>映画<rp>(</rp><rt>えいが</rt><rp>)</rp></ruby>を<ruby>見<rp>(</rp><rt>み</rt><rp>)</rp></ruby>た<ruby>人<rp>(</rp><rt>ひと</rt><rp>)</rp></ruby>は<ruby>誰<rp>(</rp><rt>だれ</rt><rp>)</rp></ruby>？</div><div class=\"jp-romaji\">senshū ni eiga o mita hito wa dare?</div><div class=\"jp-zh\">上周看了电影的人是谁？</div></div><div class=\"jp-ex\"><div class=\"jp-ja\">ボブは、いつも<ruby>勉強<rp>(</rp><rt>べんきょう</rt><rp>)</rp></ruby>する<ruby>人<rp>(</rp><rt>ひと</rt><rp>)</rp></ruby>だ。</div><div class=\"jp-romaji\">bobu wa, itsumo benkyō suru hito da.</div><div class=\"jp-zh\">鲍勃是一个总是学习的人。</div></div><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>赤<rp>(</rp><rt>あか</rt><rp>)</rp></ruby>いズボンを<ruby>買<rp>(</rp><rt>か</rt><rp>)</rp></ruby>う<ruby>友達<rp>(</rp><rt>ともだち</rt><rp>)</rp></ruby>はボブだ。</div><div class=\"jp-romaji\">akai zubon o kau tomodachi wa bobu da.</div><div class=\"jp-zh\">买红裤子的朋友是鲍勃。</div></div><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>晩<rp>(</rp><rt>ばん</rt><rp>)</rp></ruby>ご<ruby>飯<rp>(</rp><rt>はん</rt><rp>)</rp></ruby>を<ruby>食<rp>(</rp><rt>た</rt><rp>)</rp></ruby>べなかった<ruby>人<rp>(</rp><rt>ひと</rt><rp>)</rp></ruby>は、<ruby>映画<rp>(</rp><rt>えいが</rt><rp>)</rp></ruby>で<ruby>見<rp>(</rp><rt>み</rt><rp>)</rp></ruby>た<ruby>銀行<rp>(</rp><rt>ぎんこう</rt><rp>)</rp></ruby>に<ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>った。</div><div class=\"jp-romaji\">bangohan o tabenakatta hito wa, eiga de mita ginkō ni itta.</div><div class=\"jp-zh\">没吃晚饭的人去了在电影里看过的银行。<span class=\"jp-note\">—— 嵌套修饰句：「食べなかった」修饰「人」，「見た」修饰「銀行」</span></div></div><h3>三、日语语序本质：谓语后置铁律与前部语序自由调换（3.10.4）</h3><p>并非“英语 SVO、日语只是死板的 SOV 倒装”。日语唯一必不可少且必须位于句末的是<strong>主句动词/谓语</strong>（如单说 <span class=\"jp-term\"><ruby>食<rp>(</rp><rt>た</rt><rp>)</rp></ruby>べた。<span class=\"jp-romaji\"> tabeta.</span></span>（吃了。） 在语法上就是完整句子）；因为助词（<code>は・が・を・で</code>）已明确指定每个名词的角色，动词前面各成分的顺序可以自由调换：</p><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>私<rp>(</rp><rt>わたし</rt><rp>)</rp></ruby>は<ruby>公園<rp>(</rp><rt>こうえん</rt><rp>)</rp></ruby>でお<ruby>弁当<rp>(</rp><rt>べんとう</rt><rp>)</rp></ruby>を<ruby>食<rp>(</rp><rt>た</rt><rp>)</rp></ruby>べた。 ＝ <ruby>公園<rp>(</rp><rt>こうえん</rt><rp>)</rp></ruby>で<ruby>私<rp>(</rp><rt>わたし</rt><rp>)</rp></ruby>はお<ruby>弁当<rp>(</rp><rt>べんとう</rt><rp>)</rp></ruby>を<ruby>食<rp>(</rp><rt>た</rt><rp>)</rp></ruby>べた。 ＝ お<ruby>弁当<rp>(</rp><rt>べんとう</rt><rp>)</rp></ruby>を<ruby>私<rp>(</rp><rt>わたし</rt><rp>)</rp></ruby>は<ruby>公園<rp>(</rp><rt>こうえん</rt><rp>)</rp></ruby>で<ruby>食<rp>(</rp><rt>た</rt><rp>)</rp></ruby>べた。</div><div class=\"jp-romaji\">watashi wa kōen de obentō o tabeta.</div><div class=\"jp-zh\">主语、场所、宾语位置互换意思完全成立；连体修饰句永远置于名词前（お弁当を食べた学生が公園に行った）。</div></div>"
+    },
+    {
+      "id": "intro-jp06-noun-particles",
+      "section_id": "sec-jp06-noun-particles",
+      "title": "名词关联助词：「と」「や・とか」与万能助词「の」（3.11.2〜3.11.5）",
+      "html": "<h3>一、完全列举/同伴助词「と」（3.11.2）与模糊列举「や・とか」（3.11.3）</h3><ul><li><strong>完全列举（穷尽列出，无他项）</strong>：<div class=\"jp-ex\"><div class=\"jp-ja\">スプーン<strong>と</strong>フォークで<ruby>魚<rp>(</rp><rt>さかな</rt><rp>)</rp></ruby>を<ruby>食<rp>(</rp><rt>た</rt><rp>)</rp></ruby>べた。</div><div class=\"jp-romaji\">supūn to fōku de sakana o tabeta.</div><div class=\"jp-zh\">用勺子和叉子吃了鱼。</div></div><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>本<rp>(</rp><rt>ほん</rt><rp>)</rp></ruby><strong>と</strong><ruby>雑誌<rp>(</rp><rt>ざっし</rt><rp>)</rp></ruby><strong>と</strong><ruby>葉書<rp>(</rp><rt>はがき</rt><rp>)</rp></ruby>を<ruby>買<rp>(</rp><rt>か</rt><rp>)</rp></ruby>った。</div><div class=\"jp-romaji\">hon to zasshi to hagaki o katta.</div><div class=\"jp-zh\">买了书、杂志和明信片。</div></div></li><li><strong>共同动作对象 & 自动词「会う」辨析</strong>：<div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>友達<rp>(</rp><rt>ともだち</rt><rp>)</rp></ruby><strong>と</strong><ruby>話<rp>(</rp><rt>はな</rt><rp>)</rp></ruby>した。</div><div class=\"jp-romaji\">tomodachi to hanashita.</div><div class=\"jp-zh\">和朋友说话了。<span class=\"jp-note\">—— 对比对某人单向诉说可用「友達に話した」</span></div></div><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>先生<rp>(</rp><rt>せんせい</rt><rp>)</rp></ruby><strong>と</strong><ruby>会<rp>(</rp><rt>あ</rt><rp>)</rp></ruby>った。</div><div class=\"jp-romaji\">sensei to atta.</div><div class=\"jp-zh\">与老师见面了。<span class=\"jp-note\">—— 「会う」是自动词，只能配「に / と」，绝不可用「*友達を会う」</span></div></div><div class=\"jp-tip\"><strong>「と」的连接禁区：</strong><strong>「と」只能连接名词或名词短语</strong>，绝不能像英语 <em>and</em> 那样去直接连接两个动词、两个形容词或两个句子！</div></li><li><strong>不完全/模糊列举「や」（书面/标准）与「とか」（口语/随性）</strong>：暗示“……和……等（还有其他未提及事物）”：<div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>飲<rp>(</rp><rt>の</rt><rp>)</rp></ruby>み<ruby>物<rp>(</rp><rt>もの</rt><rp>)</rp></ruby><strong>や</strong>カップ<strong>や</strong>ナプキンは、いらない？ ／ <ruby>靴<rp>(</rp><rt>くつ</rt><rp>)</rp></ruby><strong>や</strong>シャツを<ruby>買<rp>(</rp><rt>か</rt><rp>)</rp></ruby>う。</div><div class=\"jp-romaji\">nomimono ya kappu ya napukin wa, iranai? / kutsu ya shatsu o kau.</div><div class=\"jp-zh\">饮料、杯子、餐巾纸之类的不需要吗？／ 买鞋子、衬衫等。</div></div><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>飲<rp>(</rp><rt>の</rt><rp>)</rp></ruby>み<ruby>物<rp>(</rp><rt>もの</rt><rp>)</rp></ruby><strong>とか</strong>カップ<strong>とか</strong>ナプキンは、いらない？ ／ <ruby>靴<rp>(</rp><rt>くつ</rt><rp>)</rp></ruby><strong>とか</strong>シャツを<ruby>買<rp>(</rp><rt>か</rt><rp>)</rp></ruby>う。</div><div class=\"jp-romaji\">nomimono toka kappu toka napukin wa, iranai? / kutsu toka shatsu o kau.</div><div class=\"jp-zh\">饮料、杯子、餐巾纸什么的不需要吗？／ 买鞋子、衬衫什么的。</div></div></li></ul><h3>二、万能助词「の」的三大名词功能（3.11.4）与句尾解释语气（3.11.5）</h3><ol><li><strong>连接名词修饰名词（领属/属性/身份）</strong>：<code>ボブの本</code>（鲍勃的书）、<code>日本語の先生</code>（日语老师）、<code>メキシコ人の友達</code>（墨西哥朋友）。</li><li><strong>代称化（替代已知上文名词，相当于 one / thing）</strong>：<div class=\"jp-ex\"><div class=\"jp-ja\">そのシャツは<ruby>誰<rp>(</rp><rt>だれ</rt><rp>)</rp></ruby><strong>の</strong>？ — ボブ<strong>の</strong>だ。</div><div class=\"jp-romaji\">sono shatsu wa dare no? — bobu no da.</div><div class=\"jp-zh\">那件衬衫是谁的？——是鲍勃的[那件]。</div></div></li><li><strong>形容词/动词小句名词化（Nominalization）</strong>：接「の」后即可充当主语或宾语，且不用像 <code>物（具体物体）</code> 或 <code>こと（抽象事件）</code> 那样区分具象与抽象：<div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>白<rp>(</rp><rt>しろ</rt><rp>)</rp></ruby>い<strong>の</strong>は、かわいい。 ／ <ruby>授業<rp>(</rp><rt>じゅぎょう</rt><rp>)</rp></ruby>に<ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>く<strong>の</strong>を<ruby>忘<rp>(</rp><rt>わす</rt><rp>)</rp></ruby>れた。</div><div class=\"jp-romaji\">shiroi no wa, kawaii. / jugyō ni iku no o wasureta.</div><div class=\"jp-zh\">白色的那个很可爱（对比：白い物 具体物体）。／ 忘了去上课这件事（对比：授業に行くこと 抽象事件）。</div></div></li><li><strong>句尾说明/解释语气（3.11.5 Explanatory Tone）</strong>：置于句末赋予“其实是……嘛 / 事情是这样的”语气；接续「ようだ」等时仍保留名词用「の」、な形容词用「な」：<div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>今<rp>(</rp><rt>いま</rt><rp>)</rp></ruby>は<ruby>忙<rp>(</rp><rt>いそが</rt><rp>)</rp></ruby>しい<strong>の</strong>。 ／ <ruby>学生<rp>(</rp><rt>がくせい</rt><rp>)</rp></ruby><strong>の</strong>ようだ。 ／ ここは<ruby>静<rp>(</rp><rt>しず</rt><rp>)</rp></ruby>か<strong>な</strong>ようだ。</div><div class=\"jp-romaji\">ima wa isogashii no. / gakusei no yō da. / koko wa shizuka na yō da.</div><div class=\"jp-zh\">（其实）我现在挺忙的嘛。／ 看似是学生。／ 这里看似很安静。</div></div></li></ol>"
+    }
+  ],
+  "introduction": {
+    "id": "intro-jp06-modifiers",
+    "section_id": "sec-jp06-modifiers",
+    "title": "无关系代词的连体修饰小句（3.10.1〜3.10.3）与谓语后置铁律（3.10.4）",
+    "html": "<h3>一、核心概念与状态表达小句修饰名词（3.10.1〜3.10.2）</h3><p>英语定语从句需要关系代词（<em>who / which / that</em>）并放在名词后面；日语<strong>不需要任何关系代词</strong>，动词活用形和状态小句在行为上如同「い形容词」，<strong>直接放在被修饰名词之前</strong>。</p><p><strong>状态表达小句修饰名词规律</strong>：在所有否定与过去活用形态中，名词和な形容词小句可直接前置修饰名词，形态与在句末独立结句时完全一致；<strong>只有“非过去肯定”不得用「だ」直接修饰名词</strong>，必须按词类分别替换为<strong>「の」</strong>（名词）或<strong>「な」</strong>（な形容词）。</p><table class=\"jp-table\"><thead><tr><th>时态 / 极性</th><th>能否直接用句末形态修饰名词</th><th>正确示例</th></tr></thead><tbody><tr><td>非过去肯定</td><td><strong>不可以直接用「だ」</strong>（名词→「の」，な形→「な」）</td><td><ruby>学生<rp>(</rp><rt>がくせい</rt><rp>)</rp></ruby><strong>の</strong><ruby>人<rp>(</rp><rt>ひと</rt><rp>)</rp></ruby> ／ <ruby>静<rp>(</rp><rt>しず</rt><rp>)</rp></ruby>か<strong>な</strong><ruby>部屋<rp>(</rp><rt>へや</rt><rp>)</rp></ruby></td></tr><tr><td>非过去否定</td><td>可以（直接用「じゃない / ではない」）</td><td><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>学生<rp>(</rp><rt>がくせい</rt><rp>)</rp></ruby>じゃない<ruby>人<rp>(</rp><rt>ひと</rt><rp>)</rp></ruby>は、<ruby>学校<rp>(</rp><rt>がっこう</rt><rp>)</rp></ruby>に<ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>かない。</div><div class=\"jp-romaji\">gakusei janai hito wa, gakkō ni ikanai.</div><div class=\"jp-zh\">不是学生的人不去学校。</div></div></td></tr><tr><td>过去肯定</td><td>可以（直接用「だった」）</td><td><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>子供<rp>(</rp><rt>こども</rt><rp>)</rp></ruby>だったアリスが<ruby>立派<rp>(</rp><rt>りっぱ</rt><rp>)</rp></ruby>な<ruby>大人<rp>(</rp><rt>おとな</rt><rp>)</rp></ruby>になった。</div><div class=\"jp-romaji\">kodomo datta arisu ga rippa na otona ni natta.</div><div class=\"jp-zh\">曾经是孩子的爱丽丝成了优秀的大人。</div></div></td></tr><tr><td>过去肯定（带时间）</td><td>可以（直接用「だった」）</td><td><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>先週<rp>(</rp><rt>せんしゅう</rt><rp>)</rp></ruby>に<ruby>医者<rp>(</rp><rt>いしゃ</rt><rp>)</rp></ruby>だったボブは、<ruby>仕事<rp>(</rp><rt>しごと</rt><rp>)</rp></ruby>を<ruby>辞<rp>(</rp><rt>や</rt><rp>)</rp></ruby>めた。</div><div class=\"jp-romaji\">senshū ni isha datta bobu wa, shigoto o yameta.</div><div class=\"jp-zh\">上周还是医生的鲍勃辞职了。</div></div></td></tr><tr><td>过去否定</td><td>可以（直接用「じゃなかった」）</td><td><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>友達<rp>(</rp><rt>ともだち</rt><rp>)</rp></ruby>じゃなかったアリスは、いい<ruby>友達<rp>(</rp><rt>ともだち</rt><rp>)</rp></ruby>になった。</div><div class=\"jp-romaji\">tomodachi janakatta arisu wa, ii tomodachi ni natta.</div><div class=\"jp-zh\">过去不是朋友的爱丽丝成了好朋友。</div></div></td></tr></tbody></table><p><strong>补充：名词直接并列（Chaining of nouns）</strong>：多个名词直接组合构成复合词时中间不加任何助词，如 <span class=\"jp-term\"><ruby>国際教育<rp>(</rp><rt>こくさいきょういく</rt><rp>)</rp></ruby>センター<span class=\"jp-romaji\"> kokusai kyōiku sentā</span></span>（国际教育中心）、<span class=\"jp-term\"><ruby>登場人物<rp>(</rp><rt>とうじょうじんぶつ</rt><rp>)</rp></ruby><span class=\"jp-romaji\"> tōjō jinbutsu</span></span>（登场人物）、<span class=\"jp-term\"><ruby>立入禁止<rp>(</rp><rt>たちいりきんし</rt><rp>)</rp></ruby><span class=\"jp-romaji\"> tachiiri kinshi</span></span>（禁止入内）。</p><h3>二、动词小句修饰名词与嵌套定语（3.10.3）</h3><p>任何完整动词小句（包含时间、场所、主语、宾语），只要谓语保持<strong>简体（辞书形・〜ない形・〜た形・〜なかった形）</strong>，都能直接置于名词前作定语，甚至多层嵌套：</p><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>先週<rp>(</rp><rt>せんしゅう</rt><rp>)</rp></ruby>に<ruby>映画<rp>(</rp><rt>えいが</rt><rp>)</rp></ruby>を<ruby>見<rp>(</rp><rt>み</rt><rp>)</rp></ruby>た<ruby>人<rp>(</rp><rt>ひと</rt><rp>)</rp></ruby>は<ruby>誰<rp>(</rp><rt>だれ</rt><rp>)</rp></ruby>？</div><div class=\"jp-romaji\">senshū ni eiga o mita hito wa dare?</div><div class=\"jp-zh\">上周看了电影的人是谁？</div></div><div class=\"jp-ex\"><div class=\"jp-ja\">ボブは、いつも<ruby>勉強<rp>(</rp><rt>べんきょう</rt><rp>)</rp></ruby>する<ruby>人<rp>(</rp><rt>ひと</rt><rp>)</rp></ruby>だ。</div><div class=\"jp-romaji\">bobu wa, itsumo benkyō suru hito da.</div><div class=\"jp-zh\">鲍勃是一个总是学习的人。</div></div><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>赤<rp>(</rp><rt>あか</rt><rp>)</rp></ruby>いズボンを<ruby>買<rp>(</rp><rt>か</rt><rp>)</rp></ruby>う<ruby>友達<rp>(</rp><rt>ともだち</rt><rp>)</rp></ruby>はボブだ。</div><div class=\"jp-romaji\">akai zubon o kau tomodachi wa bobu da.</div><div class=\"jp-zh\">买红裤子的朋友是鲍勃。</div></div><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>晩<rp>(</rp><rt>ばん</rt><rp>)</rp></ruby>ご<ruby>飯<rp>(</rp><rt>はん</rt><rp>)</rp></ruby>を<ruby>食<rp>(</rp><rt>た</rt><rp>)</rp></ruby>べなかった<ruby>人<rp>(</rp><rt>ひと</rt><rp>)</rp></ruby>は、<ruby>映画<rp>(</rp><rt>えいが</rt><rp>)</rp></ruby>で<ruby>見<rp>(</rp><rt>み</rt><rp>)</rp></ruby>た<ruby>銀行<rp>(</rp><rt>ぎんこう</rt><rp>)</rp></ruby>に<ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>った。</div><div class=\"jp-romaji\">bangohan o tabenakatta hito wa, eiga de mita ginkō ni itta.</div><div class=\"jp-zh\">没吃晚饭的人去了在电影里看过的银行。<span class=\"jp-note\">—— 嵌套修饰句：「食べなかった」修饰「人」，「見た」修饰「銀行」</span></div></div><h3>三、日语语序本质：谓语后置铁律与前部语序自由调换（3.10.4）</h3><p>并非“英语 SVO、日语只是死板的 SOV 倒装”。日语唯一必不可少且必须位于句末的是<strong>主句动词/谓语</strong>（如单说 <span class=\"jp-term\"><ruby>食<rp>(</rp><rt>た</rt><rp>)</rp></ruby>べた。<span class=\"jp-romaji\"> tabeta.</span></span>（吃了。） 在语法上就是完整句子）；因为助词（<code>は・が・を・で</code>）已明确指定每个名词的角色，动词前面各成分的顺序可以自由调换：</p><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>私<rp>(</rp><rt>わたし</rt><rp>)</rp></ruby>は<ruby>公園<rp>(</rp><rt>こうえん</rt><rp>)</rp></ruby>でお<ruby>弁当<rp>(</rp><rt>べんとう</rt><rp>)</rp></ruby>を<ruby>食<rp>(</rp><rt>た</rt><rp>)</rp></ruby>べた。 ＝ <ruby>公園<rp>(</rp><rt>こうえん</rt><rp>)</rp></ruby>で<ruby>私<rp>(</rp><rt>わたし</rt><rp>)</rp></ruby>はお<ruby>弁当<rp>(</rp><rt>べんとう</rt><rp>)</rp></ruby>を<ruby>食<rp>(</rp><rt>た</rt><rp>)</rp></ruby>べた。 ＝ お<ruby>弁当<rp>(</rp><rt>べんとう</rt><rp>)</rp></ruby>を<ruby>私<rp>(</rp><rt>わたし</rt><rp>)</rp></ruby>は<ruby>公園<rp>(</rp><rt>こうえん</rt><rp>)</rp></ruby>で<ruby>食<rp>(</rp><rt>た</rt><rp>)</rp></ruby>べた。</div><div class=\"jp-romaji\">watashi wa kōen de obentō o tabeta.</div><div class=\"jp-zh\">主语、场所、宾语位置互换意思完全成立；连体修饰句永远置于名词前（お弁当を食べた学生が公園に行った）。</div></div>"
+  },
+  "modules": [],
+  "content_order": [
+    {
+      "kind": "introduction",
+      "id": "intro-jp06-modifiers"
+    },
+    {
+      "kind": "introduction",
+      "id": "intro-jp06-noun-particles"
+    }
+  ],
+  "content_nodes": [],
+  "references": [],
+  "memory_chunks": [
+    {
+      "id": "chunk-jp06-state-subclause",
+      "introduction_id": "intro-jp06-modifiers",
+      "title": "状态表达小句修饰名词与非过去肯定「の/な」例外",
+      "html": "<p>「じゃない・だった・じゃなかった」直接修饰名词；仅非过去肯定禁「だ」而换「の」（名词）或「な」（な形）。另有直接名词罗列。</p>",
+      "anchors": [
+        {
+          "start": 0,
+          "end": 32,
+          "quote": "一、核心概念与状态表达小句修饰名词（3.10.1〜3.10.2）"
+        }
+      ],
+      "points": [
+        {
+          "id": "p-jp06-state-mod",
+          "text": "修饰名词时否定（じゃない）、过去（だった）、过去否定（じゃなかった）与句末一致直接前置；唯非过去肯定禁止用「だ」须换「の/な」。"
+        }
+      ]
+    },
+    {
+      "id": "chunk-jp06-verb-subclause-order",
+      "introduction_id": "intro-jp06-modifiers",
+      "title": "动词小句前置定语（无关系代词）与谓语后置・语序调换",
+      "html": "<p>完整简体动词小句直接放名词前支持嵌套；主句谓语必放句末，动词前各成分因助词标位可自由调换。</p>",
+      "anchors": [
+        {
+          "start": 954,
+          "end": 977,
+          "quote": "二、动词小句修饰名词与嵌套定语（3.10.3）"
+        },
+        {
+          "start": 1449,
+          "end": 1481,
+          "quote": "三、日语语序本质：谓语后置铁律与前部语序自由调换（3.10.4）"
+        }
+      ],
+      "points": [
+        {
+          "id": "p-jp06-verb-mod",
+          "text": "日语无关系代词，简体动词小句直接前置修饰名词且支持嵌套（晩ご飯を食べなかった人は映画で見た銀行に行った）。"
+        },
+        {
+          "id": "p-jp06-sentence-order",
+          "text": "主句核心谓语必须置于句末（单动词即可成句），谓语前面带格助词的各成分顺序可自由调换，定语小句必在名词前。"
+        }
+      ]
+    },
+    {
+      "id": "chunk-jp06-to-ya-toka",
+      "introduction_id": "intro-jp06-noun-particles",
+      "title": "完全列举/同伴「と」（只连名词・会う配にと）与模糊列举「や/とか」",
+      "html": "<p>「と」表穷尽列举与共同同伴（只连名词）；「会う」为自动词只能配「に/と」；「や/とか」表不完全模糊列举。</p>",
+      "anchors": [
+        {
+          "start": 0,
+          "end": 41,
+          "quote": "一、完全列举/同伴助词「と」（3.11.2）与模糊列举「や・とか」（3.11.3）"
+        }
+      ],
+      "points": [
+        {
+          "id": "p-jp06-to-particle",
+          "text": "「と」只连名词或短语（不可连形容词/动词/句子），表穷尽列举及同伴（「会う」属自动词须用「友達に/と会う」，禁用「を」）。"
+        },
+        {
+          "id": "p-jp06-ya-toka",
+          "text": "「や」（偏书面）与「とか」（口语随性）用于不完全模糊列举，暗示还有未列尽的事物。"
+        }
+      ]
+    },
+    {
+      "id": "chunk-jp06-no-particle",
+      "introduction_id": "intro-jp06-noun-particles",
+      "title": "万能「の」三大名词功能与句尾说明语气（含「ようだ」接续）",
+      "html": "<p>「の」用于属性连接、代称化(one)、形容词/动词名词化（对比 物/こと）以及句尾说明语气（「ようだ」前名词用「の」な形用「な」）。</p>",
+      "anchors": [
+        {
+          "start": 752,
+          "end": 791,
+          "quote": "二、万能助词「の」的三大名词功能（3.11.4）与句尾解释语气（3.11.5）"
+        }
+      ],
+      "points": [
+        {
+          "id": "p-jp06-no-3uses",
+          "text": "「の」兼任名词连接（日本語の先生）、代称（誰の？→ボブのだ）及小句名词化（白いの・行くのを忘れた，无需区分具体物与抽象こと）。"
+        },
+        {
+          "id": "p-jp06-no-explain",
+          "text": "句末「の」表解释说明语气（今は忙しいの）；「ようだ」前仍遵守名词用「の」（学生のようだ）、な形用「な」（静かなようだ）。"
+        }
+      ]
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "fc-jp06-01",
+      "title": "状态否定小句直接修饰名词",
+      "point_ids": [
+        "p-jp06-state-mod"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "状态否定直接置于名词前作定语：“不是学生的人不去学校”：\n学生{{blank:b1}}人は、学校に行かない。（不是学生的人不去学校。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">状态否定直接置于名词前作定语：“不是学生的人不去学校”：</p><p class=\"jp-ja\"><ruby>学生<rp>(</rp><rt>がくせい</rt><rp>)</rp></ruby>{{blank:b1}}<ruby>人<rp>(</rp><rt>ひと</rt><rp>)</rp></ruby>は、<ruby>学校<rp>(</rp><rt>がっこう</rt><rp>)</rp></ruby>に<ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>かない。</p><p class=\"jp-romaji\">gakusei [ ? ] hito wa, gakkō ni ikanai.</p><p class=\"jp-zh\">不是学生的人不去学校。</p></div>",
+      "reference_answer": "じゃない",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>学生<rp>(</rp><rt>がくせい</rt><rp>)</rp></ruby><strong>じゃない</strong><ruby>人<rp>(</rp><rt>ひと</rt><rp>)</rp></ruby>は、<ruby>学校<rp>(</rp><rt>がっこう</rt><rp>)</rp></ruby>に<ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>かない。</div><div class=\"jp-romaji\">gakusei janai hito wa, gakkō ni ikanai.</div><p>否定形「じゃない / ではない」在句末与修饰名词时的形态完全一致，可直接前置。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "否定状态（简体）",
+            "answers": [
+              "じゃない",
+              "ではない"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp06-02",
+      "title": "状态过去小句直接修饰名词",
+      "point_ids": [
+        "p-jp06-state-mod"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "填入状态过去形，修饰“鲍勃”：“上周还是医生的鲍勃辞职了”：\n先週に医者{{blank:b1}}ボブは、仕事を辞めた。（上周还是医生的鲍勃辞职了。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">填入状态过去形，修饰“鲍勃”：“上周还是医生的鲍勃辞职了”：</p><p class=\"jp-ja\"><ruby>先週<rp>(</rp><rt>せんしゅう</rt><rp>)</rp></ruby>に<ruby>医者<rp>(</rp><rt>いしゃ</rt><rp>)</rp></ruby>{{blank:b1}}ボブは、<ruby>仕事<rp>(</rp><rt>しごと</rt><rp>)</rp></ruby>を<ruby>辞<rp>(</rp><rt>や</rt><rp>)</rp></ruby>めた。</p><p class=\"jp-romaji\">senshū ni isha [ ? ] bobu wa, shigoto o yameta.</p><p class=\"jp-zh\">上周还是医生的鲍勃辞职了。</p></div>",
+      "reference_answer": "だった",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>先週<rp>(</rp><rt>せんしゅう</rt><rp>)</rp></ruby>に<ruby>医者<rp>(</rp><rt>いしゃ</rt><rp>)</rp></ruby><strong>だった</strong>ボブは、<ruby>仕事<rp>(</rp><rt>しごと</rt><rp>)</rp></ruby>を<ruby>辞<rp>(</rp><rt>や</rt><rp>)</rp></ruby>めた。</div><div class=\"jp-romaji\">senshū ni isha datta bobu wa, shigoto o yameta.</div><p>过去形「だった」可直接置于名词前充当定语从句。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "过去状态（简体）",
+            "answers": [
+              "だった"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp06-03",
+      "title": "状态过去否定小句直接修饰名词",
+      "point_ids": [
+        "p-jp06-state-mod"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "填入过去否定状态：“过去不是朋友的爱丽丝成了好朋友”：\n友達{{blank:b1}}アリスは、いい友達になった。（过去不是朋友的爱丽丝成了好朋友。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">填入过去否定状态：“过去不是朋友的爱丽丝成了好朋友”：</p><p class=\"jp-ja\"><ruby>友達<rp>(</rp><rt>ともだち</rt><rp>)</rp></ruby>{{blank:b1}}アリスは、いい<ruby>友達<rp>(</rp><rt>ともだち</rt><rp>)</rp></ruby>になった。</p><p class=\"jp-romaji\">tomodachi [ ? ] arisu wa, ii tomodachi ni natta.</p><p class=\"jp-zh\">过去不是朋友的爱丽丝成了好朋友。</p></div>",
+      "reference_answer": "じゃなかった",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>友達<rp>(</rp><rt>ともだち</rt><rp>)</rp></ruby><strong>じゃなかった</strong>アリスは、いい<ruby>友達<rp>(</rp><rt>ともだち</rt><rp>)</rp></ruby>になった。</div><div class=\"jp-romaji\">tomodachi janakatta arisu wa, ii tomodachi ni natta.</div><p>过去否定「じゃなかった / ではなかった」直接前置修饰名词。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "过去否定状态（简体）",
+            "answers": [
+              "じゃなかった",
+              "ではなかった"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp06-04",
+      "title": "非过去肯定修饰唯一例外：の vs な",
+      "point_ids": [
+        "p-jp06-state-mod"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "依次填入非过去肯定状态下直接修饰名词所需的连接形式：\n学生{{blank:b1}}人 ／ 静か{{blank:b2}}部屋（是学生的人 ／ 安静的房间）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">依次填入非过去肯定状态下直接修饰名词所需的连接形式：</p><p class=\"jp-ja\"><ruby>学生<rp>(</rp><rt>がくせい</rt><rp>)</rp></ruby>{{blank:b1}}<ruby>人<rp>(</rp><rt>ひと</rt><rp>)</rp></ruby> ／ <ruby>静<rp>(</rp><rt>しず</rt><rp>)</rp></ruby>か{{blank:b2}}<ruby>部屋<rp>(</rp><rt>へや</rt><rp>)</rp></ruby></p><p class=\"jp-romaji\">gakusei [ ? ] hito / shizuka [ ? ] heya</p><p class=\"jp-zh\">是学生的人 ／ 安静的房间</p></div>",
+      "reference_answer": "の；な",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>学生<rp>(</rp><rt>がくせい</rt><rp>)</rp></ruby><strong>の</strong><ruby>人<rp>(</rp><rt>ひと</rt><rp>)</rp></ruby> ／ <ruby>静<rp>(</rp><rt>しず</rt><rp>)</rp></ruby>か<strong>な</strong><ruby>部屋<rp>(</rp><rt>へや</rt><rp>)</rp></ruby></div><div class=\"jp-romaji\">gakusei no hito / shizuka na heya</div><p>仅“非过去肯定”需避开「だ」：名词用「の」，な形容词用「な」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "名词定语",
+            "answers": [
+              "の"
+            ]
+          },
+          {
+            "id": "b2",
+            "label": "な形定语",
+            "answers": [
+              "な"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp06-05",
+      "title": "动词过去小句前置修饰名词",
+      "point_ids": [
+        "p-jp06-verb-mod"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "将动词「見る」变为过去简体，直接放于「人」前作定语：“上周看了电影的人是谁？”\n先週に映画を{{blank:b1}}人は誰？（上周看了电影的人是谁？）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">将动词「見る」变为过去简体，直接放于「人」前作定语：“上周看了电影的人是谁？”</p><p class=\"jp-ja\"><ruby>先週<rp>(</rp><rt>せんしゅう</rt><rp>)</rp></ruby>に<ruby>映画<rp>(</rp><rt>えいが</rt><rp>)</rp></ruby>を{{blank:b1}}<ruby>人<rp>(</rp><rt>ひと</rt><rp>)</rp></ruby>は<ruby>誰<rp>(</rp><rt>だれ</rt><rp>)</rp></ruby>？</p><p class=\"jp-romaji\">senshū ni eiga o [ ? ] hito wa dare?</p><p class=\"jp-zh\">上周看了电影的人是谁？</p></div>",
+      "reference_answer": "見た",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>先週<rp>(</rp><rt>せんしゅう</rt><rp>)</rp></ruby>に<ruby>映画<rp>(</rp><rt>えいが</rt><rp>)</rp></ruby>を<strong><ruby>見<rp>(</rp><rt>み</rt><rp>)</rp></ruby>た</strong><ruby>人<rp>(</rp><rt>ひと</rt><rp>)</rp></ruby>は<ruby>誰<rp>(</rp><rt>だれ</rt><rp>)</rp></ruby>？</div><div class=\"jp-romaji\">senshū ni eiga o mita hito wa dare?</div><p>日语不需关系代词，保持简体的动词小句直接放在被修饰名词「人」前面。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "見る 过去简体",
+            "answers": [
+              "見た",
+              "みた"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp06-06",
+      "title": "多层嵌套连体修饰句",
+      "point_ids": [
+        "p-jp06-verb-mod"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "分别将「食べる（过去否定简体）」与「見る（过去肯定简体）」填入两个嵌套定语小句：\n晩ご飯を{{blank:b1}}人は、映画で{{blank:b2}}銀行に行った。（没吃晚饭的人去了在电影里看过的银行。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">分别将「食べる（过去否定简体）」与「見る（过去肯定简体）」填入两个嵌套定语小句：</p><p class=\"jp-ja\"><ruby>晩<rp>(</rp><rt>ばん</rt><rp>)</rp></ruby>ご<ruby>飯<rp>(</rp><rt>はん</rt><rp>)</rp></ruby>を{{blank:b1}}<ruby>人<rp>(</rp><rt>ひと</rt><rp>)</rp></ruby>は、<ruby>映画<rp>(</rp><rt>えいが</rt><rp>)</rp></ruby>で{{blank:b2}}<ruby>銀行<rp>(</rp><rt>ぎんこう</rt><rp>)</rp></ruby>に<ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>った。</p><p class=\"jp-romaji\">bangohan o [ ? ] hito wa, eiga de [ ? ] ginkō ni itta.</p><p class=\"jp-zh\">没吃晚饭的人去了在电影里看过的银行。</p></div>",
+      "reference_answer": "食べなかった；見た",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>晩<rp>(</rp><rt>ばん</rt><rp>)</rp></ruby>ご<ruby>飯<rp>(</rp><rt>はん</rt><rp>)</rp></ruby>を<strong><ruby>食<rp>(</rp><rt>た</rt><rp>)</rp></ruby>べなかった</strong><ruby>人<rp>(</rp><rt>ひと</rt><rp>)</rp></ruby>は、<ruby>映画<rp>(</rp><rt>えいが</rt><rp>)</rp></ruby>で<strong><ruby>見<rp>(</rp><rt>み</rt><rp>)</rp></ruby>た</strong><ruby>銀行<rp>(</rp><rt>ぎんこう</rt><rp>)</rp></ruby>に<ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>った。</div><div class=\"jp-romaji\">bangohan o tabenakatta hito wa, eiga de mita ginkō ni itta.</div><p>「食べなかった」修饰「人」，「映画で見た」修饰「銀行」，均须保持简体。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "食べる 过去否定",
+            "answers": [
+              "食べなかった",
+              "たべなかった"
+            ]
+          },
+          {
+            "id": "b2",
+            "label": "見る 过去肯定",
+            "answers": [
+              "見た",
+              "みた"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp06-07",
+      "title": "动词辞书形小句修饰名词",
+      "point_ids": [
+        "p-jp06-verb-mod"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "用习惯/经常性动词辞书形「勉強する」修饰「人」：“鲍勃是一个总是学习的人”：\nボブは、いつも{{blank:b1}}人だ。（鲍勃是一个总是学习的人。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">用习惯/经常性动词辞书形「勉強する」修饰「人」：“鲍勃是一个总是学习的人”：</p><p class=\"jp-ja\">ボブは、いつも{{blank:b1}}<ruby>人<rp>(</rp><rt>ひと</rt><rp>)</rp></ruby>だ。</p><p class=\"jp-romaji\">bobu wa, itsumo [ ? ] hito da.</p><p class=\"jp-zh\">鲍勃是一个总是学习的人。</p></div>",
+      "reference_answer": "勉強する",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\">ボブは、いつも<strong><ruby>勉強<rp>(</rp><rt>べんきょう</rt><rp>)</rp></ruby>する</strong><ruby>人<rp>(</rp><rt>ひと</rt><rp>)</rp></ruby>だ。</div><div class=\"jp-romaji\">bobu wa, itsumo benkyō suru hito da.</div><p>动作习惯用简体辞书形「勉強する」直接置在「人」之前修饰。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "学习（辞书形）",
+            "answers": [
+              "勉強する",
+              "べんきょうする"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp06-08",
+      "title": "语序自由调换：靠格助词准确还原角色",
+      "point_ids": [
+        "p-jp06-sentence-order"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "即使把宾语提至句首、场所放在后面，只要助词正确意思就完全不变，依次填入三个格助词：\nお弁当{{blank:b1}}私{{blank:b2}}公園{{blank:b3}}食べた。（（至于我，）在公园吃了便当。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">即使把宾语提至句首、场所放在后面，只要助词正确意思就完全不变，依次填入三个格助词：</p><p class=\"jp-ja\">お<ruby>弁当<rp>(</rp><rt>べんとう</rt><rp>)</rp></ruby>{{blank:b1}}<ruby>私<rp>(</rp><rt>わたし</rt><rp>)</rp></ruby>{{blank:b2}}<ruby>公園<rp>(</rp><rt>こうえん</rt><rp>)</rp></ruby>{{blank:b3}}<ruby>食<rp>(</rp><rt>た</rt><rp>)</rp></ruby>べた。</p><p class=\"jp-romaji\">obentō [ ? ] watashi [ ? ] kōen [ ? ] tabeta.</p><p class=\"jp-zh\">（至于我，）在公园吃了便当。</p></div>",
+      "reference_answer": "を；は；で",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\">お<ruby>弁当<rp>(</rp><rt>べんとう</rt><rp>)</rp></ruby><strong>を</strong><ruby>私<rp>(</rp><rt>わたし</rt><rp>)</rp></ruby><strong>は</strong><ruby>公園<rp>(</rp><rt>こうえん</rt><rp>)</rp></ruby><strong>で</strong><ruby>食<rp>(</rp><rt>た</rt><rp>)</rp></ruby>べた。</div><div class=\"jp-romaji\">obentō o watashi wa kōen de tabeta.</div><p>核心谓语「食べた」留在句末；前面靠「を / は / で」锁定成分功能，语序可自由调换。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "宾语助词",
+            "answers": [
+              "を"
+            ]
+          },
+          {
+            "id": "b2",
+            "label": "主题助词",
+            "answers": [
+              "は"
+            ]
+          },
+          {
+            "id": "b3",
+            "label": "活动场所",
+            "answers": [
+              "で"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp06-09",
+      "title": "修饰小句 + 句末谓语语序整合",
+      "point_ids": [
+        "p-jp06-sentence-order"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "依次填入从句修饰后的主语标识助词与移动精准终点助词：\nお弁当を食べた学生{{blank:b1}}公園{{blank:b2}}行った。（吃了便当的学生去了公园（到达目的地）。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">依次填入从句修饰后的主语标识助词与移动精准终点助词：</p><p class=\"jp-ja\">お<ruby>弁当<rp>(</rp><rt>べんとう</rt><rp>)</rp></ruby>を<ruby>食<rp>(</rp><rt>た</rt><rp>)</rp></ruby>べた<ruby>学生<rp>(</rp><rt>がくせい</rt><rp>)</rp></ruby>{{blank:b1}}<ruby>公園<rp>(</rp><rt>こうえん</rt><rp>)</rp></ruby>{{blank:b2}}<ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>った。</p><p class=\"jp-romaji\">obentō o tabeta gakusei [ ? ] kōen [ ? ] itta.</p><p class=\"jp-zh\">吃了便当的学生去了公园（到达目的地）。</p></div>",
+      "reference_answer": "が；に",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\">お<ruby>弁当<rp>(</rp><rt>べんとう</rt><rp>)</rp></ruby>を<ruby>食<rp>(</rp><rt>た</rt><rp>)</rp></ruby>べた<ruby>学生<rp>(</rp><rt>がくせい</rt><rp>)</rp></ruby><strong>が</strong><ruby>公園<rp>(</rp><rt>こうえん</rt><rp>)</rp></ruby><strong>に</strong><ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>った。</div><div class=\"jp-romaji\">obentō o tabeta gakusei ga kōen ni itta.</div><p>连体修饰句置于「学生」前，全句主句谓语「行った」置于句末。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "主格助词",
+            "answers": [
+              "が"
+            ]
+          },
+          {
+            "id": "b2",
+            "label": "精准目的地终点",
+            "answers": [
+              "に"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp06-10",
+      "title": "完全列举助词「と」（两项全含）",
+      "point_ids": [
+        "p-jp06-to-particle"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "表示穷尽列举“用勺子和叉子（仅这两样）吃了鱼”：\nスプーン{{blank:b1}}フォークで魚を食べた。（用勺子和叉子吃了鱼。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">表示穷尽列举“用勺子和叉子（仅这两样）吃了鱼”：</p><p class=\"jp-ja\">スプーン{{blank:b1}}フォークで<ruby>魚<rp>(</rp><rt>さかな</rt><rp>)</rp></ruby>を<ruby>食<rp>(</rp><rt>た</rt><rp>)</rp></ruby>べた。</p><p class=\"jp-romaji\">supūn [ ? ] fōku de sakana o tabeta.</p><p class=\"jp-zh\">用勺子和叉子吃了鱼。</p></div>",
+      "reference_answer": "と",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\">スプーン<strong>と</strong>フォークで<ruby>魚<rp>(</rp><rt>さかな</rt><rp>)</rp></ruby>を<ruby>食<rp>(</rp><rt>た</rt><rp>)</rp></ruby>べた。</div><div class=\"jp-romaji\">supūn to fōku de sakana o tabeta.</div><p>「と」用于连接名词作穷尽式完全列举。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "完全列举助词",
+            "answers": [
+              "と"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp06-11",
+      "title": "三项以上完全列举连用「と」",
+      "point_ids": [
+        "p-jp06-to-particle"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "穷尽列举“买了书、杂志和明信片（仅此三样）”：\n本{{blank:b1}}雑誌{{blank:b2}}葉書を買った。（买了书、杂志和明信片。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">穷尽列举“买了书、杂志和明信片（仅此三样）”：</p><p class=\"jp-ja\"><ruby>本<rp>(</rp><rt>ほん</rt><rp>)</rp></ruby>{{blank:b1}}<ruby>雑誌<rp>(</rp><rt>ざっし</rt><rp>)</rp></ruby>{{blank:b2}}<ruby>葉書<rp>(</rp><rt>はがき</rt><rp>)</rp></ruby>を<ruby>買<rp>(</rp><rt>か</rt><rp>)</rp></ruby>った。</p><p class=\"jp-romaji\">hon [ ? ] zasshi [ ? ] hagaki o katta.</p><p class=\"jp-zh\">买了书、杂志和明信片。</p></div>",
+      "reference_answer": "と；と",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>本<rp>(</rp><rt>ほん</rt><rp>)</rp></ruby><strong>と</strong><ruby>雑誌<rp>(</rp><rt>ざっし</rt><rp>)</rp></ruby><strong>と</strong><ruby>葉書<rp>(</rp><rt>はがき</rt><rp>)</rp></ruby>を<ruby>買<rp>(</rp><rt>か</rt><rp>)</rp></ruby>った。</div><div class=\"jp-romaji\">hon to zasshi to hagaki o katta.</div><p>多项名词穷尽列举时在各名词间依次放入「と」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "第一个并列",
+            "answers": [
+              "と"
+            ]
+          },
+          {
+            "id": "b2",
+            "label": "第二个并列",
+            "answers": [
+              "と"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp06-12",
+      "title": "自动词「会う」的伴随对象助词「と」",
+      "point_ids": [
+        "p-jp06-to-particle"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "请填入表示“与某人一起会面”的伴随对象助词：\n先生{{blank:b1}}会った。（与老师见面了。（共同同伴））",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">请填入表示“与某人一起会面”的伴随对象助词：</p><p class=\"jp-ja\"><ruby>先生<rp>(</rp><rt>せんせい</rt><rp>)</rp></ruby>{{blank:b1}}<ruby>会<rp>(</rp><rt>あ</rt><rp>)</rp></ruby>った。</p><p class=\"jp-romaji\">sensei [ ? ] atta.</p><p class=\"jp-zh\">与老师见面了。（共同同伴）</p></div>",
+      "reference_answer": "と",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>先生<rp>(</rp><rt>せんせい</rt><rp>)</rp></ruby><strong>と</strong><ruby>会<rp>(</rp><rt>あ</rt><rp>)</rp></ruby>った。</div><div class=\"jp-romaji\">sensei to atta.</div><p>与人会面可用「と（同伴）」或「に（对象）」，绝不可误用「*先生を会った」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "同伴助词",
+            "answers": [
+              "と"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp06-13",
+      "title": "共同同伴「と」：和朋友交谈",
+      "point_ids": [
+        "p-jp06-to-particle"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "区分“对某人单向说（に）”与“和朋友互相交谈”，填入同伴助词：\n友達{{blank:b1}}話した。（和朋友说话了。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">区分“对某人单向说（に）”与“和朋友互相交谈”，填入同伴助词：</p><p class=\"jp-ja\"><ruby>友達<rp>(</rp><rt>ともだち</rt><rp>)</rp></ruby>{{blank:b1}}<ruby>話<rp>(</rp><rt>はな</rt><rp>)</rp></ruby>した。</p><p class=\"jp-romaji\">tomodachi [ ? ] hanashita.</p><p class=\"jp-zh\">和朋友说话了。</p></div>",
+      "reference_answer": "と",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>友達<rp>(</rp><rt>ともだち</rt><rp>)</rp></ruby><strong>と</strong><ruby>話<rp>(</rp><rt>はな</rt><rp>)</rp></ruby>した。</div><div class=\"jp-romaji\">tomodachi to hanashita.</div><p>表示共同互动的对象用「と」（「友達に話した」侧重单向诉说）。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "共同对象助词",
+            "answers": [
+              "と"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp06-14",
+      "title": "书面/标准不完全列举「や」",
+      "point_ids": [
+        "p-jp06-ya-toka"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "暗示除了列举出的鞋子和衬衫之外还有其他未提及物品，填入【标准模糊列举助词】：\n靴{{blank:b1}}シャツを買う。（买鞋子、衬衫等。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">暗示除了列举出的鞋子和衬衫之外还有其他未提及物品，填入【标准模糊列举助词】：</p><p class=\"jp-ja\"><ruby>靴<rp>(</rp><rt>くつ</rt><rp>)</rp></ruby>{{blank:b1}}シャツを<ruby>買<rp>(</rp><rt>か</rt><rp>)</rp></ruby>う。</p><p class=\"jp-romaji\">kutsu [ ? ] shatsu o kau.</p><p class=\"jp-zh\">买鞋子、衬衫等。</p></div>",
+      "reference_answer": "や",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>靴<rp>(</rp><rt>くつ</rt><rp>)</rp></ruby><strong>や</strong>シャツを<ruby>買<rp>(</rp><rt>か</rt><rp>)</rp></ruby>う。</div><div class=\"jp-romaji\">kutsu ya shatsu o kau.</div><p>「や」用于不完全列举代表性示例，意为“……和……等”。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "模糊列举助词",
+            "answers": [
+              "や"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp06-15",
+      "title": "口语化模糊列举「とか」",
+      "point_ids": [
+        "p-jp06-ya-toka"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "使用更为随性、【口语化的模糊列举助词】补全两处空缺：\n飲み物{{blank:b1}}カップ{{blank:b2}}ナプキンは、いらない？（饮料、杯子、餐巾纸什么的不需要吗？）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">使用更为随性、【口语化的模糊列举助词】补全两处空缺：</p><p class=\"jp-ja\"><ruby>飲<rp>(</rp><rt>の</rt><rp>)</rp></ruby>み<ruby>物<rp>(</rp><rt>もの</rt><rp>)</rp></ruby>{{blank:b1}}カップ{{blank:b2}}ナプキンは、いらない？</p><p class=\"jp-romaji\">nomimono [ ? ] kappu [ ? ] napukin wa, iranai?</p><p class=\"jp-zh\">饮料、杯子、餐巾纸什么的不需要吗？</p></div>",
+      "reference_answer": "とか；とか",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>飲<rp>(</rp><rt>の</rt><rp>)</rp></ruby>み<ruby>物<rp>(</rp><rt>もの</rt><rp>)</rp></ruby><strong>とか</strong>カップ<strong>とか</strong>ナプキンは、いらない？</div><div class=\"jp-romaji\">nomimono toka kappu toka napukin wa, iranai?</div><p>「とか」功能与「や」相同，但更具口语随性感。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "口语列举一",
+            "answers": [
+              "とか"
+            ]
+          },
+          {
+            "id": "b2",
+            "label": "口语列举二",
+            "answers": [
+              "とか"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp06-16",
+      "title": "「の」的代称化（替代上文已知物）",
+      "point_ids": [
+        "p-jp06-no-3uses"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "填入可替代上文已知名词、避免重复「シャツ」的代称助词（等同英语的 one）：\nそのシャツは誰{{blank:b1}}？ — ボブ{{blank:b2}}だ。（那件衬衫是谁的？——是鲍勃的（那件）。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">填入可替代上文已知名词、避免重复「シャツ」的代称助词（等同英语的 one）：</p><p class=\"jp-ja\">そのシャツは<ruby>誰<rp>(</rp><rt>だれ</rt><rp>)</rp></ruby>{{blank:b1}}？ — ボブ{{blank:b2}}だ。</p><p class=\"jp-romaji\">sono shatsu wa dare [ ? ]? — bobu [ ? ] da.</p><p class=\"jp-zh\">那件衬衫是谁的？——是鲍勃的（那件）。</p></div>",
+      "reference_answer": "の；の",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\">そのシャツは<ruby>誰<rp>(</rp><rt>だれ</rt><rp>)</rp></ruby><strong>の</strong>？ — ボブ<strong>の</strong>だ。</div><div class=\"jp-romaji\">sono shatsu wa dare no? — bobu no da.</div><p>「の」能替代语境已知的名词，避免重复说出「シャツ」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "提问代称",
+            "answers": [
+              "の"
+            ]
+          },
+          {
+            "id": "b2",
+            "label": "回答代称",
+            "answers": [
+              "の"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp06-17",
+      "title": "「の」将形容词与动词小句名词化",
+      "point_ids": [
+        "p-jp06-no-3uses"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "分别将形容词「白い」与动词小句「授業に行く」转化为名词成分：\n白い{{blank:b1}}は、かわいい。 ／ 授業に行く{{blank:b2}}を忘れた。（白色的那个很可爱。／ 忘了去上课这件事。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">分别将形容词「白い」与动词小句「授業に行く」转化为名词成分：</p><p class=\"jp-ja\"><ruby>白<rp>(</rp><rt>しろ</rt><rp>)</rp></ruby>い{{blank:b1}}は、かわいい。 ／ <ruby>授業<rp>(</rp><rt>じゅぎょう</rt><rp>)</rp></ruby>に<ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>く{{blank:b2}}を<ruby>忘<rp>(</rp><rt>わす</rt><rp>)</rp></ruby>れた。</p><p class=\"jp-romaji\">shiroi [ ? ] wa, kawaii. / jugyō ni iku [ ? ] o wasureta.</p><p class=\"jp-zh\">白色的那个很可爱。／ 忘了去上课这件事。</p></div>",
+      "reference_answer": "の；の",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>白<rp>(</rp><rt>しろ</rt><rp>)</rp></ruby>い<strong>の</strong>は、かわいい。 ／ <ruby>授業<rp>(</rp><rt>じゅぎょう</rt><rp>)</rp></ruby>に<ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>く<strong>の</strong>を<ruby>忘<rp>(</rp><rt>わす</rt><rp>)</rp></ruby>れた。</div><div class=\"jp-romaji\">shiroi no wa, kawaii. / jugyō ni iku no o wasureta.</div><p>「の」作为通用名词化助词，可接在形容词或动词小句后直接充当主语或宾语。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "形容词名词化",
+            "answers": [
+              "の"
+            ]
+          },
+          {
+            "id": "b2",
+            "label": "动词小句名词化",
+            "answers": [
+              "の"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp06-18",
+      "title": "「物」vs「こと」与「の」的精细对比",
+      "point_ids": [
+        "p-jp06-no-3uses"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "如果不用通用「の」而要明确区分为【具体实物】与【抽象事件/概念】，分别应接：\n白い{{blank:b1}}（具体物体） ／ 授業に行く{{blank:b2}}（抽象事件）（白色的物体 ／ 去上课这件事）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">如果不用通用「の」而要明确区分为【具体实物】与【抽象事件/概念】，分别应接：</p><p class=\"jp-ja\"><ruby>白<rp>(</rp><rt>しろ</rt><rp>)</rp></ruby>い{{blank:b1}}（具体物体） ／ <ruby>授業<rp>(</rp><rt>じゅぎょう</rt><rp>)</rp></ruby>に<ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>く{{blank:b2}}（抽象事件）</p><p class=\"jp-romaji\">shiroi [ ? ] / jugyō ni iku [ ? ]</p><p class=\"jp-zh\">白色的物体 ／ 去上课这件事</p></div>",
+      "reference_answer": "物；こと",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>白<rp>(</rp><rt>しろ</rt><rp>)</rp></ruby>い<strong><ruby>物<rp>(</rp><rt>もの</rt><rp>)</rp></ruby></strong> ／ <ruby>授業<rp>(</rp><rt>じゅぎょう</rt><rp>)</rp></ruby>に<ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>く<strong>こと</strong></div><div class=\"jp-romaji\">shiroi mono / jugyō ni iku koto</div><p>「物（もの）」特指具体实物，「こと」特指抽象概念事件；而「の」可同时涵盖两者。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "具体物体",
+            "answers": [
+              "物",
+              "もの"
+            ]
+          },
+          {
+            "id": "b2",
+            "label": "抽象事件",
+            "answers": [
+              "こと",
+              "事"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp06-19",
+      "title": "句末说明/解释语气「の」",
+      "point_ids": [
+        "p-jp06-no-explain"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "在句尾填入赋予“其实是……嘛”说明解释语气的助词：\n今は忙しい{{blank:b1}}。（（其实）我现在挺忙的嘛。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">在句尾填入赋予“其实是……嘛”说明解释语气的助词：</p><p class=\"jp-ja\"><ruby>今<rp>(</rp><rt>いま</rt><rp>)</rp></ruby>は<ruby>忙<rp>(</rp><rt>いそが</rt><rp>)</rp></ruby>しい{{blank:b1}}。</p><p class=\"jp-romaji\">ima wa isogashii [ ? ].</p><p class=\"jp-zh\">（其实）我现在挺忙的嘛。</p></div>",
+      "reference_answer": "の",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>今<rp>(</rp><rt>いま</rt><rp>)</rp></ruby>は<ruby>忙<rp>(</rp><rt>いそが</rt><rp>)</rp></ruby>しい<strong>の</strong>。</div><div class=\"jp-romaji\">ima wa isogashii no.</div><p>置于句尾的「の」赋予全句说明原因、解释隐情的语气。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "句尾解释助词",
+            "answers": [
+              "の"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp06-20",
+      "title": "接续「ようだ」时名词「の」与な形「な」",
+      "point_ids": [
+        "p-jp06-no-explain"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "「ようだ（看似……）」前必须严格遵守非过去肯定修饰规律，依次填入：\n学生{{blank:b1}}ようだ。 ／ ここは静か{{blank:b2}}ようだ。（看似是学生。／ 这里看似很安静。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">「ようだ（看似……）」前必须严格遵守非过去肯定修饰规律，依次填入：</p><p class=\"jp-ja\"><ruby>学生<rp>(</rp><rt>がくせい</rt><rp>)</rp></ruby>{{blank:b1}}ようだ。 ／ ここは<ruby>静<rp>(</rp><rt>しず</rt><rp>)</rp></ruby>か{{blank:b2}}ようだ。</p><p class=\"jp-romaji\">gakusei [ ? ] yō da. / koko wa shizuka [ ? ] yō da.</p><p class=\"jp-zh\">看似是学生。／ 这里看似很安静。</p></div>",
+      "reference_answer": "の；な",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>学生<rp>(</rp><rt>がくせい</rt><rp>)</rp></ruby><strong>の</strong>ようだ。 ／ ここは<ruby>静<rp>(</rp><rt>しず</rt><rp>)</rp></ruby>か<strong>な</strong>ようだ。</div><div class=\"jp-romaji\">gakusei no yō da. / koko wa shizuka na yō da.</div><p>因为「ようだ」属于名词性助动词，修饰它时名词用「の」、な形容词用「な」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "名词接「ようだ」",
+            "answers": [
+              "の"
+            ]
+          },
+          {
+            "id": "b2",
+            "label": "な形接「ようだ」",
+            "answers": [
+              "な"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp06-21",
+      "title": "综合复盘：状态修饰 vs 动词修饰",
+      "point_ids": [
+        "p-jp06-state-mod",
+        "p-jp06-verb-mod"
+      ],
+      "learning_phases": [
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "依次补全“曾经是孩子”“不是学生”“买红裤子”三组前置定语：\n子供{{blank:b1}}アリス ／ 学生{{blank:b2}}人 ／ 赤いズボンを{{blank:b3}}友達（曾经是孩子的爱丽丝 ／ 不是学生的人 ／ 买红裤子的朋友）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">依次补全“曾经是孩子”“不是学生”“买红裤子”三组前置定语：</p><p class=\"jp-ja\"><ruby>子供<rp>(</rp><rt>こども</rt><rp>)</rp></ruby>{{blank:b1}}アリス ／ <ruby>学生<rp>(</rp><rt>がくせい</rt><rp>)</rp></ruby>{{blank:b2}}<ruby>人<rp>(</rp><rt>ひと</rt><rp>)</rp></ruby> ／ <ruby>赤<rp>(</rp><rt>あか</rt><rp>)</rp></ruby>いズボンを{{blank:b3}}<ruby>友達<rp>(</rp><rt>ともだち</rt><rp>)</rp></ruby></p><p class=\"jp-romaji\">kodomo [ ? ] arisu / gakusei [ ? ] hito / akai zubon o [ ? ] tomodachi</p><p class=\"jp-zh\">曾经是孩子的爱丽丝 ／ 不是学生的人 ／ 买红裤子的朋友</p></div>",
+      "reference_answer": "だった；じゃない；買う",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>子供<rp>(</rp><rt>こども</rt><rp>)</rp></ruby><strong>だった</strong>アリス ／ <ruby>学生<rp>(</rp><rt>がくせい</rt><rp>)</rp></ruby><strong>じゃない</strong><ruby>人<rp>(</rp><rt>ひと</rt><rp>)</rp></ruby> ／ <ruby>赤<rp>(</rp><rt>あか</rt><rp>)</rp></ruby>いズボンを<strong><ruby>買<rp>(</rp><rt>か</rt><rp>)</rp></ruby>う</strong><ruby>友達<rp>(</rp><rt>ともだち</rt><rp>)</rp></ruby></div><div class=\"jp-romaji\">kodomo datta arisu / gakusei janai hito / akai zubon o kau tomodachi</div><p>过去「だった」、否定「じゃない」与动词简体「買う」均可直接置于被修饰名词前。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "过去状态定语",
+            "answers": [
+              "だった"
+            ]
+          },
+          {
+            "id": "b2",
+            "label": "否定状态定语",
+            "answers": [
+              "じゃない",
+              "ではない"
+            ]
+          },
+          {
+            "id": "b3",
+            "label": "买（辞书形）",
+            "answers": [
+              "買う",
+              "かう"
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

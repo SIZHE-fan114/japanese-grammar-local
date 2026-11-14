@@ -1,0 +1,289 @@
+"""Introduction ownership over the existing Example-first learning engine."""
+from copy import deepcopy
+import json
+import uuid
+import html
+
+from .service import DomainError, LearningService, encode, now
+from .topic_runtime import is_introduction, reread_pending
+from .topic_composition import authored_sequence, completed_reference, section_for
+from contextlib import closing
+
+
+class OrderedLearningService(LearningService):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if not is_introduction(self.course) and not authored_sequence(self.course):
+            with self._transaction() as con:
+                state = self._load(con)
+                # The first v2 reader created mandatory standalone guidance steps.
+                # Resume those at the Example choice without changing answered work.
+                if state['status'] == 'in_progress' and self._attempt(state).get('kind') == 'introduction' and not state.get('trailing_reading'):
+                    self._start_order(state, state['order_index'])
+                    self._save(con, state)
+
+    def _reconcile_version(self, con, row):
+        if not is_introduction(self.course):
+            return super()._reconcile_version(con, row)
+        state = json.loads(row['body'])
+        if state.get('topic_kind') != 'introduction':
+            return super()._reconcile_version(con, row)
+        if state.get('content_version') != self.course['content_version']:
+            archived = {k: deepcopy(state.get(k)) for k in
+                        ('content_version', 'read_content_version', 'status', 'completed_at', 'started_at',
+                         'steps', 'attempts', 'read_introductions', 'reading_status', 'pause')}
+            state.setdefault('content_history', []).append(archived)
+            lineage = self.course.get('reading_lineage', {})
+            carried = [new for old in state.get('read_introductions', [])
+                       for new in lineage.get('introductions', {}).get(old, [])] \
+                if lineage.get('content_version') == state.get('content_version') else []
+            paused = bool(state.get('pause'))
+            state.update(content_version=self.course['content_version'], attempts=[], steps=[],
+                         read_introductions=[], introduction_read=False, pending_submission_id=None,
+                         reading_status='paused' if paused else 'in_progress',
+                         status='completed' if state.get('completed_at') else 'paused' if paused else 'in_progress')
+            state['reread_pending'] = reread_pending(self.course, state)
+            if carried:
+                state.update(read_introductions=carried, carried_introductions=carried,
+                             introduction_read=len(carried) == len(self.course['introductions']))
+            if self.course.get('bank_questions'):
+                # Keep the previous achievement in history. Newly required bank
+                # questions cannot inherit a completed reading-only Topic.
+                if state.get('completed_at'):
+                    state.setdefault('previous_completed_at', state.pop('completed_at'))
+                state.update(status='paused' if paused else 'in_progress', reread_pending=False)
+            self._start_order(state, 0)
+        state['revision'] += 1
+        con.execute('UPDATE topics SET version=?,body=? WHERE learner=? AND topic=?',
+                    (self.course['version'], encode(state), *self.key))
+
+    def _new_attempt(self, state, index):
+        if 'order_index' not in state:
+            state.update(topic_kind=self.course['topic_kind'], content_version=self.course['content_version'],
+                         read_introductions=[], read_content_version=None, reading_status='in_progress', reread_pending=False)
+            self._start_order(state, 0)
+        elif is_introduction(self.course) or index < 0:
+            self._start_order(state, state['order_index'])
+        else:
+            state['order_index'] = next(i for i, item in enumerate(self.course['content_order'])
+                                        if item['kind'] == 'example' and item['id'] == self.course['modules'][index]['id'])
+            state['reading_status'] = 'in_progress'
+            super()._new_attempt(state, index)
+
+    def _start_order(self, state, index):
+        order = self.course['content_order']
+        if not is_introduction(self.course) and not authored_sequence(self.course) and not state.get('trailing_reading'):
+            if state.get('attempts'):
+                previous = self._attempt(state)
+                if previous.get('kind') == 'introduction' and previous['status'] != 'completed':
+                    obsolete = [s for s in state['steps'] if s['attempt_id'] == previous['id']]
+                    state.setdefault('flow_history', []).append(
+                        {'reason': 'restore_example_first', 'attempt': deepcopy(previous), 'steps': deepcopy(obsolete)})
+                    previous['status'] = 'superseded'
+                    state['steps'] = [s for s in state['steps'] if s['attempt_id'] != previous['id']]
+            while index < len(order) and order[index]['kind'] == 'introduction':
+                index += 1
+        if index >= len(order):
+            state.update(status='completed', reading_status='completed', reread_pending=False,
+                         read_content_version=self.course['content_version'])
+            state.setdefault('completed_at', now())
+            state.setdefault('read_versions', {})[self.course['content_version']] = now()
+            self._add_step(state, kind='completion', phase='completed')
+            return
+        state['order_index'] = index
+        section = order[index]
+        if section['kind'] == 'example':
+            module_index = next(i for i, m in enumerate(self.course['modules']) if m['id'] == section['id'])
+            super()._new_attempt(state, module_index)
+            return
+        attempt = {'id': str(uuid.uuid4()), 'kind': section['kind'], 'module_id': section['id'],
+                   'module_index': -1, 'status': 'in_progress', 'mastery': None, 'learning_path': 'reading',
+                   'practice_error_count': 0, 'practice_answered_count': 0, 'practice_target_count': 0,
+                   'example_result': None, 'created_at': now(), 'completed_at': None, 'paused_at': None, 'pause_reason': None}
+        state['attempts'].append(attempt)
+        state['attempt_id'], state['module_index'] = attempt['id'], -1
+        self._add_step(state, kind=section['kind'])[
+            'bank_question_id' if section['kind'] == 'bank_question' else 'introduction_id'] = section['id']
+        if section['kind'] == 'introduction' and section['id'] in state.get('carried_introductions', []):
+            self._step(state)['phase'] = 'completed'
+            attempt.update(status='completed', completed_at=state.get('previous_completed_at') or now())
+            self._start_order(state, index + 1)
+
+    def _learn(self, state):
+        example = next(s for s in state['steps'] if s['attempt_id'] == state['attempt_id'] and s['kind'] == 'example')
+        earlier = self.course['content_order'][:state['order_index']]
+        last_example = next((i for i in range(len(earlier) - 1, -1, -1) if earlier[i]['kind'] == 'example'), -1)
+        group = [s['id'] for s in earlier[last_example + 1:] if s['kind'] == 'introduction']
+        if not group:
+            group = [next(s['id'] for s in reversed(earlier) if s['kind'] == 'introduction')]
+        introduction_id = group[0]
+        if any(i not in state['read_introductions'] for i in group):
+            prior = next((s for s in state['steps'] if s.get('introduction_id') == introduction_id), None)
+            if prior:
+                prior.update(phase='reading', module_id=self._attempt(state)['module_id'])
+                state['active_step_id'] = state['current_step_id'] = prior['id']
+            else:
+                self._add_step(state, kind='introduction').update(introduction_id=introduction_id, introduction_ids=group)
+        else:
+            example['phase'] = 'reading'
+            state['active_step_id'] = state['current_step_id'] = example['id']
+
+    def _module_order(self):
+        indexes = {module['id']: i for i, module in enumerate(self.course['modules'])}
+        return [indexes[item['id']] for item in self.course['content_order'] if item['kind'] == 'example']
+
+    def _next_module(self, state):
+        if is_introduction(self.course) or authored_sequence(self.course):
+            self._start_order(state, state['order_index'] + 1)
+        else:
+            super()._next_module(state)
+            tail = max(i for i, item in enumerate(self.course['content_order']) if item['kind'] == 'example') + 1
+            if state['status'] == 'completed' and tail < len(self.course['content_order']) and not state.get('trailing_reading_done'):
+                state['steps'] = [s for s in state['steps'] if s['kind'] != 'completion']
+                state.update(status='in_progress', trailing_reading=True)
+                state.pop('completed_at', None)
+                state.pop('initial_completed_at', None)
+                self._start_order(state, tail)
+            state['reading_status'] = state['status']
+            if state['status'] == 'completed':
+                state.update(reread_pending=False, read_content_version=self.course['content_version'])
+                state.setdefault('read_versions', {})[self.course['content_version']] = now()
+
+    def _guard(self, state, payload, **options):
+        effective = state
+        if state.get('reread_pending'):
+            effective = {**state, 'status': state.get('reading_status', 'in_progress')}
+        return super()._guard(effective, payload, **options)
+
+    def advance(self, payload):
+        with self._transaction() as con:
+            state = self._load(con)
+            step = self._step(state)
+            if step['kind'] == 'bank_question':
+                ordinary = False
+                replay, fingerprint = self._request(con, 'continue', payload)
+                if not replay:
+                    self._guard(state, payload)
+                    self._advance_bank_question(con, state)
+                    self._record_action(con, 'continue', payload, fingerprint)
+                    self._save(con, state)
+            elif step['kind'] != 'introduction':
+                ordinary = True
+            else:
+                ordinary = False
+                replay, fingerprint = self._request(con, 'continue', payload)
+                if not replay:
+                    self._guard(state, payload)
+                    step['phase'] = 'completed'
+                    for ident in step.get('introduction_ids', [step['introduction_id']]):
+                        if ident not in state['read_introductions']:
+                            state['read_introductions'].append(ident)
+                    state['introduction_read'] = len(state['read_introductions']) == len(self.course['introductions'])
+                    state.setdefault('started_at', now())
+                    self._event(con, state, 'introduction_read', introduction_id=step['introduction_id'])
+                    if is_introduction(self.course) or authored_sequence(self.course) or state.get('trailing_reading'):
+                        self._attempt(state).update(status='completed', completed_at=now())
+                        self._start_order(state, state['order_index'] + 1)
+                        if state['status'] == 'completed' and state.get('trailing_reading'):
+                            state.update(trailing_reading=False, trailing_reading_done=True)
+                    else:
+                        self._learn(state)
+                    self._record_action(con, 'continue', payload, fingerprint)
+                    self._save(con, state)
+        if ordinary:
+            return super().advance(payload)
+        self.flush_logs()
+        return self._public(state)
+
+    def _advance_bank_question(self, con, state):
+        self._finish_bank_question(con, state)
+        self._start_order(state, state['order_index'] + 1)
+
+    def _finish_bank_question(self, con, state):
+        item = self._require_bank_question(con, state)
+        step = self._step(state)
+        step['phase'] = 'completed'
+        self._attempt(state).update(status='completed', completed_at=now())
+        state.setdefault('started_at', now())
+        self._event(con, state, 'bank_question_completed', reference=item['reference'])
+
+    def _require_bank_question(self, con, state):
+        step = self._step(state)
+        item = next(q for q in self.course['bank_questions'] if q['id'] == step['bank_question_id'])
+        if not completed_reference(con, self.learner_id, item['reference']):
+            raise DomainError('bank_question_required', '请先完成当前题库例题，再继续学习。')
+        return item
+
+    def _public(self, state):
+        result = super()._public(state)
+        intros = {i['id']: i for i in self.course['introductions']}
+        bank_questions = {q['id']: q for q in self.course.get('bank_questions', [])}
+        for step in result['steps']:
+            saved = next((s for s in state['steps'] if s['id'] == step['id']), {})
+            group = saved.get('introduction_ids', [])
+            if step['kind'] == 'bank_question':
+                item = bank_questions[saved['bank_question_id']]
+                with closing(self._connect()) as con:
+                    done = completed_reference(con, self.learner_id, item['reference'])
+                step.update(title='例题', html='', bank_reference=item['reference'], bank_completed=done,
+                            section=section_for(self.course, item))
+                step['actions'] = ['continue'] if done and step['active'] and step['current'] \
+                    and state['status'] == 'in_progress' and not state['pending_submission_id'] else []
+            if len(group) > 1:
+                step['html'] = ''.join('<section><h3>' + html.escape(intros[i]['title']) + '</h3>' + intros[i]['html'] + '</section>' for i in group)
+                step['introduction_ids'] = group
+        result.update(topic_kind=self.course['topic_kind'], topic_format_version=2,
+                      content_order=[{'kind': section['kind'], 'id': section['id']}
+                                     for section in self.course['content_order']],
+                      content_version=self.course['content_version'], reading_status=state.get('reading_status'),
+                      reread_pending=state.get('reread_pending', False), completed_at=state.get('completed_at'))
+        if self.course.get('sections'):
+            result['sections'] = self.course['sections']
+        if state.get('reread_pending') and not state.get('pause'):
+            for step in result['steps']:
+                if step['active'] and step['current'] and step['kind'] == 'introduction':
+                    step['actions'] = ['continue']
+        if is_introduction(self.course):
+            count = len(state.get('read_introductions', []))
+            count += sum(s.get('bank_completed', False) for s in result['steps'] if s['kind'] == 'bank_question')
+            result['reading_progress'] = round(100 * count / (len(self.course['introductions']) + len(bank_questions)), 2)
+        return result
+
+    def pause(self, payload):
+        if not is_introduction(self.course):
+            return super().pause(payload)
+        with self._transaction() as con:
+            state = self._load(con)
+            replay, fingerprint = self._request(con, 'pause', payload)
+            if not replay:
+                if state.get('reading_status') == 'in_progress':
+                    self._pause(con, state, 'manual_difficulty')
+                    state['reading_status'] = 'paused'
+                    if state.get('completed_at'):
+                        state['status'] = 'completed'
+                    self._save(con, state)
+                self._record_action(con, 'pause', payload, fingerprint)
+        self.flush_logs()
+        return self._public(state)
+
+    def unlock(self, topic_id, module_id, pause_event_id):
+        if not is_introduction(self.course):
+            return super().unlock(topic_id, module_id, pause_event_id)
+        if topic_id != self.topic_id:
+            raise DomainError('wrong_topic', '解锁 Topic 不匹配。', 404)
+        with self._transaction() as con:
+            state = self._load(con)
+            previous = con.execute('SELECT * FROM unlocks WHERE pause_event=?', (pause_event_id,)).fetchone()
+            if previous:
+                if (previous['learner'], previous['topic'], previous['module']) != (*self.key, module_id):
+                    raise DomainError('unlock_mismatch', '解锁对象不匹配。')
+                return self._public(state)
+            pause = state.get('pause')
+            if not pause or pause['event_id'] != pause_event_id or pause['module_id'] != module_id:
+                raise DomainError('unlock_mismatch', '必须指定当前引论的暂停事件。')
+            state.update(pause=None, reading_status='in_progress', status='completed' if state.get('completed_at') else 'in_progress')
+            self._attempt(state)['status'] = 'in_progress'
+            self._event(con, state, 'admin_unlocked', pause_event_id=pause_event_id)
+            con.execute('INSERT INTO unlocks VALUES (?,?,?,?,?)', (pause_event_id, *self.key, module_id, state['attempt_id']))
+            self._save(con, state)
+        return self._public(state)

@@ -1,0 +1,987 @@
+{
+  "id": "jp03-adjectives-and-mo",
+  "title": "3. 形容词活用与包含助词「も」",
+  "subject_id": "japanese",
+  "course_id": "japanese-grammar-core",
+  "course_title": "日本語文法 · 核心语法掌握",
+  "topic_format_version": 2,
+  "topic_kind": "lesson",
+  "training_mode": "atomic_retrieval",
+  "version": "jp-grammar-5610ba8f7873",
+  "content_version": "5610ba8f7873d5b4",
+  "course_version": "2c0589397073ff8a",
+  "source_rem_id": "Pu9aItzklny3OlLlK",
+  "source_sha256": "5610ba8f7873d5b43740a124a79f9427462ce82684c32ad6da1b3e5f267ed278",
+  "sections": [
+    {
+      "id": "sec-jp03-adj",
+      "title": "一、い形容词与な形容词的分类及四大基础活用表",
+      "level": 1,
+      "parent_id": null
+    },
+    {
+      "id": "sec-jp03-mo",
+      "title": "二、包含助词「も」的覆盖规则与六大衍生用法",
+      "level": 1,
+      "parent_id": null
+    }
+  ],
+  "introductions": [
+    {
+      "id": "intro-jp03-adj",
+      "section_id": "sec-jp03-adj",
+      "title": "い形容词与な形容词的识别法则与两张完整活用表",
+      "html": "<h3>一、快速识别：如何区分「い形容词」与「な形容词」</h3><p>日语形容词分为两大阵营：<strong>い形容词（i-形容词）</strong>自身词尾可发生活用；<strong>な形容词（na-形容词 / 形容动词）</strong>本质像名词一样，自身词干不变，必须靠后面的断定词完成变化。</p><ul><li><strong>い形容词特征</strong>：原形字典形必然以 <code>-ii, -ai, -oi, -ui</code> 结尾，且末尾的「い」作为<strong>送假名独立露在汉字外面</strong>，例如 <span class=\"jp-term\"><ruby>高<rp>(</rp><rt>たか</rt><rp>)</rp></ruby>い<span class=\"jp-romaji\"> takai</span></span>（高/贵）、<span class=\"jp-term\"><ruby>美味<rp>(</rp><rt>おい</rt><rp>)</rp></ruby>しい<span class=\"jp-romaji\"> oishii</span></span>（好吃）、<span class=\"jp-term\"><ruby>広<rp>(</rp><rt>ひろ</rt><rp>)</rp></ruby>い<span class=\"jp-romaji\"> hiroi</span></span>（宽敞）。</li><li><strong>な形容词与“伪装者”识别</strong>：词尾不符合 <code>-ii, -ai, -oi, -ui</code> 规律（如 <span class=\"jp-term\"><ruby>有名<rp>(</rp><rt>ゆうめい</rt><rp>)</rp></ruby><span class=\"jp-romaji\"> yūmei</span></span>（有名）、<span class=\"jp-term\"><ruby>静<rp>(</rp><rt>しず</rt><rp>)</rp></ruby>か<span class=\"jp-romaji\"> shizuka</span></span>（安静）），或者虽以 /i/ 结尾但属 <code>-ei</code>（或假名包在汉字内部）的词，例如 <span class=\"jp-term\"><ruby>綺麗<rp>(</rp><rt>きれい</rt><rp>)</rp></ruby>／きれい<span class=\"jp-romaji\"> kirei</span></span>（漂亮，-ei 结尾），都属于<strong>な形容词</strong>！</li></ul><h3>二、い形容词四大基础活用（以「高い」为例）</h3><p>变形规则极为统一：<strong>去掉词尾「い」，替换为对应词尾</strong>。</p><table class=\"jp-table\"><thead><tr><th>时态 / 语态</th><th>变形规则</th><th>简体示例（高い）</th><th>敬体示例</th></tr></thead><tbody><tr><td>非过去肯定</td><td>原形</td><td><span class=\"jp-term\"><ruby>高<rp>(</rp><rt>たか</rt><rp>)</rp></ruby>い<span class=\"jp-romaji\"> takai</span></span>（高）</td><td><ruby>高<rp>(</rp><rt>たか</rt><rp>)</rp></ruby>い<strong>です</strong></td></tr><tr><td>非过去否定</td><td>去「い」+ <strong>くない</strong></td><td><span class=\"jp-term\"><ruby>高<rp>(</rp><rt>たか</rt><rp>)</rp></ruby>くない<span class=\"jp-romaji\"> takakunai</span></span>（不高）</td><td><ruby>高<rp>(</rp><rt>たか</rt><rp>)</rp></ruby>くない<strong>です</strong> ／ <ruby>高<rp>(</rp><rt>たか</rt><rp>)</rp></ruby>く<strong>ありません</strong></td></tr><tr><td>过去肯定</td><td>去「い」+ <strong>かった</strong></td><td><span class=\"jp-term\"><ruby>高<rp>(</rp><rt>たか</rt><rp>)</rp></ruby>かった<span class=\"jp-romaji\"> takakatta</span></span>（过去高）</td><td><ruby>高<rp>(</rp><rt>たか</rt><rp>)</rp></ruby>かった<strong>です</strong></td></tr><tr><td>过去否定</td><td>去「い」+ <strong>くなかった</strong></td><td><span class=\"jp-term\"><ruby>高<rp>(</rp><rt>たか</rt><rp>)</rp></ruby>くなかった<span class=\"jp-romaji\"> takakunakatta</span></span>（过去不高）</td><td><ruby>高<rp>(</rp><rt>たか</rt><rp>)</rp></ruby>くなかった<strong>です</strong> ／ <ruby>高<rp>(</rp><rt>たか</rt><rp>)</rp></ruby>く<strong>ありませんでした</strong></td></tr></tbody></table><h3>三、な形容词四大基础活用（以「静か」为例）</h3><p>な形容词直接复用名词状态断定变形：</p><table class=\"jp-table\"><thead><tr><th>时态 / 语态</th><th>变形规则</th><th>简体示例（静か）</th><th>敬体示例</th></tr></thead><tbody><tr><td>非过去肯定</td><td>词干 + (<strong>だ</strong>)</td><td><span class=\"jp-term\"><ruby>静<rp>(</rp><rt>しず</rt><rp>)</rp></ruby>か（だ）<span class=\"jp-romaji\"> shizuka (da)</span></span>（安静）</td><td><ruby>静<rp>(</rp><rt>しず</rt><rp>)</rp></ruby>か<strong>です</strong></td></tr><tr><td>非过去否定</td><td>词干 + <strong>じゃない</strong></td><td><span class=\"jp-term\"><ruby>静<rp>(</rp><rt>しず</rt><rp>)</rp></ruby>かじゃない<span class=\"jp-romaji\"> shizuka janai</span></span>（不安静）</td><td><ruby>静<rp>(</rp><rt>しず</rt><rp>)</rp></ruby>かじゃない<strong>です</strong> ／ <ruby>静<rp>(</rp><rt>しず</rt><rp>)</rp></ruby>か<strong>ではありません</strong></td></tr><tr><td>过去肯定</td><td>词干 + <strong>だった</strong></td><td><span class=\"jp-term\"><ruby>静<rp>(</rp><rt>しず</rt><rp>)</rp></ruby>かだった<span class=\"jp-romaji\"> shizuka datta</span></span>（过去安静）</td><td><ruby>静<rp>(</rp><rt>しず</rt><rp>)</rp></ruby>か<strong>でした</strong></td></tr><tr><td>过去否定</td><td>词干 + <strong>じゃなかった</strong></td><td><span class=\"jp-term\"><ruby>静<rp>(</rp><rt>しず</rt><rp>)</rp></ruby>かじゃなかった<span class=\"jp-romaji\"> shizuka janakatta</span></span>（过去不安静）</td><td><ruby>静<rp>(</rp><rt>しず</rt><rp>)</rp></ruby>かじゃなかった<strong>です</strong> ／ <ruby>静<rp>(</rp><rt>しず</rt><rp>)</rp></ruby>か<strong>ではありませんでした</strong></td></tr></tbody></table>"
+    },
+    {
+      "id": "intro-jp03-mo",
+      "section_id": "sec-jp03-mo",
+      "title": "包含助词「も」的替代与叠加规律及六大衍生表达",
+      "html": "<h3>一、包含助词「も」与「は/が/を」覆盖、其他格助词叠加</h3><p>助词「も」（mo）被称为<strong>包含主题助词（Inclusive Topic Particle）</strong>，意为“也（also / too / either）”。不同于「は」单独挑出主题，「も」提示新对象归入同性质的已知集合。</p><ul><li><strong>直接覆盖取代「は」「が」「を」</strong>：作用于主语或直接宾语时直接替换原本的 <code>は / が / を</code>，绝不能叠写成 <code>*がも</code> 或 <code>*をも</code>：<div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>千葉<rp>(</rp><rt>ちば</rt><rp>)</rp></ruby>さんは<ruby>先生<rp>(</rp><rt>せんせい</rt><rp>)</rp></ruby>です。<ruby>山田<rp>(</rp><rt>やまだ</rt><rp>)</rp></ruby>さん<strong>も</strong><ruby>先生<rp>(</rp><rt>せんせい</rt><rp>)</rp></ruby>です。</div><div class=\"jp-romaji\">chiba-san wa sensei desu. yamada-san mo sensei desu.</div><div class=\"jp-zh\">千叶先生是老师。山田女士也是老师。<span class=\"jp-note\">—— 取代主语は/が</span></div></div><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>新聞<rp>(</rp><rt>しんぶん</rt><rp>)</rp></ruby>を<ruby>買<rp>(</rp><rt>か</rt><rp>)</rp></ruby>いました。<ruby>雑誌<rp>(</rp><rt>ざっし</rt><rp>)</rp></ruby><strong>も</strong><ruby>買<rp>(</rp><rt>か</rt><rp>)</rp></ruby>いました。</div><div class=\"jp-romaji\">shinbun o kaimashita. zasshi mo kaimashita.</div><div class=\"jp-zh\">买了报纸。也买了杂志。<span class=\"jp-note\">—— 直接覆盖宾语「を」</span></div></div><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>新聞<rp>(</rp><rt>しんぶん</rt><rp>)</rp></ruby>は<ruby>買<rp>(</rp><rt>か</rt><rp>)</rp></ruby>いませんでした。<ruby>雑誌<rp>(</rp><rt>ざっし</rt><rp>)</rp></ruby><strong>も</strong><ruby>買<rp>(</rp><rt>か</rt><rp>)</rp></ruby>いませんでした。</div><div class=\"jp-romaji\">shinbun wa kaimasen deshita. zasshi mo kaimasen deshita.</div><div class=\"jp-zh\">没买报纸。也没有买杂志。<span class=\"jp-note\">—— 否定句表“也不……”</span></div></div></li><li><strong>与其他格助词（から・へ・に・で）后置叠加</strong>：「も」必须紧跟在这些格助词<strong>后面</strong>：<div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>沖縄<rp>(</rp><rt>おきなわ</rt><rp>)</rp></ruby>から<strong>も</strong><ruby>代表<rp>(</rp><rt>だいひょう</rt><rp>)</rp></ruby>が<ruby>来<rp>(</rp><rt>き</rt><rp>)</rp></ruby>ました。</div><div class=\"jp-romaji\">okinawa kara mo daihyō ga kimashita.</div><div class=\"jp-zh\">也有代表从冲绳赶来。<span class=\"jp-note\">—— から + も</span></div></div><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>長野<rp>(</rp><rt>ながの</rt><rp>)</rp></ruby>へ<strong>も</strong><ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>きました。</div><div class=\"jp-romaji\">nagano e mo ikimashita.</div><div class=\"jp-zh\">也去了长野。<span class=\"jp-note\">—— へ + も</span></div></div></li></ul><h3>二、「も」的六大衍生拓展用法</h3><ol><li><strong>疑问词 +（格助词）+ も + 否定 = 全盘否定</strong>：<div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>誰<rp>(</rp><rt>だれ</rt><rp>)</rp></ruby>も<ruby>知<rp>(</rp><rt>し</rt><rp>)</rp></ruby>らない。 ／ <ruby>何<rp>(</rp><rt>なに</rt><rp>)</rp></ruby>もない。 ／ どこに<strong>も</strong><ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>かなかった。</div><div class=\"jp-romaji\">dare mo shiranai. / nani mo nai. / doko ni mo ikanakatta.</div><div class=\"jp-zh\">谁也不知道。／ 什么也没有。／ 哪儿也没去。<span class=\"jp-note\">—— 「に」排在「も」前</span></div></div></li><li><strong>数量词 + も = 强调数量之多/超出预期</strong>：<div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>昨日<rp>(</rp><rt>きのう</rt><rp>)</rp></ruby>、<ruby>電話<rp>(</rp><rt>でんわ</rt><rp>)</rp></ruby><ruby>三回<rp>(</rp><rt>さんかい</rt><rp>)</rp></ruby><strong>も</strong>したよ！</div><div class=\"jp-romaji\">kinō, denwa sankai mo shita yo!</div><div class=\"jp-zh\">昨天足足打了三次电话！</div></div><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>試験<rp>(</rp><rt>しけん</rt><rp>)</rp></ruby>のために<ruby>三時間<rp>(</rp><rt>さんじかん</rt><rp>)</rp></ruby><strong>も</strong><ruby>勉強<rp>(</rp><rt>べんきょう</rt><rp>)</rp></ruby>した。</div><div class=\"jp-romaji\">shiken no tame ni sanjikan mo benkyō shita.</div><div class=\"jp-zh\">为了考试整整学了三个小时。</div></div><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>今年<rp>(</rp><rt>ことし</rt><rp>)</rp></ruby>、<ruby>十<rp>(</rp><rt>じゅっ</rt><rp>)</rp></ruby>キロ<strong>も</strong><ruby>太<rp>(</rp><rt>ふと</rt><rp>)</rp></ruby>っちゃった！</div><div class=\"jp-romaji\">kotoshi, jukkiro mo futotchatta!</div><div class=\"jp-zh\">今年竟然胖了整整十公斤！</div></div></li><li><strong>动词 て 形 + も = 许可与让步（即使……也 / 可以……）</strong>：<code>〜てもいい / 〜ても大丈夫 / 〜ても構わない</code> 表允许；<code>〜なくてもいい</code> 表不必：<div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>全部<rp>(</rp><rt>ぜんぶ</rt><rp>)</rp></ruby><ruby>食<rp>(</rp><rt>た</rt><rp>)</rp></ruby>べてもいいよ。 ／ <ruby>全部<rp>(</rp><rt>ぜんぶ</rt><rp>)</rp></ruby><ruby>飲<rp>(</rp><rt>の</rt><rp>)</rp></ruby>んでも<ruby>大丈夫<rp>(</rp><rt>だいじょうぶ</rt><rp>)</rp></ruby>だよ。</div><div class=\"jp-romaji\">zenbu tabete mo ii yo. / zenbu nonde mo daijōbu da yo.</div><div class=\"jp-zh\">全部吃掉也可以哦。／ 全部喝掉也没关系。</div></div><div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>全部<rp>(</rp><rt>ぜんぶ</rt><rp>)</rp></ruby><ruby>食<rp>(</rp><rt>た</rt><rp>)</rp></ruby>べなくてもいいよ。</div><div class=\"jp-romaji\">zenbu tabenakute mo ii yo.</div><div class=\"jp-zh\">不需要全部吃完（不吃也可以）。</div></div></li><li><strong>疑问词 + より + (も) = 最高级表达</strong>：<div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>商品<rp>(</rp><rt>しょうひん</rt><rp>)</rp></ruby>の<ruby>品質<rp>(</rp><rt>ひんしつ</rt><rp>)</rp></ruby>を<ruby>何<rp>(</rp><rt>なに</rt><rp>)</rp></ruby>より<ruby>大切<rp>(</rp><rt>たいせつ</rt><rp>)</rp></ruby>にしています。</div><div class=\"jp-romaji\">shōhin no hinshitsu o nani yori taisetsu ni shite imasu.</div><div class=\"jp-zh\">把产品质量看得比什么都重要。</div></div><div class=\"jp-ex\"><div class=\"jp-ja\">この<ruby>仕事<rp>(</rp><rt>しごと</rt><rp>)</rp></ruby>は<ruby>誰<rp>(</rp><rt>だれ</rt><rp>)</rp></ruby>よりも<ruby>早<rp>(</rp><rt>はや</rt><rp>)</rp></ruby>くできます。</div><div class=\"jp-romaji\">kono shigoto wa dare yori mo hayaku dekimasu.</div><div class=\"jp-zh\">这工作我做起来比任何人都快。</div></div></li><li><strong>接续助词「ながら」+ も = 转折让步（尽管……也……）</strong>：<div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>残念<rp>(</rp><rt>ざんねん</rt><rp>)</rp></ruby>ながらも ／ <ruby>貧乏<rp>(</rp><rt>びんぼう</rt><rp>)</rp></ruby>ながらも</div><div class=\"jp-romaji\">zannen nagara mo / binbō nagara mo</div><div class=\"jp-zh\">虽然很遗憾…… ／ 尽管贫穷……</div></div></li><li><strong>句中多成员叠用「A も B も」（既……也……）</strong>：<div class=\"jp-ex\"><div class=\"jp-ja\"><ruby>弟<rp>(</rp><rt>おとうと</rt><rp>)</rp></ruby>さん<strong>も</strong><ruby>妹<rp>(</rp><rt>いもうと</rt><rp>)</rp></ruby>さん<strong>も</strong><ruby>来<rp>(</rp><rt>き</rt><rp>)</rp></ruby>ました。</div><div class=\"jp-romaji\">otōto-san mo imōto-san mo kimashita.</div><div class=\"jp-zh\">弟弟和妹妹都来了。</div></div></li></ol>"
+    }
+  ],
+  "introduction": {
+    "id": "intro-jp03-adj",
+    "section_id": "sec-jp03-adj",
+    "title": "い形容词与な形容词的识别法则与两张完整活用表",
+    "html": "<h3>一、快速识别：如何区分「い形容词」与「な形容词」</h3><p>日语形容词分为两大阵营：<strong>い形容词（i-形容词）</strong>自身词尾可发生活用；<strong>な形容词（na-形容词 / 形容动词）</strong>本质像名词一样，自身词干不变，必须靠后面的断定词完成变化。</p><ul><li><strong>い形容词特征</strong>：原形字典形必然以 <code>-ii, -ai, -oi, -ui</code> 结尾，且末尾的「い」作为<strong>送假名独立露在汉字外面</strong>，例如 <span class=\"jp-term\"><ruby>高<rp>(</rp><rt>たか</rt><rp>)</rp></ruby>い<span class=\"jp-romaji\"> takai</span></span>（高/贵）、<span class=\"jp-term\"><ruby>美味<rp>(</rp><rt>おい</rt><rp>)</rp></ruby>しい<span class=\"jp-romaji\"> oishii</span></span>（好吃）、<span class=\"jp-term\"><ruby>広<rp>(</rp><rt>ひろ</rt><rp>)</rp></ruby>い<span class=\"jp-romaji\"> hiroi</span></span>（宽敞）。</li><li><strong>な形容词与“伪装者”识别</strong>：词尾不符合 <code>-ii, -ai, -oi, -ui</code> 规律（如 <span class=\"jp-term\"><ruby>有名<rp>(</rp><rt>ゆうめい</rt><rp>)</rp></ruby><span class=\"jp-romaji\"> yūmei</span></span>（有名）、<span class=\"jp-term\"><ruby>静<rp>(</rp><rt>しず</rt><rp>)</rp></ruby>か<span class=\"jp-romaji\"> shizuka</span></span>（安静）），或者虽以 /i/ 结尾但属 <code>-ei</code>（或假名包在汉字内部）的词，例如 <span class=\"jp-term\"><ruby>綺麗<rp>(</rp><rt>きれい</rt><rp>)</rp></ruby>／きれい<span class=\"jp-romaji\"> kirei</span></span>（漂亮，-ei 结尾），都属于<strong>な形容词</strong>！</li></ul><h3>二、い形容词四大基础活用（以「高い」为例）</h3><p>变形规则极为统一：<strong>去掉词尾「い」，替换为对应词尾</strong>。</p><table class=\"jp-table\"><thead><tr><th>时态 / 语态</th><th>变形规则</th><th>简体示例（高い）</th><th>敬体示例</th></tr></thead><tbody><tr><td>非过去肯定</td><td>原形</td><td><span class=\"jp-term\"><ruby>高<rp>(</rp><rt>たか</rt><rp>)</rp></ruby>い<span class=\"jp-romaji\"> takai</span></span>（高）</td><td><ruby>高<rp>(</rp><rt>たか</rt><rp>)</rp></ruby>い<strong>です</strong></td></tr><tr><td>非过去否定</td><td>去「い」+ <strong>くない</strong></td><td><span class=\"jp-term\"><ruby>高<rp>(</rp><rt>たか</rt><rp>)</rp></ruby>くない<span class=\"jp-romaji\"> takakunai</span></span>（不高）</td><td><ruby>高<rp>(</rp><rt>たか</rt><rp>)</rp></ruby>くない<strong>です</strong> ／ <ruby>高<rp>(</rp><rt>たか</rt><rp>)</rp></ruby>く<strong>ありません</strong></td></tr><tr><td>过去肯定</td><td>去「い」+ <strong>かった</strong></td><td><span class=\"jp-term\"><ruby>高<rp>(</rp><rt>たか</rt><rp>)</rp></ruby>かった<span class=\"jp-romaji\"> takakatta</span></span>（过去高）</td><td><ruby>高<rp>(</rp><rt>たか</rt><rp>)</rp></ruby>かった<strong>です</strong></td></tr><tr><td>过去否定</td><td>去「い」+ <strong>くなかった</strong></td><td><span class=\"jp-term\"><ruby>高<rp>(</rp><rt>たか</rt><rp>)</rp></ruby>くなかった<span class=\"jp-romaji\"> takakunakatta</span></span>（过去不高）</td><td><ruby>高<rp>(</rp><rt>たか</rt><rp>)</rp></ruby>くなかった<strong>です</strong> ／ <ruby>高<rp>(</rp><rt>たか</rt><rp>)</rp></ruby>く<strong>ありませんでした</strong></td></tr></tbody></table><h3>三、な形容词四大基础活用（以「静か」为例）</h3><p>な形容词直接复用名词状态断定变形：</p><table class=\"jp-table\"><thead><tr><th>时态 / 语态</th><th>变形规则</th><th>简体示例（静か）</th><th>敬体示例</th></tr></thead><tbody><tr><td>非过去肯定</td><td>词干 + (<strong>だ</strong>)</td><td><span class=\"jp-term\"><ruby>静<rp>(</rp><rt>しず</rt><rp>)</rp></ruby>か（だ）<span class=\"jp-romaji\"> shizuka (da)</span></span>（安静）</td><td><ruby>静<rp>(</rp><rt>しず</rt><rp>)</rp></ruby>か<strong>です</strong></td></tr><tr><td>非过去否定</td><td>词干 + <strong>じゃない</strong></td><td><span class=\"jp-term\"><ruby>静<rp>(</rp><rt>しず</rt><rp>)</rp></ruby>かじゃない<span class=\"jp-romaji\"> shizuka janai</span></span>（不安静）</td><td><ruby>静<rp>(</rp><rt>しず</rt><rp>)</rp></ruby>かじゃない<strong>です</strong> ／ <ruby>静<rp>(</rp><rt>しず</rt><rp>)</rp></ruby>か<strong>ではありません</strong></td></tr><tr><td>过去肯定</td><td>词干 + <strong>だった</strong></td><td><span class=\"jp-term\"><ruby>静<rp>(</rp><rt>しず</rt><rp>)</rp></ruby>かだった<span class=\"jp-romaji\"> shizuka datta</span></span>（过去安静）</td><td><ruby>静<rp>(</rp><rt>しず</rt><rp>)</rp></ruby>か<strong>でした</strong></td></tr><tr><td>过去否定</td><td>词干 + <strong>じゃなかった</strong></td><td><span class=\"jp-term\"><ruby>静<rp>(</rp><rt>しず</rt><rp>)</rp></ruby>かじゃなかった<span class=\"jp-romaji\"> shizuka janakatta</span></span>（过去不安静）</td><td><ruby>静<rp>(</rp><rt>しず</rt><rp>)</rp></ruby>かじゃなかった<strong>です</strong> ／ <ruby>静<rp>(</rp><rt>しず</rt><rp>)</rp></ruby>か<strong>ではありませんでした</strong></td></tr></tbody></table>"
+  },
+  "modules": [],
+  "content_order": [
+    {
+      "kind": "introduction",
+      "id": "intro-jp03-adj"
+    },
+    {
+      "kind": "introduction",
+      "id": "intro-jp03-mo"
+    }
+  ],
+  "content_nodes": [],
+  "references": [],
+  "memory_chunks": [
+    {
+      "id": "chunk-jp03-adj-classify",
+      "introduction_id": "intro-jp03-adj",
+      "title": "い形容词与な形容词的拼写和音节识别法",
+      "html": "<p>い形容词末假名「い」露在汉字外且呈 -ii/-ai/-oi/-ui；きれい(-ei)、静か、有名等属な形容词。</p>",
+      "anchors": [
+        {
+          "start": 0,
+          "end": 24,
+          "quote": "一、快速识别：如何区分「い形容词」与「な形容词」"
+        }
+      ],
+      "points": [
+        {
+          "id": "p-jp03-adj-id",
+          "text": "い形容词词尾为 -ii/-ai/-oi/-ui 且末尾「い」为独立送假名；きれい（-ei）、静か、有名等属于な形容词。"
+        }
+      ]
+    },
+    {
+      "id": "chunk-jp03-adj-tables",
+      "introduction_id": "intro-jp03-adj",
+      "title": "い形容词与な形容词四大基础活用表",
+      "html": "<p>い形容词去「い」换 くない/かった/くなかった；な形容词复用名词断定 だ/じゃない/だった/じゃなかった。</p>",
+      "anchors": [
+        {
+          "start": 375,
+          "end": 396,
+          "quote": "二、い形容词四大基础活用（以「高い」为例）"
+        },
+        {
+          "start": 654,
+          "end": 675,
+          "quote": "三、な形容词四大基础活用（以「静か」为例）"
+        }
+      ],
+      "points": [
+        {
+          "id": "p-jp03-i-neg-past",
+          "text": "い形容词去「い」分别换「くない」（否定）、「かった」（过去）、「くなかった」（过去否定），敬体否定另可接「くありません（でした）」。"
+        },
+        {
+          "id": "p-jp03-na-conj",
+          "text": "な形容词词干后直接接「だ/です」「じゃない/ではありません」「だった/でした」「じゃなかった/ではありませんでした」。"
+        }
+      ]
+    },
+    {
+      "id": "chunk-jp03-mo-replace",
+      "introduction_id": "intro-jp03-mo",
+      "title": "「も」覆盖「は/が/を」与后置叠加「から/へ/に/で」",
+      "html": "<p>「も」直接替换「は/が/を」（禁用 *がも/*をも），而在「から・へ・に・で」之后叠写。</p>",
+      "anchors": [
+        {
+          "start": 0,
+          "end": 27,
+          "quote": "一、包含助词「も」与「は/が/を」覆盖、其他格助词叠加"
+        }
+      ],
+      "points": [
+        {
+          "id": "p-jp03-mo-overwrite",
+          "text": "「も」会直接覆盖取代主格「は/が」和宾格「を」（如 雑誌も買いました），绝不叠写成 *がも 或 *をも。"
+        },
+        {
+          "id": "p-jp03-mo-stack",
+          "text": "与「から」「へ」「に」「で」连用时，「も」必须排在这些格助词后面（沖縄からも、長野へも、どこにも）。"
+        }
+      ]
+    },
+    {
+      "id": "chunk-jp03-mo-extensions",
+      "introduction_id": "intro-jp03-mo",
+      "title": "「も」的六大衍生用法（全盘否定・数量・て形・最高级・ながらも）",
+      "html": "<p>疑问词+も+否定=全盘否定；数量词+も表惊讶数量；〜てもいい表允许；谁よりも表最高级。</p>",
+      "anchors": [
+        {
+          "start": 712,
+          "end": 726,
+          "quote": "二、「も」的六大衍生拓展用法"
+        }
+      ],
+      "points": [
+        {
+          "id": "p-jp03-mo-wh-neg",
+          "text": "「疑问词 + (格助词) + も + 否定」表示全盘否定（誰も知らない、何もない、どこにも行かなかった）。"
+        },
+        {
+          "id": "p-jp03-mo-qty-more",
+          "text": "「数量词+も」强调数量大；「〜てもいい/〜なくてもいい」表许可与不必；「疑问词+より(も)」表最高级；「ながらも」表让步；「AもBも」表两者皆是。"
+        }
+      ]
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "fc-jp03-01",
+      "title": "伪装な形容词「きれい」修饰名词",
+      "point_ids": [
+        "p-jp03-adj-id"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "请填入“漂亮（きれい）”修饰后面名词时的正确形式：\n{{blank:b1}}部屋（漂亮的房间）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">请填入“漂亮（きれい）”修饰后面名词时的正确形式：</p><p class=\"jp-ja\">{{blank:b1}}<ruby>部屋<rp>(</rp><rt>へや</rt><rp>)</rp></ruby></p><p class=\"jp-romaji\">[ ? ] heya</p><p class=\"jp-zh\">漂亮的房间</p></div>",
+      "reference_answer": "きれいな",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><strong><ruby>綺麗<rp>(</rp><rt>きれい</rt><rp>)</rp></ruby>な</strong><ruby>部屋<rp>(</rp><rt>へや</rt><rp>)</rp></ruby></div><div class=\"jp-romaji\">kirei na heya</div><p>「きれい」以 -ei 结尾（非 -ii/-ai/-oi/-ui），是な形容词，修饰名词须加「な」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "漂亮（连体）",
+            "answers": [
+              "きれいな",
+              "綺麗な"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp03-02",
+      "title": "い形容词「広い」直接修饰名词",
+      "point_ids": [
+        "p-jp03-adj-id"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "请填入“宽敞（広い）”修饰后面名词时的正确形式：\n{{blank:b1}}部屋（宽敞的房间）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">请填入“宽敞（広い）”修饰后面名词时的正确形式：</p><p class=\"jp-ja\">{{blank:b1}}<ruby>部屋<rp>(</rp><rt>へや</rt><rp>)</rp></ruby></p><p class=\"jp-romaji\">[ ? ] heya</p><p class=\"jp-zh\">宽敞的房间</p></div>",
+      "reference_answer": "広い",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><strong><ruby>広<rp>(</rp><rt>ひろ</rt><rp>)</rp></ruby>い</strong><ruby>部屋<rp>(</rp><rt>へや</rt><rp>)</rp></ruby></div><div class=\"jp-romaji\">hiroi heya</div><p>「広い（hiroi）」以 -oi 结尾且「い」在汉字外，直接用原形修饰名词。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "宽敞的",
+            "answers": [
+              "広い",
+              "ひろい"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp03-03",
+      "title": "い形容词非过去否定简体",
+      "point_ids": [
+        "p-jp03-i-neg-past"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "将「高い（高/贵）」变为【非过去否定简体】：\n{{blank:b1}}（不高 / 不贵（简体））",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">将「高い（高/贵）」变为【非过去否定简体】：</p><p class=\"jp-ja\">{{blank:b1}}</p><p class=\"jp-romaji\">[ ? ]（高い → 非过去否定简体）</p><p class=\"jp-zh\">不高 / 不贵（简体）</p></div>",
+      "reference_answer": "高くない",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><strong><ruby>高<rp>(</rp><rt>たか</rt><rp>)</rp></ruby>くない</strong></div><div class=\"jp-romaji\">takakunai</div><p>い形容词变非过去否定：去掉「い」加「くない」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "非过去否定简体",
+            "answers": [
+              "高くない",
+              "たかくない"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp03-04",
+      "title": "い形容词过去肯定简体",
+      "point_ids": [
+        "p-jp03-i-neg-past"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "将「高い（高/贵）」变为【过去肯定简体】：\n{{blank:b1}}（过去高 / 过去贵（简体））",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">将「高い（高/贵）」变为【过去肯定简体】：</p><p class=\"jp-ja\">{{blank:b1}}</p><p class=\"jp-romaji\">[ ? ]（高い → 过去肯定简体）</p><p class=\"jp-zh\">过去高 / 过去贵（简体）</p></div>",
+      "reference_answer": "高かった",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><strong><ruby>高<rp>(</rp><rt>たか</rt><rp>)</rp></ruby>かった</strong></div><div class=\"jp-romaji\">takakatta</div><p>い形容词变过去肯定：去掉「い」加「かった」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "过去肯定简体",
+            "answers": [
+              "高かった",
+              "たかかった"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp03-05",
+      "title": "い形容词过去否定简体",
+      "point_ids": [
+        "p-jp03-i-neg-past"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "将「高い（高/贵）」变为【过去否定简体】：\n{{blank:b1}}（过去不高 / 过去不贵（简体））",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">将「高い（高/贵）」变为【过去否定简体】：</p><p class=\"jp-ja\">{{blank:b1}}</p><p class=\"jp-romaji\">[ ? ]（高い → 过去否定简体）</p><p class=\"jp-zh\">过去不高 / 过去不贵（简体）</p></div>",
+      "reference_answer": "高くなかった",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><strong><ruby>高<rp>(</rp><rt>たか</rt><rp>)</rp></ruby>くなかった</strong></div><div class=\"jp-romaji\">takakunakatta</div><p>い形容词变过去否定：去掉「い」加「くなかった」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "过去否定简体",
+            "answers": [
+              "高くなかった",
+              "たかくなかった"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp03-06",
+      "title": "い形容词过去否定敬体（〜ありませんでした式）",
+      "point_ids": [
+        "p-jp03-i-neg-past"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "用「ありません」系正式敬体写出「高い（高/贵）」的【过去否定】：\n{{blank:b1}}（过去不高（正式敬体））",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">用「ありません」系正式敬体写出「高い（高/贵）」的【过去否定】：</p><p class=\"jp-ja\">{{blank:b1}}</p><p class=\"jp-romaji\">[ ? ]（高い → 正式过去否定敬体）</p><p class=\"jp-zh\">过去不高（正式敬体）</p></div>",
+      "reference_answer": "高くありませんでした",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><strong><ruby>高<rp>(</rp><rt>たか</rt><rp>)</rp></ruby>くありませんでした</strong></div><div class=\"jp-romaji\">takaku arimasen deshita</div><p>い形容词「高い」除了「高くなかったです」，也可用更礼貌的「高くありませんでした」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "过去否定敬体",
+            "answers": [
+              "高くありませんでした",
+              "たかくありませんでした"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp03-07",
+      "title": "な形容词非过去否定简体",
+      "point_ids": [
+        "p-jp03-na-conj"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "写出な形容词「静か（安静）」的【非过去否定简体】（口语或书面皆可）：\n{{blank:b1}}（不安静（简体））",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">写出な形容词「静か（安静）」的【非过去否定简体】（口语或书面皆可）：</p><p class=\"jp-ja\">{{blank:b1}}</p><p class=\"jp-romaji\">[ ? ]（静か → 非过去否定简体）</p><p class=\"jp-zh\">不安静（简体）</p></div>",
+      "reference_answer": "静かじゃない",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><strong><ruby>静<rp>(</rp><rt>しず</rt><rp>)</rp></ruby>かじゃない</strong>（书面：<ruby>静<rp>(</rp><rt>しず</rt><rp>)</rp></ruby>かではない）</div><div class=\"jp-romaji\">shizuka janai / shizuka dewa nai</div><p>な形容词否定直接复用名词规则：词干 + 「じゃない / ではない」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "非过去否定简体",
+            "answers": [
+              "静かじゃない",
+              "静かではない",
+              "しずかじゃない",
+              "しずかではない"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp03-08",
+      "title": "な形容词过去肯定简体",
+      "point_ids": [
+        "p-jp03-na-conj"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "写出な形容词「静か」的【过去肯定简体】：\n{{blank:b1}}（过去很安静（简体））",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">写出な形容词「静か」的【过去肯定简体】：</p><p class=\"jp-ja\">{{blank:b1}}</p><p class=\"jp-romaji\">[ ? ]（静か → 过去肯定简体）</p><p class=\"jp-zh\">过去很安静（简体）</p></div>",
+      "reference_answer": "静かだった",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><strong><ruby>静<rp>(</rp><rt>しず</rt><rp>)</rp></ruby>かだった</strong></div><div class=\"jp-romaji\">shizuka datta</div><p>な形容词过去肯定复用名词规则：词干 + 「だった」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "过去肯定简体",
+            "answers": [
+              "静かだった",
+              "しずかだった"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp03-09",
+      "title": "な形容词过去肯定敬体",
+      "point_ids": [
+        "p-jp03-na-conj"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "写出な形容词「静か」的【过去肯定敬体】：\n{{blank:b1}}（过去很安静（敬体））",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">写出な形容词「静か」的【过去肯定敬体】：</p><p class=\"jp-ja\">{{blank:b1}}</p><p class=\"jp-romaji\">[ ? ]（静か → 过去肯定敬体）</p><p class=\"jp-zh\">过去很安静（敬体）</p></div>",
+      "reference_answer": "静かでした",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><strong><ruby>静<rp>(</rp><rt>しず</rt><rp>)</rp></ruby>かでした</strong></div><div class=\"jp-romaji\">shizuka deshita</div><p>な形容词过去肯定敬体为「词干 + でした」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "过去肯定敬体",
+            "answers": [
+              "静かでした",
+              "しずかでした"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp03-10",
+      "title": "な形容词过去否定简体",
+      "point_ids": [
+        "p-jp03-na-conj"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "写出な形容词「静か」的【过去否定简体】：\n{{blank:b1}}（过去不安静（简体））",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">写出な形容词「静か」的【过去否定简体】：</p><p class=\"jp-ja\">{{blank:b1}}</p><p class=\"jp-romaji\">[ ? ]（静か → 过去否定简体）</p><p class=\"jp-zh\">过去不安静（简体）</p></div>",
+      "reference_answer": "静かじゃなかった",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><strong><ruby>静<rp>(</rp><rt>しず</rt><rp>)</rp></ruby>かじゃなかった</strong>（书面：<ruby>静<rp>(</rp><rt>しず</rt><rp>)</rp></ruby>かではなかった）</div><div class=\"jp-romaji\">shizuka janakatta / shizuka dewa nakatta</div><p>な形容词过去否定复用名词规则：词干 + 「じゃなかった / ではなかった」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "过去否定简体",
+            "answers": [
+              "静かじゃなかった",
+              "静かではなかった",
+              "しずかじゃなかった",
+              "しずかではなかった"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp03-11",
+      "title": "「も」覆盖主语助词「は/が」",
+      "point_ids": [
+        "p-jp03-mo-overwrite"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "用包含助词覆盖原本的「は」，表示“山田女士也是老师”：\n千葉さんは先生です。山田さん{{blank:b1}}先生です。（千叶先生是老师。山田女士也是老师。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">用包含助词覆盖原本的「は」，表示“山田女士也是老师”：</p><p class=\"jp-ja\"><ruby>千葉<rp>(</rp><rt>ちば</rt><rp>)</rp></ruby>さんは<ruby>先生<rp>(</rp><rt>せんせい</rt><rp>)</rp></ruby>です。<ruby>山田<rp>(</rp><rt>やまだ</rt><rp>)</rp></ruby>さん{{blank:b1}}<ruby>先生<rp>(</rp><rt>せんせい</rt><rp>)</rp></ruby>です。</p><p class=\"jp-romaji\">chiba-san wa sensei desu. yamada-san [ ? ] sensei desu.</p><p class=\"jp-zh\">千叶先生是老师。山田女士也是老师。</p></div>",
+      "reference_answer": "も",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>山田<rp>(</rp><rt>やまだ</rt><rp>)</rp></ruby>さん<strong>も</strong><ruby>先生<rp>(</rp><rt>せんせい</rt><rp>)</rp></ruby>です。</div><div class=\"jp-romaji\">yamada-san mo sensei desu.</div><p>「も」会直接替代主语助词「は」或「が」（不可写 *はも/*がも）。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "包含助词",
+            "answers": [
+              "も"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp03-12",
+      "title": "「も」直接覆盖宾语助词「を」",
+      "point_ids": [
+        "p-jp03-mo-overwrite"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "在宾语位置加入“也”的语义（绝对不能写出「*をも」）：\n新聞を買いました。雑誌{{blank:b1}}買いました。（买了报纸。也买了杂志。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">在宾语位置加入“也”的语义（绝对不能写出「*をも」）：</p><p class=\"jp-ja\"><ruby>新聞<rp>(</rp><rt>しんぶん</rt><rp>)</rp></ruby>を<ruby>買<rp>(</rp><rt>か</rt><rp>)</rp></ruby>いました。<ruby>雑誌<rp>(</rp><rt>ざっし</rt><rp>)</rp></ruby>{{blank:b1}}<ruby>買<rp>(</rp><rt>か</rt><rp>)</rp></ruby>いました。</p><p class=\"jp-romaji\">shinbun o kaimashita. zasshi [ ? ] kaimashita.</p><p class=\"jp-zh\">买了报纸。也买了杂志。</p></div>",
+      "reference_answer": "も",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>雑誌<rp>(</rp><rt>ざっし</rt><rp>)</rp></ruby><strong>も</strong><ruby>買<rp>(</rp><rt>か</rt><rp>)</rp></ruby>いました。</div><div class=\"jp-romaji\">zasshi mo kaimashita.</div><p>在直接宾语位置，「も」直接取代「を」，禁止出现「*をも」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "包含助词",
+            "answers": [
+              "も"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp03-13",
+      "title": "否定句中「も」表“也不……”",
+      "point_ids": [
+        "p-jp03-mo-overwrite"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "填入覆盖宾格、与否定谓语配合表“也没有买杂志”的助词：\n新聞は買いませんでした。雑誌{{blank:b1}}買いませんでした。（没买报纸。也没有买杂志。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">填入覆盖宾格、与否定谓语配合表“也没有买杂志”的助词：</p><p class=\"jp-ja\"><ruby>新聞<rp>(</rp><rt>しんぶん</rt><rp>)</rp></ruby>は<ruby>買<rp>(</rp><rt>か</rt><rp>)</rp></ruby>いませんでした。<ruby>雑誌<rp>(</rp><rt>ざっし</rt><rp>)</rp></ruby>{{blank:b1}}<ruby>買<rp>(</rp><rt>か</rt><rp>)</rp></ruby>いませんでした。</p><p class=\"jp-romaji\">shinbun wa kaimasen deshita. zasshi [ ? ] kaimasen deshita.</p><p class=\"jp-zh\">没买报纸。也没有买杂志。</p></div>",
+      "reference_answer": "も",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>雑誌<rp>(</rp><rt>ざっし</rt><rp>)</rp></ruby><strong>も</strong><ruby>買<rp>(</rp><rt>か</rt><rp>)</rp></ruby>いませんでした。</div><div class=\"jp-romaji\">zasshi mo kaimasen deshita.</div><p>与否定动词搭配时，「も」表示“（……）也不……”。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "包含助词",
+            "answers": [
+              "も"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp03-14",
+      "title": "「も」叠加在「から」之后",
+      "point_ids": [
+        "p-jp03-mo-stack"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "按“先起点助词，再包含助词”的严格次序，补全“也有代表从冲绳赶来”：\n沖縄{{blank:b1}}{{blank:b2}}代表が来ました。（也有代表从冲绳赶来。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">按“先起点助词，再包含助词”的严格次序，补全“也有代表从冲绳赶来”：</p><p class=\"jp-ja\"><ruby>沖縄<rp>(</rp><rt>おきなわ</rt><rp>)</rp></ruby>{{blank:b1}}{{blank:b2}}<ruby>代表<rp>(</rp><rt>だいひょう</rt><rp>)</rp></ruby>が<ruby>来<rp>(</rp><rt>き</rt><rp>)</rp></ruby>ました。</p><p class=\"jp-romaji\">okinawa [ ? ] [ ? ] daihyō ga kimashita.</p><p class=\"jp-zh\">也有代表从冲绳赶来。</p></div>",
+      "reference_answer": "から；も",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>沖縄<rp>(</rp><rt>おきなわ</rt><rp>)</rp></ruby><strong>からも</strong><ruby>代表<rp>(</rp><rt>だいひょう</rt><rp>)</rp></ruby>が<ruby>来<rp>(</rp><rt>き</rt><rp>)</rp></ruby>ました。</div><div class=\"jp-romaji\">okinawa kara mo daihyō ga kimashita.</div><p>起点助词「から」必须写在「も」的前面，构成「からも」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "起点助词",
+            "answers": [
+              "から"
+            ]
+          },
+          {
+            "id": "b2",
+            "label": "包含助词",
+            "answers": [
+              "も"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp03-15",
+      "title": "「も」叠加在方向助词「へ」之后",
+      "point_ids": [
+        "p-jp03-mo-stack"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "按正确语序依次填入方向助词与包含助词，补全“也去了长野”：\n長野{{blank:b1}}{{blank:b2}}行きました。（也去了长野。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">按正确语序依次填入方向助词与包含助词，补全“也去了长野”：</p><p class=\"jp-ja\"><ruby>長野<rp>(</rp><rt>ながの</rt><rp>)</rp></ruby>{{blank:b1}}{{blank:b2}}<ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>きました。</p><p class=\"jp-romaji\">nagano [ ? ] [ ? ] ikimashita.</p><p class=\"jp-zh\">也去了长野。</p></div>",
+      "reference_answer": "へ；も",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>長野<rp>(</rp><rt>ながの</rt><rp>)</rp></ruby><strong>へも</strong><ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>きました。</div><div class=\"jp-romaji\">nagano e mo ikimashita.</div><p>方向助词「へ」不与「も」冲突替换，须排在「も」前（へも）。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "方向助词",
+            "answers": [
+              "へ"
+            ]
+          },
+          {
+            "id": "b2",
+            "label": "包含助词",
+            "answers": [
+              "も"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp03-16",
+      "title": "疑问词 +「も」+ 否定：誰〜ない",
+      "point_ids": [
+        "p-jp03-mo-wh-neg"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "填入助词构成“谁也不知道”的全盘否定：\n誰{{blank:b1}}知らない。（谁也不知道（没人知道）。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">填入助词构成“谁也不知道”的全盘否定：</p><p class=\"jp-ja\"><ruby>誰<rp>(</rp><rt>だれ</rt><rp>)</rp></ruby>{{blank:b1}}<ruby>知<rp>(</rp><rt>し</rt><rp>)</rp></ruby>らない。</p><p class=\"jp-romaji\">dare [ ? ] shiranai.</p><p class=\"jp-zh\">谁也不知道（没人知道）。</p></div>",
+      "reference_answer": "も",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>誰<rp>(</rp><rt>だれ</rt><rp>)</rp></ruby><strong>も</strong><ruby>知<rp>(</rp><rt>し</rt><rp>)</rp></ruby>らない。</div><div class=\"jp-romaji\">dare mo shiranai.</div><p>疑问词「誰」后接「も」并配否定动词，构成全盘否定“谁也不……”。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "助词",
+            "answers": [
+              "も"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp03-17",
+      "title": "疑问词 +「も」+ 否定：何〜ない",
+      "point_ids": [
+        "p-jp03-mo-wh-neg"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "填入助词构成“什么也没有”：\n何{{blank:b1}}ない。（什么也没有。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">填入助词构成“什么也没有”：</p><p class=\"jp-ja\"><ruby>何<rp>(</rp><rt>なに</rt><rp>)</rp></ruby>{{blank:b1}}ない。</p><p class=\"jp-romaji\">nani [ ? ] nai.</p><p class=\"jp-zh\">什么也没有。</p></div>",
+      "reference_answer": "も",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>何<rp>(</rp><rt>なに</rt><rp>)</rp></ruby><strong>も</strong>ない。</div><div class=\"jp-romaji\">nani mo nai.</div><p>「何も + 否定」表示“什么也不 / 什么都没有”。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "助词",
+            "answers": [
+              "も"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp03-18",
+      "title": "疑问词 + 格助词 +「も」：どこにも行かなかった",
+      "point_ids": [
+        "p-jp03-mo-wh-neg"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "按正确格助词顺序填入“目标助词＋包含助词”，构成“哪儿也没去”：\nどこ{{blank:b1}}{{blank:b2}}行かなかった。（哪儿也没去。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">按正确格助词顺序填入“目标助词＋包含助词”，构成“哪儿也没去”：</p><p class=\"jp-ja\">どこ{{blank:b1}}{{blank:b2}}<ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>かなかった。</p><p class=\"jp-romaji\">doko [ ? ] [ ? ] ikanakatta.</p><p class=\"jp-zh\">哪儿也没去。</p></div>",
+      "reference_answer": "に；も",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\">どこ<strong>にも</strong><ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>かなかった。</div><div class=\"jp-romaji\">doko ni mo ikanakatta.</div><p>目标助词「に」排在「も」前面，组成「どこにも + 否定（哪儿也不……）」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "目标助词",
+            "answers": [
+              "に"
+            ]
+          },
+          {
+            "id": "b2",
+            "label": "包含助词",
+            "answers": [
+              "も"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp03-19",
+      "title": "数量词 +「も」强调超出预期",
+      "point_ids": [
+        "p-jp03-mo-qty-more"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "填入强调“足足三次”、表达惊讶或过度的助词：\n昨日、電話三回{{blank:b1}}したよ！（昨天足足打了三次电话！）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">填入强调“足足三次”、表达惊讶或过度的助词：</p><p class=\"jp-ja\"><ruby>昨日<rp>(</rp><rt>きのう</rt><rp>)</rp></ruby>、<ruby>電話<rp>(</rp><rt>でんわ</rt><rp>)</rp></ruby><ruby>三回<rp>(</rp><rt>さんかい</rt><rp>)</rp></ruby>{{blank:b1}}したよ！</p><p class=\"jp-romaji\">kinō, denwa sankai [ ? ] shita yo!</p><p class=\"jp-zh\">昨天足足打了三次电话！</p></div>",
+      "reference_answer": "も",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>昨日<rp>(</rp><rt>きのう</rt><rp>)</rp></ruby>、<ruby>電話<rp>(</rp><rt>でんわ</rt><rp>)</rp></ruby><ruby>三回<rp>(</rp><rt>さんかい</rt><rp>)</rp></ruby><strong>も</strong>したよ！</div><div class=\"jp-romaji\">kinō, denwa sankai mo shita yo!</div><p>「数量词 + も」不再表“也”，而是强调数量多到超出预期。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "数量强调助词",
+            "answers": [
+              "も"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp03-20",
+      "title": "动词 て 形 +「も」：许可「〜てもいい」",
+      "point_ids": [
+        "p-jp03-mo-qty-more"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "填入表示许可（“……也可以”）的接续形式，补全“全部吃掉也可以哦”：\n全部食べ{{blank:b1}}いいよ。（全部吃掉也可以哦。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">填入表示许可（“……也可以”）的接续形式，补全“全部吃掉也可以哦”：</p><p class=\"jp-ja\"><ruby>全部<rp>(</rp><rt>ぜんぶ</rt><rp>)</rp></ruby><ruby>食<rp>(</rp><rt>た</rt><rp>)</rp></ruby>べ{{blank:b1}}いいよ。</p><p class=\"jp-romaji\">zenbu tabe[ ? ] ii yo.</p><p class=\"jp-zh\">全部吃掉也可以哦。</p></div>",
+      "reference_answer": "ても",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>全部<rp>(</rp><rt>ぜんぶ</rt><rp>)</rp></ruby><ruby>食<rp>(</rp><rt>た</rt><rp>)</rp></ruby>べ<strong>ても</strong>いいよ。</div><div class=\"jp-romaji\">zenbu tabete mo ii yo.</div><p>一段动词「食べる」的て形「食べて」+「も」+「いい」，表示许可。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "许可连接",
+            "answers": [
+              "ても"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp03-21",
+      "title": "「〜なくてもいい」：不必／不……也可以",
+      "point_ids": [
+        "p-jp03-mo-qty-more"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "填入表示“不必 / 不……也可以”的接续形式，补全“不需要全部吃完”：\n全部食べ{{blank:b1}}いいよ。（不需要全部吃完（不吃也可以）。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">填入表示“不必 / 不……也可以”的接续形式，补全“不需要全部吃完”：</p><p class=\"jp-ja\"><ruby>全部<rp>(</rp><rt>ぜんぶ</rt><rp>)</rp></ruby><ruby>食<rp>(</rp><rt>た</rt><rp>)</rp></ruby>べ{{blank:b1}}いいよ。</p><p class=\"jp-romaji\">zenbu tabe[ ? ] ii yo.</p><p class=\"jp-zh\">不需要全部吃完（不吃也可以）。</p></div>",
+      "reference_answer": "なくても",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>全部<rp>(</rp><rt>ぜんぶ</rt><rp>)</rp></ruby><ruby>食<rp>(</rp><rt>た</rt><rp>)</rp></ruby>べ<strong>なくても</strong>いいよ。</div><div class=\"jp-romaji\">zenbu tabenakute mo ii yo.</div><p>否定形「〜ない」变为「〜なくて」再接「もいい」，表示“不……也可以”。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "不必连接",
+            "answers": [
+              "なくても"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp03-22",
+      "title": "疑问词 +「よりも」构成最高级",
+      "point_ids": [
+        "p-jp03-mo-qty-more"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "填入表示“比任何人（都）……”的比较助词组合：\nこの仕事は誰{{blank:b1}}早くできます。（这工作我做得比任何人都快。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">填入表示“比任何人（都）……”的比较助词组合：</p><p class=\"jp-ja\">この<ruby>仕事<rp>(</rp><rt>しごと</rt><rp>)</rp></ruby>は<ruby>誰<rp>(</rp><rt>だれ</rt><rp>)</rp></ruby>{{blank:b1}}<ruby>早<rp>(</rp><rt>はや</rt><rp>)</rp></ruby>くできます。</p><p class=\"jp-romaji\">kono shigoto wa dare [ ? ] hayaku dekimasu.</p><p class=\"jp-zh\">这工作我做得比任何人都快。</p></div>",
+      "reference_answer": "よりも",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\">この<ruby>仕事<rp>(</rp><rt>しごと</rt><rp>)</rp></ruby>は<ruby>誰<rp>(</rp><rt>だれ</rt><rp>)</rp></ruby><strong>よりも</strong><ruby>早<rp>(</rp><rt>はや</rt><rp>)</rp></ruby>くできます。</div><div class=\"jp-romaji\">kono shigoto wa dare yori mo hayaku dekimasu.</div><p>「疑问词 + より(も)」表示最高级“比任何（人/物）都……”。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "比较助词组合",
+            "answers": [
+              "よりも"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp03-23",
+      "title": "「ながら」+「も」表转折让步",
+      "point_ids": [
+        "p-jp03-mo-qty-more"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "在「残念」后填入表示“虽然……”让步转折的接续助词组合：\n残念{{blank:b1}}（虽然很遗憾……）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">在「残念」后填入表示“虽然……”让步转折的接续助词组合：</p><p class=\"jp-ja\"><ruby>残念<rp>(</rp><rt>ざんねん</rt><rp>)</rp></ruby>{{blank:b1}}</p><p class=\"jp-romaji\">zannen [ ? ]</p><p class=\"jp-zh\">虽然很遗憾……</p></div>",
+      "reference_answer": "ながらも",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>残念<rp>(</rp><rt>ざんねん</rt><rp>)</rp></ruby><strong>ながらも</strong></div><div class=\"jp-romaji\">zannen nagara mo</div><p>「ながら」加上「も」从“一边……一边……”转为“尽管……也……”的让步语气。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "让步连词",
+            "answers": [
+              "ながらも"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp03-24",
+      "title": "「A も B も」句中多重叠用",
+      "point_ids": [
+        "p-jp03-mo-qty-more"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "依次填入两个包含助词，表示“弟弟和妹妹都来了”：\n弟さん{{blank:b1}}妹さん{{blank:b2}}来ました。（弟弟和妹妹都来了。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">依次填入两个包含助词，表示“弟弟和妹妹都来了”：</p><p class=\"jp-ja\"><ruby>弟<rp>(</rp><rt>おとうと</rt><rp>)</rp></ruby>さん{{blank:b1}}<ruby>妹<rp>(</rp><rt>いもうと</rt><rp>)</rp></ruby>さん{{blank:b2}}<ruby>来<rp>(</rp><rt>き</rt><rp>)</rp></ruby>ました。</p><p class=\"jp-romaji\">otōto-san [ ? ] imōto-san [ ? ] kimashita.</p><p class=\"jp-zh\">弟弟和妹妹都来了。</p></div>",
+      "reference_answer": "も；も",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>弟<rp>(</rp><rt>おとうと</rt><rp>)</rp></ruby>さん<strong>も</strong><ruby>妹<rp>(</rp><rt>いもうと</rt><rp>)</rp></ruby>さん<strong>も</strong><ruby>来<rp>(</rp><rt>き</rt><rp>)</rp></ruby>ました。</div><div class=\"jp-romaji\">otōto-san mo imōto-san mo kimashita.</div><p>「A も B も」可连续将多个并列成员纳入同一陈述“既A也B”。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "第一个「也」",
+            "answers": [
+              "も"
+            ]
+          },
+          {
+            "id": "b2",
+            "label": "第二个「也」",
+            "answers": [
+              "も"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp03-25",
+      "title": "综合复盘：い形容词 vs な形容词过去否定简体",
+      "point_ids": [
+        "p-jp03-i-neg-past",
+        "p-jp03-na-conj"
+      ],
+      "learning_phases": [
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "分别写出「高い（い形）」和「静か（な形）」的【过去否定简体】：\n高い → {{blank:b1}} ／ 静か → {{blank:b2}}（过去不高 ／ 过去不安静（简体））",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">分别写出「高い（い形）」和「静か（な形）」的【过去否定简体】：</p><p class=\"jp-ja\"><ruby>高<rp>(</rp><rt>たか</rt><rp>)</rp></ruby>い → {{blank:b1}} ／ <ruby>静<rp>(</rp><rt>しず</rt><rp>)</rp></ruby>か → {{blank:b2}}</p><p class=\"jp-romaji\">takai → [ ? ] / shizuka → [ ? ]</p><p class=\"jp-zh\">过去不高 ／ 过去不安静（简体）</p></div>",
+      "reference_answer": "高くなかった；静かじゃなかった",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><strong><ruby>高<rp>(</rp><rt>たか</rt><rp>)</rp></ruby>くなかった</strong> ／ <strong><ruby>静<rp>(</rp><rt>しず</rt><rp>)</rp></ruby>かじゃなかった</strong></div><div class=\"jp-romaji\">takakunakatta / shizuka janakatta</div><p>い形容词本身词尾变「くなかった」；な形容词词干不变，后挂「じゃなかった」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "高い 过去否定",
+            "answers": [
+              "高くなかった",
+              "たかくなかった"
+            ]
+          },
+          {
+            "id": "b2",
+            "label": "静か 过去否定",
+            "answers": [
+              "静かじゃなかった",
+              "静かではなかった",
+              "しずかじゃなかった",
+              "しずかではなかった"
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

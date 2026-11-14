@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN" data-subject="japanese">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self';">
+  <title>GraspMemoEdu · 日语 / 日本語文法・语法填空精练（本地个人版）</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%239e4756'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='%23ffffff' font-size='38' font-family='sans-serif' font-weight='700'%3E%E3%81%82%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./vendor/katex/katex.min.css">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="ribbon">
+    <div class="ribbonLeft">
+      <button type="button" class="brandBtn" id="brandHomeBtn" title="返回课程总览">
+        <span class="brandEmblem" aria-hidden="true">あ</span>
+        <span class="brandMeta">
+          <span class="brandTitle">GraspMemoEdu <span class="brandDomain">· 日语 / 日本語文法・语法填空精练</span></span>
+          <span class="brandSub">基础语法・主谓宾・否定型・连体修饰（本地个人版）</span>
+        </span>
+      </button>
+    </div>
+
+    <nav class="ribbonNav" aria-label="主导航">
+      <button type="button" class="navTab" data-route="overview">课程总览</button>
+      <button type="button" class="navTab" data-route="learn">当前学习</button>
+      <button type="button" class="navTab" data-route="review">间隔复习 <span class="navBadge hidden" id="reviewDueBadge">0</span></button>
+      <button type="button" class="navTab" data-route="stats">学习统计</button>
+    </nav>
+
+    <div class="ribbonRight">
+      <button
+        type="button"
+        id="romajiToggleBtn"
+        class="btn btn--ghost btn--sm romajiToggleBtn"
+        aria-pressed="false"
+        title="切换显示或隐藏日文汉字上方的假名/罗马音注音，便于纯文本自测回忆">
+        <span class="romajiToggleText">显示/隐藏罗马音注音</span>
+        <span class="romajiToggleState" id="romajiToggleState">显示中</span>
+      </button>
+      <button type="button" id="aiSettingsBtn" class="btn btn--ghost btn--sm" title="配置 AI 接口">AI 设置</button>
+      <button type="button" id="aiDrawerToggleBtn" class="btn btn--secondary btn--sm" aria-expanded="false">AI 助教</button>
+      <span id="engineStatusChip" class="statusChip statusChip--muted">连接中...</span>
+      <button type="button" id="historyDrawerToggle" class="btn btn--ghost btn--sm historyDrawerToggle hidden" aria-expanded="false">学习轨迹</button>
+    </div>
+  </header>
+
+  <div class="appShell">
+    <aside id="topicSidebar" class="topicSidebar hidden" aria-label="本课章节与已学记录"></aside>
+    <div id="sidebarBackdrop" class="sidebarBackdrop hidden"></div>
+    <main id="mainView" class="mainView" tabindex="-1"></main>
+  </div>
+
+  <aside id="aiDrawerHost" class="aiDrawer hidden" aria-label="日语 AI 助教" aria-hidden="true"></aside>
+  <div id="modalHost" class="modalHost hidden" aria-hidden="true"></div>
+  <div id="toastHost" class="toastHost" aria-live="polite"></div>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
