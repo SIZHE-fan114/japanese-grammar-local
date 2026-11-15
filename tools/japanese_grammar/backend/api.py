@@ -18,13 +18,14 @@ from fastapi.responses import FileResponse, JSONResponse, Response, StreamingRes
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 from graspmemoedu.admin_students import register_admin_student_routes
-from graspmemoedu.atomic_api import register_atomic_routes
+from graspmemoedu.atomic_api import register_atomic_routes, review_summary
 from graspmemoedu.presence import Presence, PresencePulse
 from graspmemoedu.public_limits import PublicLimitError
 from graspmemoedu.review_api import register_review_routes
 from graspmemoedu.review_cards import load_paper_types
 from graspmemoedu.review_paper_api import register_paper_routes
 from graspmemoedu.service import DomainError
+from graspmemoedu.topic_structure import atomic_state, has_atomic
 
 from .ai import (
     build_tutor_system_prompt,
@@ -352,24 +353,117 @@ def _attach_fill_blank_results(learner: Any, target: dict[str, Any], *, card_id:
                 target["choice_feedback"] = {"items": items}
 
 
+def _describe_blocker(
+    con: Any,
+    access: dict[str, Any],
+    runtime: LocalRuntime,
+    parent_id: str,
+    described: dict[str, Any],
+    now_dt: Any,
+    now_iso: str,
+) -> dict[str, Any]:
+    """Attach permission-safe completion, pause, and review-due reason to a prerequisite blocker."""
+    title = described.get("title") or runtime.catalog.topics.get(parent_id, {}).get("title", parent_id)
+    entry: dict[str, Any] = {
+        "id": described.get("id", parent_id),
+        "topic_id": described.get("id", parent_id),
+        "title": title,
+        **described,
+    }
+    parent_topic = runtime.catalog.topics.get(parent_id)
+    if described.get("kind", "topic") != "topic" or parent_topic is None:
+        return entry
+    row = (
+        con.execute(
+            "SELECT version, body FROM topics WHERE learner=? AND topic=?",
+            (access["learner_id"], parent_id),
+        ).fetchone()
+        if runtime._table_exists(con, "topics")
+        else None
+    )
+    body: dict[str, Any] = {}
+    if row is not None and row["version"] == parent_topic.get("version"):
+        try:
+            body = json.loads(row["body"])
+        except ValueError:
+            body = {}
+    completed = bool(body.get("status") == "completed")
+    parent_atomic = atomic_state(body) if body else {}
+    paused = bool(body.get("pause") or parent_atomic.get("pause"))
+    if not paused and runtime._table_exists(con, "review_topic_pauses"):
+        paused = (
+            con.execute(
+                "SELECT 1 FROM review_topic_pauses WHERE learner=? AND topic=?",
+                (access["learner_id"], parent_id),
+            ).fetchone()
+            is not None
+        )
+    summary = (
+        review_summary(parent_topic, body, now_dt)
+        if body and has_atomic(parent_topic)
+        else {"due_count": 0, "next_due_at": None, "next_upcoming_due_at": None, "active": False}
+    )
+    due_count = int(summary.get("due_count") or 0)
+    parent_ready = bool(runtime.dependency_policy.ready(con, access, parent_id, current_time=now_iso))
+    if paused:
+        reason = "paused"
+    elif not completed:
+        reason = "incomplete"
+    elif due_count > 0:
+        reason = "due_reviews"
+    elif not parent_ready:
+        reason = "upstream_blocked"
+    else:
+        reason = "blocked"
+    entry.update(
+        {
+            "completed": completed,
+            "paused": paused,
+            "due_count": due_count,
+            "next_due_at": summary.get("next_due_at"),
+            "next_upcoming_due_at": summary.get("next_upcoming_due_at"),
+            "parent_ready": parent_ready,
+            "reason": reason,
+        }
+    )
+    return entry
+
+
 def _public_state(access: dict[str, Any], runtime: LocalRuntime, topic_id: str) -> dict[str, Any]:
     learner = runtime.service_for(access["learner_id"], topic_id)
     state = dict(learner.state())
+    now_dt = runtime.clock()
+    now_iso = now_dt.isoformat()
     with closing(runtime.access_store._connect()) as con:
-        now_iso = runtime.clock().isoformat()
         ready = bool(runtime.dependency_policy.ready(con, access, topic_id, current_time=now_iso))
+        if has_atomic(learner.course):
+            self_row = (
+                con.execute(
+                    "SELECT version, body FROM topics WHERE learner=? AND topic=?",
+                    (access["learner_id"], topic_id),
+                ).fetchone()
+                if runtime._table_exists(con, "topics")
+                else None
+            )
+            self_body: dict[str, Any] = {}
+            if self_row is not None and self_row["version"] == learner.course.get("version"):
+                try:
+                    self_body = json.loads(self_row["body"])
+                except ValueError:
+                    self_body = {}
+            state["review_summary"] = (
+                review_summary(learner.course, self_body, now_dt)
+                if self_body
+                else {"due_count": 0, "next_due_at": None, "next_upcoming_due_at": None, "active": False}
+            )
         blockers: list[dict[str, Any]] = []
         if not ready:
             for parent_id in runtime.dependency_policy.required_parents(topic_id):
                 described = runtime.dependency_policy.describe(con, access, parent_id)
                 if described is not None:
-                    title = described.get("title") or runtime.catalog.topics.get(parent_id, {}).get("title", parent_id)
-                    blockers.append({
-                        "id": described.get("id", parent_id),
-                        "topic_id": described.get("id", parent_id),
-                        "title": title,
-                        **described,
-                    })
+                    blockers.append(
+                        _describe_blocker(con, access, runtime, parent_id, described, now_dt, now_iso)
+                    )
     state["dependency_ready"] = ready
     state["dependency_blocked"] = not ready
     if blockers:

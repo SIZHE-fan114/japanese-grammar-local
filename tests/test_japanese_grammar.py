@@ -747,6 +747,139 @@ class JapaneseGrammarBackendE2ETests(unittest.TestCase):
             f"server.json remained after clean shutdown (rc={rc})",
         )
 
+    def test_prerequisite_due_review_blocker_chunk_gap_and_next_due_at_consistency(self) -> None:
+        data_dir, clock, port = self._make_env()
+        _rt, client = self._make_client(data_dir, clock, port)
+        try:
+            self._complete_jp01(client, clock, test_wrong_and_self_rating=False)
+
+            # Start jp02 and master at least its first point so jp02 holds its own FSRS schedule
+            s2 = client.get("/api/state", params={"topic_id": JP02}).json()
+            self.assertTrue(s2["dependency_ready"])
+            all_cards = _all_flashcards()
+            for _ in range(30):
+                if s2.get("learned_count", 0) >= 1:
+                    break
+                phase = s2.get("phase")
+                if phase in ("introduction", "chunk"):
+                    resp = client.post(
+                        "/api/continue",
+                        params={"topic_id": JP02},
+                        json={
+                            "request_id": str(uuid.uuid4()),
+                            "expected_revision": s2["revision"],
+                            "attempt_id": s2["attempt_id"],
+                            "step_id": s2["active_step_id"],
+                        },
+                    )
+                    self.assertEqual(resp.status_code, 200, resp.text)
+                    s2 = resp.json()
+                elif phase == "answer":
+                    fc = all_cards[s2["current"]["card_id"]]
+                    resp = client.post(
+                        "/api/submit",
+                        params={"topic_id": JP02},
+                        json={
+                            "request_id": str(uuid.uuid4()),
+                            "expected_revision": s2["revision"],
+                            "attempt_id": s2["attempt_id"],
+                            "step_id": s2["active_step_id"],
+                            "answer": demo_answer(fc),
+                        },
+                    )
+                    self.assertEqual(resp.status_code, 200, resp.text)
+                    sub = resp.json()
+                    self.assertEqual(sub["status"], "judged")
+                    self.assertTrue(sub["correct"])
+                    s2 = sub["state"]
+                elif phase in ("feedback", "waiting"):
+                    if s2.get("next_available_at"):
+                        clock.advance(seconds=180)
+                    s2 = client.post(
+                        "/api/continue",
+                        params={"topic_id": JP02},
+                        json={
+                            "request_id": str(uuid.uuid4()),
+                            "expected_revision": s2["revision"],
+                            "attempt_id": s2["attempt_id"],
+                            "step_id": s2["active_step_id"],
+                        },
+                    ).json()
+                else:
+                    self.fail(f"Unexpected jp02 state phase={phase!r}: {s2}")
+
+            self.assertGreaterEqual(s2["learned_count"], 1)
+
+            # Advance clock so BOTH jp01 (due earlier) and jp02 have past due_at timestamps
+            clock.advance(hours=7)
+            now_dt = clock()
+
+            jp01_blocked_view = client.get("/api/state", params={"topic_id": JP01}).json()
+            self.assertEqual(jp01_blocked_view["status"], "completed")
+            self.assertGreaterEqual(jp01_blocked_view["review_summary"]["due_count"], 1)
+
+            jp02_blocked_view = client.get("/api/state", params={"topic_id": JP02}).json()
+            self.assertFalse(jp02_blocked_view["dependency_ready"])
+            self.assertTrue(jp02_blocked_view["dependency_blocked"])
+            blocker = jp02_blocked_view["blocking_topics"][0]
+            self.assertEqual(blocker["topic_id"], JP01)
+            self.assertTrue(blocker["completed"])
+            self.assertFalse(blocker["paused"])
+            self.assertGreaterEqual(blocker["due_count"], 1)
+            self.assertEqual(blocker["reason"], "due_reviews")
+
+            # Locked jp02's past due_at MUST NOT leak into top-level atomic/reviews or dashboard next_due_at
+            atomic_rev = client.get("/api/atomic/reviews", params={"subject_id": DEFAULT_SUBJECT_ID}).json()
+            if atomic_rev["next_due_at"] is not None:
+                self.assertGreater(datetime.fromisoformat(atomic_rev["next_due_at"]), now_dt)
+            jp02_rev_item = next(i for i in atomic_rev["items"] if i["topic_id"] == JP02)
+            self.assertFalse(jp02_rev_item["dependency_ready"])
+            self.assertGreaterEqual(jp02_rev_item["due_count"], 1)
+
+            dash = client.get("/api/dashboard", params={"subject_id": DEFAULT_SUBJECT_ID}).json()
+            if dash["next_review_due_at"] is not None:
+                self.assertGreater(datetime.fromisoformat(dash["next_review_due_at"]), now_dt)
+
+            # Simulate the exact chunk-spacing cooldown deadlock edge case:
+            # only p-jp01-wh-ga remains past due in jp01, while same chunk chunk-jp01-wh-info-flow
+            # was just seen within GAP_SECONDS (180s), making inbox return 0 jp01 items.
+            with closing(sqlite3.connect(str(data_dir / "learning.sqlite3"))) as con:
+                row = con.execute(
+                    "SELECT body FROM topics WHERE learner=? AND topic=?",
+                    (LOCAL_LEARNER_ID, JP01),
+                ).fetchone()
+                body = json.loads(row[0])
+                future_iso = (now_dt + timedelta(minutes=15)).isoformat()
+                for pid, pstate in body["atomic"]["points"].items():
+                    if pid != "p-jp01-wh-ga":
+                        pstate["due_at"] = future_iso
+                body["atomic"]["chunk_last_seen"]["chunk-jp01-wh-info-flow"] = now_dt.isoformat()
+                con.execute(
+                    "UPDATE topics SET body=? WHERE learner=? AND topic=?",
+                    (json.dumps(body, ensure_ascii=False), LOCAL_LEARNER_ID, JP01),
+                )
+                con.commit()
+
+            # During the 180s chunk cooldown on chunk-jp01-wh-info-flow, jp01 has 0 servable reviews;
+            # dependency_policy MUST agree rather than deadlocking jp02 against an empty inbox.
+            inbox_during_gap = client.get("/api/review-papers/inbox", params={"subject_id": DEFAULT_SUBJECT_ID}).json()
+            self.assertGreater(datetime.fromisoformat(inbox_during_gap["next_due_at"]), now_dt)
+            atomic_during_gap = client.get("/api/atomic/reviews", params={"subject_id": DEFAULT_SUBJECT_ID}).json()
+            if atomic_during_gap["next_due_at"] is not None:
+                self.assertGreater(datetime.fromisoformat(atomic_during_gap["next_due_at"]), now_dt)
+            self.assertTrue(client.get("/api/state", params={"topic_id": JP02}).json()["dependency_ready"])
+
+            # Once the 180s chunk cooldown expires, jp01's overdue p-jp01-wh-ga becomes servable
+            # in BOTH inbox AND dependency_policy synchronously.
+            clock.advance(seconds=181)
+            inbox_after_gap = client.get("/api/review-papers/inbox", params={"subject_id": DEFAULT_SUBJECT_ID}).json()
+            self.assertGreaterEqual(inbox_after_gap["due_count"], 1)
+            jp02_after_gap = client.get("/api/state", params={"topic_id": JP02}).json()
+            self.assertFalse(jp02_after_gap["dependency_ready"])
+            self.assertEqual(jp02_after_gap["blocking_topics"][0]["reason"], "due_reviews")
+        finally:
+            client.__exit__(None, None, None)
+
 
 class JapaneseGrammarUpgradeAndAiTests(unittest.TestCase):
     """Coverage for non-spoiler cards, lossless topic upgrades, and AI tutor endpoints."""
@@ -1285,6 +1418,322 @@ class JapaneseGrammarUpgradeAndAiTests(unittest.TestCase):
                 self.assertEqual(rst.status_code, 200)
                 self.assertEqual(rst.json()["sources"]["api_key"], "env")
                 self.assertEqual(rst.json()["model"], "env-test-model")
+
+    def test_romaji_unit_and_curriculum_roundtrip(self) -> None:
+        from tools.japanese_grammar.backend.judge import evaluate_question_offline
+        from tools.japanese_grammar.backend.romaji import (
+            katakana_to_hiragana,
+            resolve_blank_answer_with_romaji,
+            romaji_to_hiragana_candidates,
+        )
+
+        # Direct & particle-phonetic cases
+        self.assertEqual(resolve_blank_answer_with_romaji(["の"], "no"), "の")
+        self.assertEqual(resolve_blank_answer_with_romaji(["の"], "NO"), "の")
+        self.assertEqual(resolve_blank_answer_with_romaji(["の"], "ｎｏ"), "の")
+        self.assertEqual(resolve_blank_answer_with_romaji(["は"], "wa"), "は")
+        self.assertEqual(resolve_blank_answer_with_romaji(["は"], "ha"), "は")
+        self.assertEqual(resolve_blank_answer_with_romaji(["を"], "o"), "を")
+        self.assertEqual(resolve_blank_answer_with_romaji(["を"], "wo"), "を")
+        self.assertEqual(resolve_blank_answer_with_romaji(["へ"], "e"), "へ")
+        self.assertEqual(resolve_blank_answer_with_romaji(["へ"], "he"), "へ")
+        self.assertEqual(resolve_blank_answer_with_romaji(["では"], "dewa"), "では")
+        self.assertEqual(resolve_blank_answer_with_romaji(["では"], "deha"), "では")
+        self.assertEqual(resolve_blank_answer_with_romaji(["ホテルじゃない", "ホテルではない"], "hoteru janai"), "ホテルじゃない")
+        self.assertEqual(resolve_blank_answer_with_romaji(["ホテルじゃない", "ホテルではない"], "ほてる じゃない"), "ホテルじゃない")
+        self.assertEqual(resolve_blank_answer_with_romaji(["勉強する", "べんきょうする"], "benkyō suru"), "べんきょうする")
+        self.assertEqual(resolve_blank_answer_with_romaji(["食べなかった"], "食べnakatta"), "食べなかった")
+        self.assertIn("べんきょう", romaji_to_hiragana_candidates("benkyou"))
+        self.assertIn("こっち", romaji_to_hiragana_candidates("kocchi"))
+
+        # Strict negatives: wrong particle or misspelled non-particle consonant must not pass
+        self.assertEqual(resolve_blank_answer_with_romaji(["が"], "wa"), "wa")
+        self.assertEqual(resolve_blank_answer_with_romaji(["かわない"], "kahanai"), "kahanai")
+        self.assertEqual(resolve_blank_answer_with_romaji(["の"], "qzx"), "qzx")
+
+        # Programmatic Hepburn romaji round-trip across every kana blank in all 6 topics
+        digraphs = {
+            "きゃ": "kya", "きゅ": "kyu", "きょ": "kyo",
+            "ぎゃ": "gya", "ぎゅ": "gyu", "ぎょ": "gyo",
+            "しゃ": "sha", "しゅ": "shu", "しょ": "sho",
+            "じゃ": "ja", "じゅ": "ju", "じょ": "jo",
+            "ちゃ": "cha", "ちゅ": "chu", "ちょ": "cho",
+            "にゃ": "nya", "にゅ": "nyu", "にょ": "nyo",
+            "ひゃ": "hya", "ひゅ": "hyu", "ひょ": "hyo",
+            "びゃ": "bya", "びゅ": "byu", "びょ": "byo",
+            "ぴゃ": "pya", "ぴゅ": "pyu", "ぴょ": "pyo",
+            "みゃ": "mya", "みゅ": "myu", "みょ": "myo",
+            "りゃ": "rya", "りゅ": "ryu", "りょ": "ryo",
+            "ふぁ": "fa", "ふぃ": "fi", "ふぇ": "fe", "ふぉ": "fo",
+            "てぃ": "ti", "でぃ": "di",
+        }
+        monographs = {
+            "あ": "a", "い": "i", "う": "u", "え": "e", "お": "o",
+            "か": "ka", "き": "ki", "く": "ku", "け": "ke", "こ": "ko",
+            "が": "ga", "ぎ": "gi", "ぐ": "gu", "げ": "ge", "ご": "go",
+            "さ": "sa", "し": "shi", "す": "su", "せ": "se", "そ": "so",
+            "ざ": "za", "じ": "ji", "ず": "zu", "ぜ": "ze", "ぞ": "zo",
+            "た": "ta", "ち": "chi", "つ": "tsu", "て": "te", "と": "to",
+            "だ": "da", "ぢ": "ji", "づ": "dzu", "で": "de", "ど": "do",
+            "な": "na", "に": "ni", "ぬ": "nu", "ね": "ne", "の": "no",
+            "は": "ha", "ひ": "hi", "ふ": "fu", "へ": "he", "ほ": "ho",
+            "ば": "ba", "び": "bi", "ぶ": "bu", "べ": "be", "ぼ": "bo",
+            "ぱ": "pa", "ぴ": "pi", "ぷ": "pu", "ぺ": "pe", "ぽ": "po",
+            "ま": "ma", "み": "mi", "む": "mu", "め": "me", "も": "mo",
+            "や": "ya", "ゆ": "yu", "よ": "yo",
+            "ら": "ra", "り": "ri", "る": "ru", "れ": "re", "ろ": "ro",
+            "わ": "wa", "を": "wo", "ん": "n",
+        }
+
+        def to_romaji(jp_text: str) -> str:
+            hira = katakana_to_hiragana(re.sub(r"\s+", "", jp_text))
+            out: list[str] = []
+            idx = 0
+            while idx < len(hira):
+                ch = hira[idx]
+                if ch == "っ":
+                    nxt = hira[idx + 1 : idx + 3]
+                    nxt_rom = digraphs.get(nxt) or monographs.get(hira[idx + 1 : idx + 2], "")
+                    if nxt_rom.startswith("ch"):
+                        out.append("t")
+                    elif nxt_rom:
+                        out.append(nxt_rom[0])
+                    idx += 1
+                    continue
+                if ch == "ん":
+                    nxt = hira[idx + 1 : idx + 2]
+                    if nxt and nxt in "あいうえおやゆよ":
+                        out.append("n'")
+                    elif idx + 1 == len(hira):
+                        out.append("nn")
+                    else:
+                        out.append("n")
+                    idx += 1
+                    continue
+                if idx + 2 <= len(hira) and hira[idx : idx + 2] in digraphs:
+                    out.append(digraphs[hira[idx : idx + 2]])
+                    idx += 2
+                    continue
+                if ch in monographs:
+                    out.append(monographs[ch])
+                    idx += 1
+                    continue
+                out.append(ch)
+                idx += 1
+            return "".join(out)
+
+        from graspmemoedu.judging import judge_answer
+
+        all_cards = _all_flashcards()
+        judge = JapaneseGrammarJudge()
+        checked_cards = 0
+        checked_blanks = 0
+        for card in all_cards.values():
+            interaction = card.get("interaction") or {}
+            blanks = interaction.get("blanks") or []
+            if interaction.get("type") != "fill_blank" or not blanks:
+                continue
+            checked_cards += 1
+            romaji_blanks: dict[str, str] = {}
+            for b in blanks:
+                sample = to_romaji(b["answers"][0])
+                romaji_blanks[b["id"]] = sample
+                checked_blanks += 1
+            payload = json.dumps(romaji_blanks, ensure_ascii=False)
+            shared_ok, shared_reason = judge_answer(judge, card, payload)
+            self.assertTrue(shared_ok, f"Shared judge_answer failed for {card['id']}: {payload} ({shared_reason})")
+            ok, _reason = evaluate_question_offline(card, payload)
+            self.assertTrue(ok, f"Romaji round-trip failed for {card['id']}: {payload}")
+            item_results = per_blank_results(card, payload)
+            self.assertTrue(all(it["correct"] for it in item_results), f"per_blank_results failed for {card['id']}: {item_results}")
+
+        self.assertEqual(checked_cards, len(all_cards))
+        self.assertGreaterEqual(checked_blanks, 190)
+
+    def test_romaji_submit_e2e_lesson_and_review_paper(self) -> None:
+        tmp = tempfile.TemporaryDirectory(prefix="jp_grammar_romaji_e2e_")
+        self.addCleanup(tmp.cleanup)
+        data_dir = Path(tmp.name) / "data"
+        clock = MutableClock()
+        port = _pick_free_loopback_port()
+        rt = LocalRuntime(
+            packages_dir=PACKAGES_DIR,
+            data_dir=data_dir,
+            web_dir=WEB_DIR,
+            host="127.0.0.1",
+            port=port,
+            clock=clock,
+        )
+        jp01_fc = {fc["id"]: fc for fc in _load_topic(JP01)["flashcards"]}
+        with TestClient(create_app(rt), base_url=f"http://127.0.0.1:{port}") as client:
+            # 1. Start JP01 Lesson and submit romaji directly for every card via /api/submit
+            s = client.get("/api/state", params={"topic_id": JP01}).json()
+            if s.get("phase") == "choose":
+                s = client.post(
+                    "/api/choose",
+                    params={"topic_id": JP01},
+                    json={
+                        "request_id": str(uuid.uuid4()),
+                        "expected_revision": s["revision"],
+                        "attempt_id": s.get("attempt_id"),
+                        "step_id": s.get("active_step_id"),
+                        "choice": "learn",
+                    },
+                ).json()
+            answered = 0
+            tested_wrong = False
+            for _ in range(80):
+                if s.get("status") == "completed":
+                    break
+                phase = s.get("phase")
+                if phase in ("introduction", "intro", "chunk", "feedback", "waiting"):
+                    if phase in ("waiting", "feedback") and s.get("next_available_at"):
+                        clock.advance(minutes=15)
+                    s = client.post(
+                        "/api/continue",
+                        params={"topic_id": JP01},
+                        json={
+                            "request_id": str(uuid.uuid4()),
+                            "expected_revision": s["revision"],
+                            "attempt_id": s["attempt_id"],
+                            "step_id": s["active_step_id"],
+                        },
+                    ).json()
+                    continue
+                if phase == "answer":
+                    cid = s["current"]["card_id"]
+                    card = jp01_fc[cid]
+                    # On the first question, verify wrong romaji is rejected before submitting correct romaji
+                    if not tested_wrong:
+                        tested_wrong = True
+                        bad_blanks = {b["id"]: "qzxwrong" for b in card["interaction"]["blanks"]}
+                        bad_resp = client.post(
+                            "/api/submit",
+                            params={"topic_id": JP01},
+                            json={
+                                "request_id": str(uuid.uuid4()),
+                                "expected_revision": s["revision"],
+                                "attempt_id": s["attempt_id"],
+                                "step_id": s["active_step_id"],
+                                "answer": json.dumps(bad_blanks, ensure_ascii=False),
+                            },
+                        )
+                        self.assertEqual(bad_resp.status_code, 200, bad_resp.text)
+                        bad_body = bad_resp.json()
+                        self.assertFalse(bad_body["correct"])
+                        self.assertTrue(all(v is False for v in (bad_body.get("blank_results") or {}).values()))
+                        s = bad_body["state"]
+                        continue
+                    token_map = {
+                        "だ": "da",
+                        "の": "no",
+                        "な": "na",
+                        "です": "desu",
+                        "は": "wa",
+                        "が": "ga",
+                    }
+                    romaji_ans = {
+                        b["id"]: token_map[b["answers"][0]]
+                        for b in card["interaction"]["blanks"]
+                    }
+                    ok_resp = client.post(
+                        "/api/submit",
+                        params={"topic_id": JP01},
+                        json={
+                            "request_id": str(uuid.uuid4()),
+                            "expected_revision": s["revision"],
+                            "attempt_id": s["attempt_id"],
+                            "step_id": s["active_step_id"],
+                            "answer": json.dumps(romaji_ans, ensure_ascii=False),
+                        },
+                    )
+                    self.assertEqual(ok_resp.status_code, 200, ok_resp.text)
+                    ok_body = ok_resp.json()
+                    self.assertTrue(ok_body["correct"], f"{cid}: {ok_body}")
+                    br = ok_body.get("blank_results") or {}
+                    self.assertTrue(bool(br) and all(v is True for v in br.values()), f"{cid}: {ok_body}")
+                    answered += 1
+                    s = ok_body["state"]
+                    continue
+                self.fail(f"Unexpected state in Lesson romaji E2E: {s}")
+            self.assertEqual(s.get("status"), "completed")
+            self.assertGreaterEqual(answered, 9)
+
+            # 2. Advance clock 3 days and verify Review Paper grading accepts romaji
+            clock.advance(days=3)
+            inbox = client.get("/api/review-papers/inbox", params={"subject_id": DEFAULT_SUBJECT_ID}).json()
+            self.assertGreaterEqual(len(inbox["items"]), 1)
+            paper = client.post(
+                "/api/review-papers/open",
+                params={"subject_id": DEFAULT_SUBJECT_ID},
+                json={"request_id": str(uuid.uuid4()), "candidate_id": inbox["items"][0]["id"]},
+            ).json()
+            rev = paper["revision"]
+            review_token_map = {
+                "だ": "da",
+                "の": "no",
+                "な": "na",
+                "です": "desu",
+                "は": "ha",
+                "が": "ga",
+            }
+            entries = [
+                {
+                    "index": item["index"],
+                    "answer": json.dumps(
+                        {
+                            b["id"]: review_token_map[b["answers"][0]]
+                            for b in jp01_fc[item["content_context"]["question_id"]]["interaction"]["blanks"]
+                        },
+                        ensure_ascii=False,
+                    ),
+                    "elapsed_ms": 800,
+                }
+                for item in paper["items"]
+            ]
+            for start in range(0, len(entries), 2):
+                dr = client.post(
+                    "/api/review-papers/draft",
+                    params={"subject_id": DEFAULT_SUBJECT_ID},
+                    json={"paper_id": paper["id"], "expected_revision": rev, "answers": entries[start : start + 2]},
+                )
+                self.assertEqual(dr.status_code, 200, dr.text)
+                rev = dr.json()["revision"]
+            done = client.post(
+                "/api/review-papers/submit",
+                params={"subject_id": DEFAULT_SUBJECT_ID},
+                json={"paper_id": paper["id"], "request_id": str(uuid.uuid4()), "expected_revision": rev},
+            ).json()
+            self.assertEqual(done["phase"], "done")
+            self.assertTrue(all(it["result"]["correct"] for it in done["items"]))
+
+    def test_atomic_next_available_at_prefers_future_wakeup_and_ui_auto_continues(self) -> None:
+        from graspmemoedu.atomic import AtomicLearningService
+
+        tmp = tempfile.TemporaryDirectory(prefix="jp_atomic_wakeup_")
+        self.addCleanup(tmp.cleanup)
+        now = datetime(2026, 11, 15, 3, 20, 0, tzinfo=timezone.utc)
+        topic = _load_topic(JP01)
+        svc = AtomicLearningService(topic, Path(tmp.name), clock=lambda: now)
+        past_iso = (now - timedelta(hours=14)).isoformat()
+        future_iso = (now + timedelta(minutes=10)).isoformat()
+        fake_state = {
+            "mode": "learn",
+            "chunk_last_seen": {},
+            "points": {
+                pid: {"mastered": idx >= 2, "due_at": past_iso if idx == 0 else future_iso}
+                for idx, pid in enumerate(svc.point_chunks.keys())
+            },
+        }
+        eligible, wakeup = svc._eligible(fake_state)
+        first_pid = next(iter(svc.point_chunks.keys()))
+        self.assertEqual(eligible, {first_pid})
+        self.assertEqual(wakeup, future_iso)
+
+        app_js = (WEB_DIR / "app.js").read_text(encoding="utf-8")
+        self.assertIn("autoContinueKeys", app_js)
+        self.assertIn("alreadyReady", app_js)
+        self.assertIn("triggerContinue", app_js)
 
 
 if __name__ == "__main__":

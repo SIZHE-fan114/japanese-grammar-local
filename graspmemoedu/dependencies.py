@@ -1,6 +1,6 @@
 """Read-only, shared prerequisite eligibility for lesson and review delivery."""
 from contextlib import closing
-from datetime import datetime
+from datetime import datetime, timedelta
 import json
 
 from .service import DomainError, now
@@ -11,9 +11,13 @@ from .training_content import TrainingCatalog, permission_id
 
 
 class DependencyPolicy:
-    def __init__(self, catalog, access_store, subjects=None, training=None):
+    def __init__(self, catalog, access_store, subjects=None, training=None, *, clock=None):
         self.catalog, self.access_store, self.subjects = catalog, access_store, subjects
         self.training = training or (TrainingCatalog(subjects.settings.data_dir) if subjects else None)
+        self.clock = clock
+
+    def current_time(self):
+        return self.clock().isoformat() if self.clock else now()
 
     def dependencies(self, course_id=None):
         if self.subjects is not None:
@@ -51,6 +55,7 @@ class DependencyPolicy:
     def missing_count(self, con, access, topic_id, dependencies=None, current_time=None):
         if topic_id in self.catalog.topics and is_introduction(self.catalog.topic(topic_id)):
             return 0
+        current_time = current_time if current_time is not None else self.current_time()
         point_gate = self.group_point_status(con, access, topic_id, current_time)
         if access.get('is_admin'):
             return point_gate['missing_point_count']
@@ -63,7 +68,7 @@ class DependencyPolicy:
                             for node, parents in dependencies.items()}
         allowed = {topic['id'] for topic in access['topics']}
         tables, checked, visiting = self.tables(con), {}, set()
-        current = datetime.fromisoformat(current_time or now())
+        current = datetime.fromisoformat(current_time)
 
         def healthy(node):
             if node in checked:
@@ -92,9 +97,23 @@ class DependencyPolicy:
             valid = valid and (state.get('status') == 'completed' or skip_allowed and state.get('initial_completed_at'))
             valid = valid and not state.get('pause') and (not skipped or skip_allowed)
             if valid and has_atomic(self.catalog.topic(node)):
+                from .atomic_content import GAP_SECONDS, point_chunks
                 points = atomic_state(state)
-                valid = not points.get('pause') and not any(p.get('due_at') and datetime.fromisoformat(p['due_at']) <= current
-                                                           for p in points.get('points', {}).values())
+                chunks = point_chunks(self.catalog.topic(node))
+                seen = points.get('chunk_last_seen') or {}
+                valid = not points.get('pause')
+                if valid:
+                    for point_id, point_state in points.get('points', {}).items():
+                        due_iso = point_state.get('due_at')
+                        if not due_iso:
+                            continue
+                        due = datetime.fromisoformat(due_iso)
+                        last = seen.get(chunks.get(point_id))
+                        if last:
+                            due = max(due, datetime.fromisoformat(last) + timedelta(seconds=GAP_SECONDS))
+                        if due <= current:
+                            valid = False
+                            break
             if valid and 'review_topic_pauses' in tables:
                 valid = con.execute('SELECT 1 FROM review_topic_pauses WHERE learner=? AND topic=?', key).fetchone() is None
             if valid and 'review_sessions' in tables:
@@ -121,7 +140,7 @@ class DependencyPolicy:
         refs = policy['point_ids'] if policy else list(dict.fromkeys(
             p for q in group.get('questions', []) for p in q.get('point_ids', [])))
         rows = snapshot(con, self.catalog, access['learner_id'], refs, access)
-        return eligibility(rows, current_time or now(), policy, allow_unlearned=bypass_mastery(access))
+        return eligibility(rows, current_time if current_time is not None else self.current_time(), policy, allow_unlearned=bypass_mastery(access))
 
     def group_content(self, node_id):
         parts = group_parts(node_id)
@@ -174,6 +193,7 @@ class DependencyPolicy:
                 'href': f'/subjects/{quote(subject)}/topic/{quote(node_id)}'}
 
     def group_status(self, con, access, bank_id, group_id, current_time=None):
+        current_time = current_time if current_time is not None else self.current_time()
         node_id = group_key(bank_id, group_id)
         dependencies = self.dependencies()
         missing = self.missing_count(con, access, node_id, dependencies, current_time)

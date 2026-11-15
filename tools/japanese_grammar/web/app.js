@@ -54,6 +54,7 @@ const appState = {
   sidebarOpen: false,
   busy: false,
   cooldownTimerId: null,
+  autoContinueKeys: new Set(),
   paperTimerId: null,
   presenceTimerId: null,
   lastRenderSeq: 0,
@@ -414,12 +415,21 @@ function getTopicDisplayChapter(topicId, index = 0, explicitChapter = null) {
 
 function getAtomicDueCount() {
   const atomicItems = Array.isArray(appState.atomicReviews?.items) ? appState.atomicReviews.items : [];
-  const atomicSum = atomicItems.reduce((acc, item) => acc + Number(item?.due_count || 0), 0);
+  const atomicSum = atomicItems
+    .filter((item) => item?.dependency_ready !== false && !item?.paused)
+    .reduce((acc, item) => acc + Number(item?.due_count || 0), 0);
   const paperCount = Number(appState.reviewPaperInbox?.due_count || 0);
   const modCount = Array.isArray(appState.moduleReviews?.items)
     ? appState.moduleReviews.items.filter((x) => x?.due_now || x?.due).length
     : 0;
   return Math.max(atomicSum, paperCount) + modCount;
+}
+
+function getLockedAtomicDueCount() {
+  const atomicItems = Array.isArray(appState.atomicReviews?.items) ? appState.atomicReviews.items : [];
+  return atomicItems
+    .filter((item) => item?.dependency_ready === false || item?.paused)
+    .reduce((acc, item) => acc + Number(item?.due_count || 0), 0);
 }
 
 function updateNavBadges() {
@@ -535,24 +545,33 @@ async function refreshSharedSummary() {
   updateNavBadges();
 }
 
+function isTopicCompleted(topic, stateOverride = null) {
+  const st = stateOverride || appState.topicStatesById.get(topic?.id) || topic || {};
+  return Boolean(st.completed || st.status === 'completed' || st.completed_at);
+}
+
+function isTopicLocked(topic, stateOverride = null) {
+  const st = stateOverride || appState.topicStatesById.get(topic?.id) || topic || {};
+  return Boolean(st.locked || st.dependency_blocked || st.dependency_ready === false);
+}
+
 function pickDefaultTopicId() {
+  const topics = getCatalogTopics();
   try {
     const saved = localStorage.getItem(LAST_TOPIC_STORAGE_KEY);
-    const topics = getCatalogTopics();
-    if (saved && topics.some((t) => t.id === saved)) {
-      return saved;
+    const savedTopic = saved ? topics.find((t) => t.id === saved) : null;
+    if (savedTopic && !isTopicCompleted(savedTopic) && !isTopicLocked(savedTopic)) {
+      return savedTopic.id;
     }
   } catch {
     // Ignore
   }
-  const topics = getCatalogTopics();
-  const nextUp = topics.find((t) => {
-    const st = appState.topicStatesById.get(t.id) || t;
-    const completed = Boolean(st.completed || st.status === 'completed' || st.completed_at);
-    const locked = Boolean(st.locked || st.dependency_blocked || st.dependency_ready === false);
-    return !completed && !locked;
-  });
-  return nextUp?.id || topics[0]?.id || DEFAULT_TOPIC_ID;
+  const nextUp = topics.find((t) => !isTopicCompleted(t) && !isTopicLocked(t));
+  if (nextUp?.id) {
+    return nextUp.id;
+  }
+  const firstIncomplete = topics.find((t) => !isTopicCompleted(t));
+  return firstIncomplete?.id || topics[0]?.id || DEFAULT_TOPIC_ID;
 }
 
 function navigate(hash) {
@@ -657,11 +676,34 @@ async function renderOverviewView() {
   showSidebarShell(false);
   const topics = getCatalogTopics();
   const dueCount = getAtomicDueCount();
-  const completedCount = topics.filter((t) => {
-    const st = appState.topicStatesById.get(t.id) || t;
-    return Boolean(st.completed || st.status === 'completed' || st.completed_at);
-  }).length;
-  const recommendedId = pickDefaultTopicId();
+  const completedCount = topics.filter((t) => isTopicCompleted(t)).length;
+  const frontierTopic = topics.find((t) => !isTopicCompleted(t) && !isTopicLocked(t)) || null;
+  const recommendedId = frontierTopic?.id || pickDefaultTopicId();
+  const recommendedTopic = topics.find((t) => t.id === recommendedId) || topics[0] || null;
+  const recommendedLocked = recommendedTopic ? isTopicLocked(recommendedTopic) : false;
+  const recommendedCompleted = recommendedTopic ? isTopicCompleted(recommendedTopic) : false;
+
+  const atomicByTopic = new Map(
+    (Array.isArray(appState.atomicReviews?.items) ? appState.atomicReviews.items : [])
+      .map((item) => [item.topic_id, item]),
+  );
+
+  let heroActionsHtml = '';
+  if (frontierTopic && !recommendedLocked) {
+    heroActionsHtml = `
+      <button type="button" class="btn btn--primary" id="heroStartBtn">继续学习：${escapeHtml(recommendedTopic?.title || '第 1 课')}</button>
+      ${dueCount > 0 ? `<button type="button" class="btn btn--secondary" id="heroReviewBtn">进入间隔复习（${dueCount} 项到期）</button>` : ''}
+    `;
+  } else if (dueCount > 0) {
+    heroActionsHtml = `
+      <button type="button" class="btn btn--primary" id="heroReviewBtn">先完成前置复习（${dueCount} 项到期）</button>
+      ${recommendedTopic ? `<button type="button" class="btn btn--secondary" id="heroStartBtn">${recommendedLocked ? `查看解锁条件：${escapeHtml(recommendedTopic.title || recommendedTopic.id)}` : `进入课程：${escapeHtml(recommendedTopic.title || recommendedTopic.id)}`}</button>` : ''}
+    `;
+  } else {
+    heroActionsHtml = `
+      <button type="button" class="btn btn--primary" id="heroStartBtn">${recommendedCompleted ? `回顾课程：${escapeHtml(recommendedTopic?.title || '第 1 课')}` : recommendedLocked ? `查看解锁条件：${escapeHtml(recommendedTopic?.title || '第 1 课')}` : `继续学习：${escapeHtml(recommendedTopic?.title || '第 1 课')}`}</button>
+    `;
+  }
 
   const root = document.createElement('div');
 
@@ -673,8 +715,7 @@ async function renderOverviewView() {
       <h1 class="heroTitle">日语基础语法与结构填空精练</h1>
       <p class="heroDesc">围绕「体言・助词」「动词基本型」「否定与过去式」「连体修饰」「并列与条件」循序掌握，结合组块记忆与间隔复习巩固直觉。</p>
       <div class="actionRow" style="margin-top:14px;">
-        <button type="button" class="btn btn--primary" id="heroStartBtn">继续学习：${escapeHtml(topics.find((t) => t.id === recommendedId)?.title || '第 1 课')}</button>
-        ${dueCount > 0 ? `<button type="button" class="btn btn--secondary" id="heroReviewBtn">进入间隔复习（${dueCount} 项到期）</button>` : ''}
+        ${heroActionsHtml}
       </div>
     </div>
     <div class="heroStats">
@@ -684,7 +725,7 @@ async function renderOverviewView() {
       </div>
       <div class="heroStatBox">
         <div class="heroStatNum">${dueCount}</div>
-        <div class="heroStatLabel">当前到期复习</div>
+        <div class="heroStatLabel">当前可复习到期项</div>
       </div>
     </div>
   `;
@@ -723,8 +764,18 @@ async function renderOverviewView() {
   topics.forEach((topic, idx) => {
     const st = appState.topicStatesById.get(topic.id) || topic;
     const chapter = getTopicDisplayChapter(topic.id, idx, topic.chapter);
-    const completed = Boolean(st.completed || st.status === 'completed' || st.completed_at);
-    const locked = Boolean(st.locked || st.dependency_blocked || st.dependency_ready === false);
+    const completed = isTopicCompleted(topic, st);
+    const locked = isTopicLocked(topic, st);
+    const prereqs = Array.isArray(st.prerequisite_details) && st.prerequisite_details.length
+      ? st.prerequisite_details
+      : (Array.isArray(st.prerequisites) ? st.prerequisites.map((id) => ({ id })) : []);
+    const prereqIds = prereqs.map((p) => p?.topic_id || p?.id).filter(Boolean);
+    const allPrereqsCompleted = prereqIds.length > 0 && prereqIds.every((pid) => {
+      const pst = appState.topicStatesById.get(pid);
+      return pst ? isTopicCompleted(pst, pst) : false;
+    });
+    const hasPrereqDueReviews = prereqIds.some((pid) => Number(atomicByTopic.get(pid)?.due_count || 0) > 0);
+    const lockedByReview = locked && (allPrereqsCompleted || hasPrereqDueReviews);
     const learnedPts = Number(st.learned_count ?? st.topic_progress?.points?.completed ?? 0);
     const totalPts = Number(st.point_count ?? st.topic_progress?.points?.total ?? 0);
     const pct = totalPts > 0 ? Math.min(100, Math.round((learnedPts / totalPts) * 100)) : completed ? 100 : 0;
@@ -736,7 +787,7 @@ async function renderOverviewView() {
         <div class="topicCardTop">
           <span class="topicChapterTag">第 ${chapter} 课</span>
           <span class="pill ${completed ? 'pill--success' : locked ? 'pill--muted' : 'pill--accent'}">
-            ${completed ? '已掌握' : locked ? '待解锁' : '学习中'}
+            ${completed ? '已掌握' : lockedByReview ? '待前置复习' : locked ? '待解锁' : '学习中'}
           </span>
         </div>
         <h3 class="topicCardTitle">${escapeHtml(topic.title || topic.id)}</h3>
@@ -748,7 +799,7 @@ async function renderOverviewView() {
         ` : ''}
       </div>
       <div class="topicCardFooter">
-        <span class="mutedText">${totalPts > 0 ? `记忆点 ${learnedPts} / ${totalPts}` : (completed ? '已完成初次学习' : locked ? '请先完成前置课时' : '点击进入学习')}</span>
+        <span class="mutedText">${totalPts > 0 ? `记忆点 ${learnedPts} / ${totalPts}${lockedByReview ? '（需先复习前置项）' : ''}` : (completed ? '已完成初次学习' : lockedByReview ? '前置课时待复习解锁' : locked ? '请先完成前置课时' : '点击进入学习')}</span>
         <button type="button" class="btn btn--sm ${completed ? 'btn--secondary' : 'btn--primary'}" data-open-topic="${escapeHtml(topic.id)}">
           ${completed ? '回顾 / 复习' : locked ? '查看先修' : '开始学习'}
         </button>
@@ -1051,23 +1102,98 @@ async function renderTopicState(state) {
 
   // 1. Dependency blocker check
   if (state?.dependency_blocked) {
-    const blockers = state.blocking_topics || state.missing_prerequisites || [];
+    const rawBlockers = state.blocking_topics || state.missing_prerequisites || [];
+    const atomicByTopic = new Map(
+      (Array.isArray(appState.atomicReviews?.items) ? appState.atomicReviews.items : [])
+        .map((item) => [item.topic_id, item]),
+    );
+    const blockers = rawBlockers.map((blk) => {
+      const id = typeof blk === 'string' ? blk : (blk.topic_id || blk.id);
+      const cachedState = appState.topicStatesById.get(id) || {};
+      const reviewInfo = atomicByTopic.get(id) || {};
+      const label = (typeof blk === 'object' && blk?.title) ? blk.title : (cachedState.title || id);
+      const dueCount = Number((typeof blk === 'object' ? blk?.due_count : undefined) ?? reviewInfo.due_count ?? 0);
+      const paused = Boolean((typeof blk === 'object' ? blk?.paused : undefined) ?? reviewInfo.paused);
+      const completed = Boolean(
+        (typeof blk === 'object' && blk?.completed !== undefined)
+          ? blk.completed
+          : isTopicCompleted(cachedState, cachedState),
+      );
+      let reason = typeof blk === 'object' && blk?.reason ? blk.reason : '';
+      if (!reason) {
+        if (paused) reason = 'paused';
+        else if (!completed) reason = 'incomplete';
+        else if (dueCount > 0) reason = 'due_reviews';
+        else reason = 'upstream_blocked';
+      }
+      return { id, label, dueCount, paused, completed, reason };
+    });
+
+    const hasReviewBlocker = blockers.some((b) => b.reason === 'due_reviews');
+    const hasPauseBlocker = blockers.some((b) => b.reason === 'paused');
+    const hasIncompleteBlocker = blockers.some((b) => b.reason === 'incomplete');
+    const eyebrow = hasPauseBlocker
+      ? '前置课时已暂停'
+      : hasReviewBlocker && !hasIncompleteBlocker
+        ? '需先完成前置间隔复习 · PREREQUISITE REVIEW DUE'
+        : !hasIncompleteBlocker && blockers.length
+          ? '上游前置链路待解锁'
+          : '先修课程尚未完成';
+    const title = hasPauseBlocker
+      ? '请先解除前置课时的暂停状态后再学习本课'
+      : hasReviewBlocker && !hasIncompleteBlocker
+        ? '前置课时已学完，请先完成到期的间隔复习以解锁本课'
+        : !hasIncompleteBlocker && blockers.length
+          ? '上游前置课时仍有待处理的学习或复习内容'
+          : '请先完成以下前置语法课程后再学习本课';
+    const savedNote = pointCount > 0 && learnedCount > 0
+      ? `您在本课的既有进度（记忆点 ${learnedCount} / ${pointCount}）已完整保留，解除前置阻塞后可直接继续。`
+      : '';
+
     const blockCard = document.createElement('section');
     blockCard.className = 'panelCard';
     blockCard.innerHTML = `
-      <p class="sectionEyebrow">先修课程尚未完成</p>
-      <h2 class="cardTitle">请先完成以下前置语法课程后再学习本课</h2>
+      <p class="sectionEyebrow">${escapeHtml(eyebrow)}</p>
+      <h2 class="cardTitle">${escapeHtml(title)}</h2>
+      ${savedNote ? `<p class="mutedText">${escapeHtml(savedNote)}</p>` : ''}
+      <ul class="mutedText" id="blockerDetailList" style="margin:8px 0 14px; padding-left:20px;"></ul>
       <div class="actionRow" id="blockerBtnRow"></div>
     `;
+    const detailList = blockCard.querySelector('#blockerDetailList');
     const btnRow = blockCard.querySelector('#blockerBtnRow');
+
+    if (hasReviewBlocker) {
+      const reviewBtn = document.createElement('button');
+      reviewBtn.type = 'button';
+      reviewBtn.className = 'btn btn--primary';
+      const totalBlockerDue = blockers.reduce((acc, b) => acc + (b.reason === 'due_reviews' ? b.dueCount : 0), 0);
+      reviewBtn.textContent = totalBlockerDue > 0 ? `前往间隔复习（待复习 ${totalBlockerDue} 项）` : '前往间隔复习中心';
+      reviewBtn.addEventListener('click', () => navigate('/review'));
+      btnRow.appendChild(reviewBtn);
+    }
+
     for (const blk of blockers) {
-      const id = typeof blk === 'string' ? blk : (blk.topic_id || blk.id);
-      const label = typeof blk === 'string' ? blk : (blk.title || id);
+      const li = document.createElement('li');
+      if (blk.reason === 'due_reviews') {
+        li.textContent = `「${blk.label}」：初次学习已掌握，当前有 ${blk.dueCount} 项间隔复习已到期，请先前往间隔复习中心完成。`;
+      } else if (blk.reason === 'paused') {
+        li.textContent = `「${blk.label}」：当前处于练习暂停状态，需先解除暂停。`;
+      } else if (blk.reason === 'upstream_blocked') {
+        li.textContent = `「${blk.label}」：本身也受更早先修课时的未完成或待复习内容阻塞。`;
+      } else {
+        li.textContent = `「${blk.label}」：初次学习尚未完成，需先掌握全部记忆点。`;
+      }
+      detailList.appendChild(li);
+
       const b = document.createElement('button');
       b.type = 'button';
-      b.className = 'btn btn--primary';
-      b.textContent = `前往：${label}`;
-      b.addEventListener('click', () => navigate(`/topic/${encodeURIComponent(id)}`));
+      b.className = hasReviewBlocker && blk.reason === 'due_reviews' ? 'btn btn--secondary' : 'btn btn--primary';
+      b.textContent = blk.reason === 'incomplete'
+        ? `前往学习：${blk.label}`
+        : blk.reason === 'paused'
+          ? `查看并解除暂停：${blk.label}`
+          : `查看「${blk.label}」状态`;
+      b.addEventListener('click', () => navigate(`/topic/${encodeURIComponent(blk.id)}`));
       btnRow.appendChild(b);
     }
     if (!blockers.length) {
@@ -1525,53 +1651,110 @@ async function renderTopicState(state) {
     const card = document.createElement('section');
     card.className = 'panelCard';
     const nextIso = state.next_available_at;
-    const serverMs = state.server_time ? new Date(state.server_time).getTime() : Date.now();
-    const targetMs = nextIso ? new Date(nextIso).getTime() : Date.now() + 10000;
+    const serverMsRaw = state.server_time ? new Date(state.server_time).getTime() : NaN;
+    const serverMs = Number.isFinite(serverMsRaw) ? serverMsRaw : Date.now();
+    const targetMs = nextIso ? new Date(nextIso).getTime() : NaN;
     const skewMs = Date.now() - serverMs;
+    const computeRemainSec = () =>
+      Number.isFinite(targetMs) ? Math.ceil((targetMs - (Date.now() - skewMs)) / 1000) : 0;
+    const initialRemainSec = computeRemainSec();
+    const alreadyReady = initialRemainSec <= 0;
+    const stepKey = `${topicId}:${state.revision}:${state.active_step_id || ''}`;
 
-    card.innerHTML = `
-      <p class="sectionEyebrow">短暂巩固等待 · Cooldown</p>
-      <h2 class="pageTitle">本组记忆点正在间隔冷却中</h2>
-      <p class="mutedText">FSRS 会在短暂间隔后自动解锁下一张强化填空卡，帮助在大脑略微遗忘前巩固记忆。</p>
-      <div class="banner banner--info" style="margin-top:12px;">
-        <div>
-          <div><strong>距离下次可继续训练：</strong><span id="cooldownText">计算中…</span></div>
-          <div class="mutedText">预计可用时间：${escapeHtml(formatDateTime(nextIso))}</div>
+    card.innerHTML = alreadyReady
+      ? `
+        <p class="sectionEyebrow">准备恢复 · Ready</p>
+        <h2 class="pageTitle">巩固冷却已结束，可立即继续训练</h2>
+        <p class="mutedText">本组记忆点的巩固间隔已经到期，系统正在自动为你加载下一张强化填空卡。</p>
+        <div class="banner banner--info" style="margin-top:12px;">
+          <div>
+            <div><strong>当前状态：</strong><span id="cooldownText">正在自动继续下一题…</span></div>
+            <div class="mutedText" id="cooldownDueLine">若未自动跳转，请点击右侧按钮继续。</div>
+          </div>
+          <button type="button" class="btn btn--primary" id="cooldownCheckBtn">继续训练</button>
         </div>
-        <button type="button" class="btn btn--primary" id="cooldownCheckBtn">检查是否可继续</button>
-      </div>
-      <div class="actionRow">
-        <button type="button" class="btn btn--secondary" id="waitOverviewBtn">先看其他课程</button>
-        <button type="button" class="btn btn--secondary" id="waitReviewBtn">查看复习中心</button>
-      </div>
-    `;
+        <div class="actionRow">
+          <button type="button" class="btn btn--secondary" id="waitOverviewBtn">先看其他课程</button>
+          <button type="button" class="btn btn--secondary" id="waitReviewBtn">查看复习中心</button>
+        </div>
+      `
+      : `
+        <p class="sectionEyebrow">短暂巩固等待 · Cooldown</p>
+        <h2 class="pageTitle">本组记忆点正在间隔冷却中</h2>
+        <p class="mutedText">FSRS 会在短暂间隔后自动解锁下一张强化填空卡，帮助在大脑略微遗忘前巩固记忆。</p>
+        <div class="banner banner--info" style="margin-top:12px;">
+          <div>
+            <div><strong>距离下次可继续训练：</strong><span id="cooldownText">计算中…</span></div>
+            <div class="mutedText" id="cooldownDueLine">预计可用时间：${escapeHtml(formatDateTime(nextIso))}</div>
+          </div>
+          <button type="button" class="btn btn--primary" id="cooldownCheckBtn">检查是否可继续</button>
+        </div>
+        <div class="actionRow">
+          <button type="button" class="btn btn--secondary" id="waitOverviewBtn">先看其他课程</button>
+          <button type="button" class="btn btn--secondary" id="waitReviewBtn">查看复习中心</button>
+        </div>
+      `;
 
     const cooldownText = card.querySelector('#cooldownText');
-    const tick = () => {
-      const remainSec = Math.ceil((targetMs - (Date.now() - skewMs)) / 1000);
-      if (remainSec <= 0) {
-        if (cooldownText) {
-          cooldownText.textContent = '已就绪，点击右侧按钮继续！';
-        }
-        clearInterval(appState.cooldownTimerId);
-        appState.cooldownTimerId = null;
-        return;
-      }
-      if (cooldownText) {
-        cooldownText.textContent = formatDurationSeconds(remainSec);
-      }
-    };
-    tick();
-    appState.cooldownTimerId = setInterval(tick, 1000);
-
+    const cooldownDueLine = card.querySelector('#cooldownDueLine');
     const cooldownCheckBtn = card.querySelector('#cooldownCheckBtn');
-    cooldownCheckBtn?.addEventListener('click', () =>
-      runTopicMutation(() => api.continueStep(topicId, actionGuard(state), DEFAULT_SUBJECT_ID), cooldownCheckBtn),
-    );
+    const triggerContinue = (force = false) => {
+      if (!force) {
+        if (appState.autoContinueKeys.has(stepKey) || appState.busy) {
+          return;
+        }
+        appState.autoContinueKeys.add(stepKey);
+      }
+      runTopicMutation(
+        () => api.continueStep(topicId, actionGuard(state), DEFAULT_SUBJECT_ID),
+        cooldownCheckBtn,
+      );
+    };
+
+    cooldownCheckBtn?.addEventListener('click', () => triggerContinue(true));
     card.querySelector('#waitOverviewBtn')?.addEventListener('click', () => navigate('/overview'));
     card.querySelector('#waitReviewBtn')?.addEventListener('click', () => navigate('/review'));
     root.appendChild(card);
     dom.mainView.replaceChildren(root);
+
+    if (alreadyReady) {
+      if (appState.autoContinueKeys.has(stepKey)) {
+        if (cooldownText) {
+          cooldownText.textContent = '已就绪，点击右侧按钮继续！';
+        }
+      } else {
+        setTimeout(() => {
+          if (
+            appState.activeTopicId === topicId &&
+            appState.topicState?.phase === 'waiting' &&
+            appState.topicState?.revision === state.revision
+          ) {
+            triggerContinue(false);
+          }
+        }, 0);
+      }
+    } else {
+      const tick = () => {
+        const remainSec = computeRemainSec();
+        if (remainSec <= 0) {
+          if (cooldownText) {
+            cooldownText.textContent = '冷却已完成，正在自动继续…';
+          }
+          if (cooldownDueLine) {
+            cooldownDueLine.textContent = '已就绪，若未自动跳转请点击右侧按钮继续。';
+          }
+          clearInterval(appState.cooldownTimerId);
+          appState.cooldownTimerId = null;
+          triggerContinue(false);
+          return;
+        }
+        if (cooldownText) {
+          cooldownText.textContent = formatDurationSeconds(remainSec);
+        }
+      };
+      tick();
+      appState.cooldownTimerId = setInterval(tick, 1000);
+    }
     setAiContext({
       view: 'overview',
       topicId,
@@ -1586,16 +1769,41 @@ async function renderTopicState(state) {
   const topics = getCatalogTopics();
   const idx = topics.findIndex((t) => t.id === topicId);
   const nextTopic = idx >= 0 && idx + 1 < topics.length ? topics[idx + 1] : null;
+  const cachedReview = (Array.isArray(appState.atomicReviews?.items) ? appState.atomicReviews.items : [])
+    .find((item) => item.topic_id === topicId);
+  const thisDueCount = Number(state?.review_summary?.due_count ?? cachedReview?.due_count ?? 0);
+  const nextLocked = nextTopic ? isTopicLocked(nextTopic) : false;
   const doneCard = document.createElement('section');
   doneCard.className = 'panelCard';
-  doneCard.innerHTML = `
-    <p class="sectionEyebrow">课时已掌握 · Completed</p>
-    <h2 class="pageTitle">恭喜完成「${escapeHtml(state?.title || topicId)}」！</h2>
-    <p class="mutedText">本课全部记忆点已通过检索验证，后续将在 FSRS 间隔到期时于复习中心自动推送。</p>
-    <div class="actionRow">
+  let doneHint = '本课全部记忆点已通过检索验证，后续将在 FSRS 间隔到期时于复习中心自动推送。';
+  let doneButtonsHtml = '';
+  if (thisDueCount > 0) {
+    doneHint = `本课初次学习已掌握，但当前有 ${thisDueCount} 项 FSRS 记忆点已到期，按掌握式学习规则需先完成本课复习后才能解锁或继续下一课。`;
+    doneButtonsHtml = `
+      <button type="button" class="btn btn--primary" id="doneReviewBtn">立即开始本课复习（${thisDueCount} 项到期）</button>
+      ${nextTopic ? `<button type="button" class="btn btn--secondary" id="nextTopicBtn">下一课：${escapeHtml(nextTopic.title || nextTopic.id)}（需先复习本课）</button>` : ''}
+      <button type="button" class="btn btn--ghost" id="doneOverviewBtn">返回课程总览</button>
+    `;
+  } else if (nextTopic && nextLocked) {
+    doneHint = '本课初次学习已完成；下一课目前仍被前置条件锁定，请点击查看解锁详情或前往复习中心确认到期任务。';
+    doneButtonsHtml = `
+      <button type="button" class="btn btn--primary" id="doneReviewBtn">前往间隔复习中心</button>
+      <button type="button" class="btn btn--secondary" id="nextTopicBtn">查看下一课解锁要求：${escapeHtml(nextTopic.title || nextTopic.id)}</button>
+      <button type="button" class="btn btn--ghost" id="doneOverviewBtn">返回课程总览</button>
+    `;
+  } else {
+    doneButtonsHtml = `
       ${nextTopic ? `<button type="button" class="btn btn--primary" id="nextTopicBtn">进入下一课：${escapeHtml(nextTopic.title || nextTopic.id)} →</button>` : ''}
       <button type="button" class="btn btn--secondary" id="doneReviewBtn">查看间隔复习中心</button>
       <button type="button" class="btn btn--ghost" id="doneOverviewBtn">返回课程总览</button>
+    `;
+  }
+  doneCard.innerHTML = `
+    <p class="sectionEyebrow">课时已掌握 · Completed</p>
+    <h2 class="pageTitle">恭喜完成「${escapeHtml(state?.title || topicId)}」！</h2>
+    <p class="mutedText">${escapeHtml(doneHint)}</p>
+    <div class="actionRow">
+      ${doneButtonsHtml}
     </div>
   `;
   doneCard.querySelector('#nextTopicBtn')?.addEventListener('click', () => navigate(`/topic/${encodeURIComponent(nextTopic.id)}`));
@@ -1669,10 +1877,27 @@ async function renderReviewCenterView(paperId = null) {
   const paperCol = document.createElement('section');
   paperCol.className = 'panelCard';
   paperCol.innerHTML = '<h2 class="cardTitle">可发起的综合/单卡复习</h2>';
+  const nowMs = Date.now();
+  const futureTimestamps = [
+    inbox.next_due_at,
+    appState.atomicReviews?.next_due_at,
+  ].filter((ts) => ts && !Number.isNaN(new Date(ts).getTime()) && new Date(ts).getTime() > nowMs);
+  futureTimestamps.sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
+  const futureNextDueAt = futureTimestamps[0] || null;
+  const lockedDueCount = getLockedAtomicDueCount();
+
   if (!candidates.length) {
-    paperCol.innerHTML += `
-      <p class="mutedText">当前暂无到期的组合或单卡复习任务${appState.atomicReviews?.next_due_at ? `（下次到期时间：${escapeHtml(formatDateTime(appState.atomicReviews.next_due_at))}）` : ''}。</p>
-    `;
+    let emptyText = '当前暂无到期的组合或单卡复习任务';
+    if (activePapers.length) {
+      emptyText = '当前所有可作答复习任务均已在上方「进行中的复习任务」中，请先继续作答。';
+    } else if (futureNextDueAt) {
+      emptyText = `当前暂无可立即发起的组合或单卡复习任务（下次到期时间：${escapeHtml(formatDateTime(futureNextDueAt))}）。`;
+    } else if (lockedDueCount > 0) {
+      emptyText = `当前暂无可立即发起的复习任务（右侧有 ${lockedDueCount} 项后续课时记忆点将在前置巩固或解除暂停后开放复习）。`;
+    } else {
+      emptyText += '。';
+    }
+    paperCol.innerHTML += `<p class="mutedText">${emptyText}</p>`;
   } else {
     for (const cand of candidates) {
       const row = document.createElement('div');
@@ -1700,16 +1925,29 @@ async function renderReviewCenterView(paperId = null) {
     for (const item of atomicItems) {
       const row = document.createElement('div');
       row.className = 'reviewItemRow';
+      const locked = item.dependency_ready === false;
+      const due = Number(item.due_count || 0);
+      const futureTopicDue = [item.next_upcoming_due_at, item.next_due_at]
+        .find((ts) => ts && !Number.isNaN(new Date(ts).getTime()) && new Date(ts).getTime() > nowMs);
+      let detailLine = '';
+      if (item.paused) {
+        detailLine = `已暂停${due > 0 ? ` · 待恢复 ${due} 项` : ''}`;
+      } else if (locked) {
+        detailLine = due > 0
+          ? `前置待巩固 · 完成后解锁 ${due} 项复习`
+          : '前置待巩固 · 暂未解锁';
+      } else if (due > 0) {
+        detailLine = `当前到期 ${due} 项${futureTopicDue ? ` · 下一批到期：${escapeHtml(formatDateTime(futureTopicDue))}` : ''}`;
+      } else {
+        detailLine = `暂未到期${futureTopicDue ? ` · 下次到期：${escapeHtml(formatDateTime(futureTopicDue))}` : ''}`;
+      }
+      const btnLabel = item.paused ? '查看暂停' : locked ? '查看前置' : '进入课时';
       row.innerHTML = `
         <div>
           <div style="font-weight:700;">${escapeHtml(item.title || item.topic_id)}</div>
-          <div class="mutedText">
-            到期 ${Number(item.due_count || 0)} 项
-            ${item.next_due_at ? ` · 下次到期：${escapeHtml(formatDateTime(item.next_due_at))}` : ''}
-            ${item.paused ? ' · 已暂停' : ''}
-          </div>
+          <div class="mutedText">${detailLine}</div>
         </div>
-        <button type="button" class="btn btn--secondary btn--sm" data-goto-topic="${escapeHtml(item.topic_id)}">进入课时</button>
+        <button type="button" class="btn btn--secondary btn--sm" data-goto-topic="${escapeHtml(item.topic_id)}">${btnLabel}</button>
       `;
       topicCol.appendChild(row);
     }
@@ -2056,7 +2294,8 @@ async function renderStatsView() {
     const st = appState.topicStatesById.get(topic.id) || topic;
     const rev = atomicById.get(topic.id);
     const chapter = getTopicDisplayChapter(topic.id, idx, topic.chapter);
-    const completed = Boolean(st.completed || st.status === 'completed' || st.completed_at);
+    const completed = isTopicCompleted(topic, st);
+    const locked = isTopicLocked(topic, st);
     const learnedPts = Number(st.learned_count ?? st.topic_progress?.points?.completed ?? 0);
     const totalPts = Number(st.point_count ?? st.topic_progress?.points?.total ?? 0);
 
@@ -2065,8 +2304,8 @@ async function renderStatsView() {
       <td>第 ${chapter} 课</td>
       <td><strong>${escapeHtml(topic.title || topic.id)}</strong></td>
       <td>
-        <span class="pill ${completed ? 'pill--success' : 'pill--accent'}">${completed ? '已掌握' : '学习中'}</span>
-        ${rev?.due_count ? `<span class="pill pill--warning">到期 ${rev.due_count}</span>` : ''}
+        <span class="pill ${completed ? 'pill--success' : locked ? 'pill--muted' : 'pill--accent'}">${completed ? '已掌握' : locked ? '待解锁' : '学习中'}</span>
+        ${rev?.due_count ? `<span class="pill pill--warning">${rev.dependency_ready === false ? '前置待解锁' : '到期'} ${rev.due_count}</span>` : ''}
       </td>
       <td>${totalPts > 0 ? `${learnedPts} / ${totalPts}` : (completed ? '已达标' : '进行中')}</td>
       <td><button type="button" class="btn btn--secondary btn--sm" data-stat-topic="${escapeHtml(topic.id)}">打开课时</button></td>

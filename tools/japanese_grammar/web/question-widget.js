@@ -1,7 +1,30 @@
 import { escapeHtml, setRichHtml, setRichText } from './math-render.js';
+import {
+  containsLatinLetters,
+  convertRomajiToHiragana,
+  inspectRomajiPreview,
+} from './romaji.js';
+
+const ROMAJI_LIVE_STORAGE_KEY = 'grasp-jp-romaji-live-convert';
 
 export const FILL_BLANK_HINT =
-  '语法填空：请在题干空格处填入正确的日语助词、活用形或表达（支持对应汉字或假名写法）';
+  '语法填空：可直接填入日语假名、汉字，或直接填入罗马音（如 no、wa、da、takanakatta 等均可判题）';
+
+function isLiveRomajiStored() {
+  try {
+    return localStorage.getItem(ROMAJI_LIVE_STORAGE_KEY) === '1';
+  } catch {
+    return false;
+  }
+}
+
+function setLiveRomajiStored(enabled) {
+  try {
+    localStorage.setItem(ROMAJI_LIVE_STORAGE_KEY, enabled ? '1' : '0');
+  } catch {
+    // Ignore storage quota / privacy restrictions cleanly.
+  }
+}
 
 const BLANK_MARKER_RE = /\{\{blank:([A-Za-z][A-Za-z0-9_-]{0,39})\}\}/g;
 
@@ -107,6 +130,29 @@ export async function renderAnswerValue(container, answer, interaction) {
   await setRichText(container, typeof answer === 'string' ? answer : JSON.stringify(answer), { literalMath: false });
 }
 
+function applyLiveRomajiToInput(input, { flush = false } = {}) {
+  if (!isLiveRomajiStored() || input.disabled) {
+    return false;
+  }
+  const val = input.value;
+  if (!containsLatinLetters(val)) {
+    return false;
+  }
+  const selEnd = typeof input.selectionEnd === 'number' ? input.selectionEnd : val.length;
+  const head = val.slice(0, selEnd);
+  const tail = val.slice(selEnd);
+  const convertedHead = convertRomajiToHiragana(head, { flushTerminalN: flush });
+  if (convertedHead === head) {
+    return false;
+  }
+  input.value = convertedHead + tail;
+  if (document.activeElement === input && typeof input.setSelectionRange === 'function') {
+    const nextPos = convertedHead.length;
+    input.setSelectionRange(nextPos, nextPos);
+  }
+  return true;
+}
+
 function attachJapaneseImeProtection(input, { onSync, onEnterCommit }) {
   let isComposing = false;
   let lastCompositionEnd = 0;
@@ -118,11 +164,24 @@ function attachJapaneseImeProtection(input, { onSync, onEnterCommit }) {
   input.addEventListener('compositionend', () => {
     isComposing = false;
     lastCompositionEnd = performance.now();
+    applyLiveRomajiToInput(input, { flush: false });
     onSync();
   });
 
-  input.addEventListener('input', () => {
+  input.addEventListener('input', (event) => {
+    if (!isComposing && !event?.isComposing) {
+      const inputType = String(event?.inputType || '');
+      if (!inputType.startsWith('delete')) {
+        applyLiveRomajiToInput(input, { flush: false });
+      }
+    }
     onSync();
+  });
+
+  input.addEventListener('blur', () => {
+    if (!isComposing && applyLiveRomajiToInput(input, { flush: true })) {
+      onSync();
+    }
   });
 
   input.addEventListener('keydown', (event) => {
@@ -134,6 +193,9 @@ function attachJapaneseImeProtection(input, { onSync, onEnterCommit }) {
       return;
     }
     if (event.key === 'Enter' && !event.shiftKey) {
+      if (applyLiveRomajiToInput(input, { flush: true })) {
+        onSync();
+      }
       onEnterCommit(event);
     }
   });
@@ -341,6 +403,45 @@ export function mountQuestionStemWithBlanks(
       const target = orderedControls.find((c) => !c.input.disabled && !c.input.value.trim()) || orderedControls[0];
       target?.input?.focus();
     },
+    getControls() {
+      return orderedControls.map((c, idx) => ({ blank: blanks[idx], control: c }));
+    },
+    setBlankValue(blankId, nextVal, { focusInput = true } = {}) {
+      const control = inputMap.get(blankId);
+      if (!control || control.input.disabled) {
+        return;
+      }
+      control.input.value = String(nextVal ?? '');
+      values[blankId] = control.input.value;
+      control.resize();
+      onChange?.({ answerString: getAnswerString(), valid: isValid(), values: getPayload() });
+      if (focusInput) {
+        control.input.focus();
+      }
+    },
+    convertExistingToKana({ flush = true } = {}) {
+      let changed = false;
+      for (const blank of blanks) {
+        const control = inputMap.get(blank.id);
+        if (!control || control.input.disabled) {
+          continue;
+        }
+        const cur = control.input.value;
+        if (!containsLatinLetters(cur)) {
+          continue;
+        }
+        const converted = convertRomajiToHiragana(cur, { flushTerminalN: flush });
+        if (converted !== cur) {
+          control.input.value = converted;
+          values[blank.id] = converted;
+          control.resize();
+          changed = true;
+        }
+      }
+      if (changed) {
+        onChange?.({ answerString: getAnswerString(), valid: isValid(), values: getPayload() });
+      }
+    },
     updateFeedback,
   };
 }
@@ -363,10 +464,25 @@ export async function createQuestionInputWidget(
   const kind = interaction.type || 'text';
 
   if (kind === 'fill_blank') {
-    const hint = document.createElement('p');
-    hint.className = 'widgetHint';
-    hint.textContent = FILL_BLANK_HINT;
-    container.appendChild(hint);
+    const hintBar = document.createElement('div');
+    hintBar.className = 'widgetHint widgetHint--romaji';
+    const hintText = document.createElement('span');
+    hintText.className = 'widgetHintText';
+    hintText.textContent = FILL_BLANK_HINT;
+    hintBar.appendChild(hintText);
+
+    let modeToggleBtn = null;
+    if (!disabled) {
+      modeToggleBtn = document.createElement('button');
+      modeToggleBtn.type = 'button';
+      modeToggleBtn.className = 'romajiModeToggle';
+      hintBar.appendChild(modeToggleBtn);
+    }
+    container.appendChild(hintBar);
+
+    const previewBar = document.createElement('div');
+    previewBar.className = 'romajiPreviewBar hidden';
+    container.appendChild(previewBar);
 
     let targetStem = stemContainer;
     if (!targetStem) {
@@ -376,14 +492,131 @@ export async function createQuestionInputWidget(
       container.appendChild(targetStem);
     }
 
-    const stemApi = mountQuestionStemWithBlanks(targetStem, question, {
+    let stemApi = null;
+
+    const refreshModeBtn = () => {
+      if (!modeToggleBtn) {
+        return;
+      }
+      const live = isLiveRomajiStored();
+      modeToggleBtn.setAttribute('aria-pressed', String(live));
+      modeToggleBtn.classList.toggle('is-active', live);
+      modeToggleBtn.textContent = live ? '边打边转假名：开启' : '边打边转假名：关闭（支持直填）';
+      modeToggleBtn.title = live
+        ? '已开启：键入罗马音时自动实时转为平假名；点击可切换回保留原罗马音字母（两种均可直接判对）'
+        : '点击开启后，键入罗马音（如 no / da / takanakatta）会自动实时转为平假名';
+    };
+
+    const renderRomajiPreview = (currentValues) => {
+      if (disabled || !stemApi) {
+        previewBar.classList.add('hidden');
+        previewBar.replaceChildren();
+        return;
+      }
+      const blanks = Array.isArray(interaction?.blanks) ? interaction.blanks : [];
+      const previews = [];
+      blanks.forEach((blank, idx) => {
+        const val = currentValues?.[blank.id] ?? '';
+        const info = inspectRomajiPreview(val, { includeKanaParticleHints: isLiveRomajiStored() });
+        if (info) {
+          previews.push({ blank, idx, info });
+        }
+      });
+      if (!previews.length) {
+        previewBar.classList.add('hidden');
+        previewBar.replaceChildren();
+        return;
+      }
+      previewBar.classList.remove('hidden');
+      previewBar.replaceChildren();
+
+      const hasLatinPreview = previews.some((item) => containsLatinLetters(item.info.raw));
+      const heading = document.createElement('span');
+      heading.className = 'romajiPreviewLabel';
+      heading.textContent = hasLatinPreview ? '假名预览：' : '助词切换：';
+      previewBar.appendChild(heading);
+
+      for (const item of previews) {
+        const group = document.createElement('span');
+        group.className = 'romajiPreviewItem';
+        const prefix = blanks.length > 1 ? `第${item.idx + 1}空 ` : '';
+        const kanaOut = item.info.kana || item.info.partialKana;
+        const isLatin = containsLatinLetters(item.info.raw);
+        if (kanaOut) {
+          const arrowText = document.createElement('span');
+          arrowText.textContent = `${prefix}${item.info.raw} → ${kanaOut}`;
+          group.appendChild(arrowText);
+          if (item.info.kana) {
+            const applyBtn = document.createElement('button');
+            applyBtn.type = 'button';
+            applyBtn.className = 'romajiApplyChip';
+            applyBtn.textContent = `填入「${item.info.kana}」`;
+            applyBtn.addEventListener('click', () => stemApi.setBlankValue(item.blank.id, item.info.kana));
+            group.appendChild(applyBtn);
+          }
+        } else {
+          const rawText = document.createElement('span');
+          rawText.textContent = `${prefix}${item.info.raw}`;
+          group.appendChild(rawText);
+        }
+
+        for (const alt of item.info.particleAlternatives) {
+          const altBtn = document.createElement('button');
+          altBtn.type = 'button';
+          altBtn.className = 'romajiApplyChip romajiApplyChip--particle';
+          altBtn.textContent = `转为${alt.label}`;
+          altBtn.addEventListener('click', () => stemApi.setBlankValue(item.blank.id, alt.kana));
+          group.appendChild(altBtn);
+        }
+
+        if (isLatin) {
+          const directNote = document.createElement('span');
+          directNote.className = 'romajiPreviewNote';
+          directNote.textContent = '（也可直接提交罗马音）';
+          group.appendChild(directNote);
+        }
+        previewBar.appendChild(group);
+      }
+    };
+
+    stemApi = mountQuestionStemWithBlanks(targetStem, question, {
       initialAnswer,
       disabled,
-      onChange,
-      onSubmitShortcut,
-      feedback,
       neutralPlaceholder,
+      feedback,
+      onChange: (payload) => {
+        renderRomajiPreview(payload?.values || {});
+        onChange?.(payload);
+      },
+      onSubmitShortcut,
     });
+
+    if (modeToggleBtn) {
+      const onModeBroadcast = () => {
+        if (!modeToggleBtn.isConnected) {
+          window.removeEventListener('grasp-romaji-mode-change', onModeBroadcast);
+          return;
+        }
+        refreshModeBtn();
+      };
+      refreshModeBtn();
+      modeToggleBtn.addEventListener('click', () => {
+        const next = !isLiveRomajiStored();
+        setLiveRomajiStored(next);
+        refreshModeBtn();
+        if (next) {
+          stemApi.convertExistingToKana({ flush: false });
+        }
+        window.dispatchEvent(new CustomEvent('grasp-romaji-mode-change'));
+        stemApi.focusFirst();
+      });
+      window.addEventListener('grasp-romaji-mode-change', onModeBroadcast, { passive: true });
+    }
+
+    const parsedInit = parseInitialAnswer(initialAnswer, interaction) || {};
+    const initValues = parsedInit?.values && typeof parsedInit.values === 'object' ? parsedInit.values : parsedInit;
+    renderRomajiPreview(initValues);
+
     return {
       getAnswerString: stemApi.getAnswerString,
       isValid: stemApi.isValid,

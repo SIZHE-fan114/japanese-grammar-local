@@ -13,6 +13,8 @@ from graspmemoedu.question_types import (
     parse_answer as qt_parse_answer,
 )
 
+from .romaji import resolve_blank_answer_with_romaji
+
 _WHITESPACE_RE = re.compile(r"[\s\u3000]+")
 
 
@@ -90,6 +92,37 @@ def _parse_fill_blank_answer(question: dict[str, Any], answer: Any) -> dict[str,
     return {}
 
 
+def canonicalize_fill_blank_answer(question: dict[str, Any], answer: Any) -> Any:
+    """Resolve romaji blank values to matching canonical answers while preserving shape."""
+    if _question_type(question) != "fill_blank":
+        return answer
+    blanks = _question_blanks(question)
+    if not blanks:
+        return answer
+    try:
+        parsed = qt_parse_answer(question, answer)
+    except Exception:
+        return answer
+    if not isinstance(parsed, dict):
+        return answer
+
+    resolved: dict[str, str] = {}
+    changed = False
+    for index, blank in enumerate(blanks, start=1):
+        if not isinstance(blank, dict):
+            continue
+        blank_id = str(blank.get("id") or f"b{index}")
+        raw_val = "" if parsed.get(blank_id) is None else str(parsed.get(blank_id))
+        expected = _blank_expected_values(blank)
+        matched = resolve_blank_answer_with_romaji(expected, raw_val)
+        resolved[blank_id] = matched
+        if matched != raw_val:
+            changed = True
+    if not changed:
+        return answer
+    return json.dumps(resolved, ensure_ascii=False, separators=(",", ":"))
+
+
 def per_blank_results(question: dict[str, Any], answer: Any) -> list[dict[str, Any]]:
     """Return deterministic per-blank verdict items for a fill_blank question."""
     blanks = _question_blanks(question)
@@ -102,15 +135,16 @@ def per_blank_results(question: dict[str, Any], answer: Any) -> list[dict[str, A
         label = str(blank.get("label") or f"空{index}")
         submitted = submitted_map.get(blank_id, "")
         expected = _blank_expected_values(blank)
+        candidate = resolve_blank_answer_with_romaji(expected, submitted)
         ok = False
         if expected:
             try:
-                ok = bool(qt_exact(blank, submitted))
+                ok = bool(qt_exact(blank, candidate))
             except Exception:
-                normalized_submitted = canonical_japanese(submitted)
+                normalized_submitted = canonical_japanese(candidate)
                 ok = bool(normalized_submitted) and any(
-                    normalized_submitted == canonical_japanese(candidate)
-                    for candidate in expected
+                    normalized_submitted == canonical_japanese(candidate_exp)
+                    for candidate_exp in expected
                 )
         results.append(
             {
@@ -160,7 +194,8 @@ def evaluate_question_offline(
 
     Never acquires database locks or performs network I/O.
     """
-    passed, reason = judge_answer(None, question, answer)
+    canonical_answer = canonicalize_fill_blank_answer(question, answer)
+    passed, reason = judge_answer(None, question, canonical_answer)
     if _question_type(question) == "fill_blank":
         items = per_blank_results(question, answer)
         summary = format_blank_summary(question, answer, results=items)
@@ -180,6 +215,10 @@ class JapaneseGrammarJudge:
 
     def available(self) -> bool:
         return True
+
+    def normalize_answer(self, question: dict[str, Any], answer: Any) -> Any:
+        """Resolve romaji fill-blank answers to canonical Japanese before exact judging."""
+        return canonicalize_fill_blank_answer(question, answer)
 
     def grade_fill_blank(self, question: dict[str, Any], answer: Any) -> dict[str, Any]:
         """Return structured per-blank verdict details without mutating DB state."""

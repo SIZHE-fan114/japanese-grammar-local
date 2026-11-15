@@ -60,7 +60,7 @@ class AtomicLearningService(LearningService):
 
     def _eligible(self, state):
         current = self._time()
-        candidates, wakeups = set(), []
+        candidates, wakeups, future_wakeups = set(), [], []
         with closing(self._connect()) as con:
             reserved = reserved_points(con, self.learner_id, current.isoformat())
         for point_id, memory in state['points'].items():
@@ -74,10 +74,13 @@ class AtomicLearningService(LearningService):
             last = state['chunk_last_seen'].get(self.point_chunks[point_id])
             if last:
                 due = max(due, utc_time(last) + timedelta(seconds=GAP_SECONDS))
-            wakeups.append(due.isoformat())
+            iso_due = due.isoformat()
+            wakeups.append(iso_due)
+            if due > current:
+                future_wakeups.append(iso_due)
             if due <= current:
                 candidates.add(point_id)
-        return candidates, min(wakeups, default=None)
+        return candidates, min(future_wakeups, default=None) or min(wakeups, default=None)
 
     def _next(self, state):
         state['active'] = None

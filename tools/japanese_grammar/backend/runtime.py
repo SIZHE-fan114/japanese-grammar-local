@@ -373,6 +373,7 @@ class ClockAwareDependencyPolicy(DependencyPolicy):
             access_store,
             subjects=subjects,
             training=training,
+            clock=clock,
         )
         self._clock = clock
 

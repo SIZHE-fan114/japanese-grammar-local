@@ -29,7 +29,10 @@ class DashboardStore:
         self.atomic_clock = atomic_clock
         self.catalog, self.access_store = catalog, access_store
         self.subjects = subjects
-        self.dependency_policy = DependencyPolicy(catalog, access_store, subjects, training)
+        self.dependency_policy = DependencyPolicy(
+            catalog, access_store, subjects, training,
+            clock=lambda: self.atomic_clock() if self.atomic_clock else datetime.fromisoformat(now()),
+        )
         with closing(access_store._connect()) as con:
             con.executescript('''
                 CREATE TABLE IF NOT EXISTS learner_preferences (
@@ -54,6 +57,9 @@ class DashboardStore:
             if 'course_hierarchy_enabled' not in {row['name'] for row in con.execute('PRAGMA table_info(learner_preferences)')}:
                 con.execute('ALTER TABLE learner_preferences ADD COLUMN course_hierarchy_enabled INTEGER NOT NULL DEFAULT 1 CHECK(course_hierarchy_enabled IN (0,1))')
             con.commit()
+
+    def _current_time(self):
+        return self.atomic_clock().isoformat() if self.atomic_clock else now()
 
     def _allowed_topics(self, access):
         return {topic['id'] for topic in access['topics']}
@@ -282,11 +288,11 @@ class DashboardStore:
             task.update(completed_at=state['completed_at'], mastery=state['mastery'], result='completed', progress=100)
         return task
 
-    def _reviews(self, con, access, course, snapshots):
+    def _reviews(self, con, access, course, snapshots, current_time=None):
         tasks, history, wakeups, paused = [], [], [], set()
         if not self._has_reviews(con) and not any(has_atomic(self.catalog.topic(t)) for t in snapshots):
             return tasks, history, None, paused
-        current_time = now()
+        current_time = current_time if current_time is not None else self._current_time()
         for topic_id, snapshot in snapshots.items():
             topic = self.catalog.topic(topic_id)
             if has_atomic(topic):
@@ -294,9 +300,11 @@ class DashboardStore:
                 state = snapshot['state']
                 if atomic_state(state).get('pause'):
                     paused.add(topic_id)
-                summary = review_summary(topic, state, self.atomic_clock() if self.atomic_clock else None)
-                if summary['next_due_at']:
-                    wakeups.append(summary['next_due_at'])
+                summary = review_summary(topic, state, datetime.fromisoformat(current_time))
+                if (not atomic_state(state).get('pause')
+                        and summary.get('next_upcoming_due_at')
+                        and self.dependency_policy.ready(con, access, topic_id, current_time=current_time)):
+                    wakeups.append(summary['next_upcoming_due_at'])
                 if summary['due_count'] or summary['active']:
                     tasks.append({'id': 'atomic-review:' + topic_id, 'type': 'Review', 'topic_id': topic_id,
                                   'module_id': 'atomic', 'title': topic['title'], 'course_id': course['id'],
@@ -360,7 +368,7 @@ class DashboardStore:
         except (ValueError, TypeError, UnicodeDecodeError):
             raise DomainError('invalid_cursor', '历史分页位置无效，请重新加载。', 422)
 
-    def _course_groups(self, con, access, course_id):
+    def _course_groups(self, con, access, course_id, current_time=None):
         """Course membership references the bank owner; it never copies questions."""
         if not self.subjects:
             return []
@@ -372,7 +380,7 @@ class DashboardStore:
         allowed = {t['id'] for t in access['topics']}
         tables = self.dependency_policy.tables(con)
         result = []
-        current = self.atomic_clock().isoformat() if self.atomic_clock else now()
+        current = current_time if current_time is not None else self._current_time()
         for node in (graph or {}).get('nodes', []):
             if 'group_id' not in node or not node.get('member', True) or permission_id(node['bank_id']) not in allowed:
                 continue
@@ -396,6 +404,7 @@ class DashboardStore:
 
     def dashboard(self, access, course_id=None, cursor=None, limit=25, subject_id=None, root_id=None,
                   *, group_runtime=None):
+        current_time = self._current_time()
         if subject_id is not None and self.subjects:
             self.subjects.authorize_subject(access, subject_id)
         course_id = course_id or self._selection(access, subject_id)
@@ -413,8 +422,8 @@ class DashboardStore:
             # One consistent SQLite snapshot for progress, tasks and history.
             con.execute('BEGIN')
             snapshots = {topic['id']: self._snapshot(con, access['learner_id'], topic['id']) for topic in visible}
-            review_tasks, review_history, next_review_due_at, review_paused = self._reviews(con, access, course, snapshots)
-            missing = {topic_id: self.dependency_policy.missing_count(con, access, topic_id, dependencies, now())
+            review_tasks, review_history, next_review_due_at, review_paused = self._reviews(con, access, course, snapshots, current_time)
+            missing = {topic_id: self.dependency_policy.missing_count(con, access, topic_id, dependencies, current_time)
                        for topic_id in snapshots}
             eligibility = {topic_id: count == 0 for topic_id, count in missing.items()}
             parent_snapshots = dict(snapshots)
@@ -423,11 +432,11 @@ class DashboardStore:
                     parent_snapshots[parent] = self._snapshot(con, access['learner_id'], parent)
             linked_parents = {parent: self.dependency_policy.describe(con, access, parent)
                               for tid in snapshots for parent in self.dependency_policy.required_parents(tid, dependencies)}
-            group_tasks = self._course_groups(con, access, course_id) if not root_id else []
+            group_tasks = self._course_groups(con, access, course_id, current_time) if not root_id else []
         if group_runtime is not None and not root_id:
             with closing(group_runtime.connect()) as con:
                 con.execute('BEGIN')
-                group_tasks = self._course_groups(con, access, course_id)
+                group_tasks = self._course_groups(con, access, course_id, current_time)
         def details(topic_id):
             return [{**linked_parents[parent],
                      'progress': parent_snapshots.get(parent, {}).get('progress'),

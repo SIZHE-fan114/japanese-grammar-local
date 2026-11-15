@@ -1032,6 +1032,102 @@ body.hide-romaji .jp-romaji {
   border: 1px solid #ecd1d7;
 }
 
+.widgetHint--romaji {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 12px;
+}
+
+.widgetHintText {
+  flex: 1 1 280px;
+}
+
+.romajiModeToggle {
+  flex: 0 0 auto;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid #d9aeb8;
+  background: #ffffff;
+  color: var(--subject-accent-dark);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.romajiModeToggle:hover {
+  background: #fdf6f7;
+}
+
+.romajiModeToggle.is-active {
+  background: var(--subject-accent);
+  color: #ffffff;
+  border-color: var(--subject-accent);
+}
+
+.romajiPreviewBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: -4px 0 12px;
+  padding: 7px 12px;
+  border-radius: 8px;
+  background: #faf6f7;
+  border: 1px dashed #dfc2c9;
+  font-size: 13px;
+  color: var(--ink-secondary);
+}
+
+.romajiPreviewBar.hidden {
+  display: none;
+}
+
+.romajiPreviewLabel {
+  font-weight: 600;
+  color: var(--subject-accent-dark);
+}
+
+.romajiPreviewItem {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.romajiApplyChip {
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--subject-accent);
+  background: #ffffff;
+  color: var(--subject-accent-dark);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.romajiApplyChip:hover {
+  background: var(--subject-accent);
+  color: #ffffff;
+}
+
+.romajiApplyChip--particle {
+  border-color: #2f7d5b;
+  color: #1f6144;
+}
+
+.romajiApplyChip--particle:hover {
+  background: #2f7d5b;
+  color: #ffffff;
+}
+
+.romajiPreviewNote {
+  font-size: 12px;
+  color: var(--ink-muted);
+}
+
 .fallbackBlankGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));

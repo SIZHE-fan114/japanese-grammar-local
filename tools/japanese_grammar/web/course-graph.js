@@ -287,6 +287,14 @@ export function renderCourseGraph(container, graphPayload, options = {}) {
     svg.appendChild(path);
   }
 
+  const parentsByNode = new Map();
+  for (const edge of graph.edges) {
+    if (!parentsByNode.has(edge.to)) {
+      parentsByNode.set(edge.to, []);
+    }
+    parentsByNode.get(edge.to).push(edge.from);
+  }
+
   for (const [, pos] of coords) {
     const { x, y, node } = pos;
     const runtimeState = topicStates.get(node.id) || {};
@@ -300,6 +308,12 @@ export function renderCourseGraph(container, graphPayload, options = {}) {
       runtimeState.dependency_ready === false ||
       runtimeState.dependency_blocked,
     );
+    const parents = parentsByNode.get(node.id) || [];
+    const lockedByReview = locked && parents.length > 0 && parents.every((pid) => {
+      const pRuntime = topicStates.get(pid) || {};
+      const pNode = coords.get(pid)?.node || {};
+      return Boolean(pNode.completed || pRuntime.completed || pRuntime.status === 'completed' || pRuntime.completed_at);
+    });
     const selected = activeTopicId === node.id;
 
     let fill = '#ffffff';
@@ -362,7 +376,7 @@ export function renderCourseGraph(container, graphPayload, options = {}) {
     statusText.setAttribute('font-size', '11');
     statusText.setAttribute('font-weight', '600');
     statusText.setAttribute('fill', completed ? '#1b7f4b' : locked ? '#8b7b80' : '#9e4756');
-    statusText.textContent = completed ? '已掌握' : locked ? '未解锁' : '可学习';
+    statusText.textContent = completed ? '已掌握' : lockedByReview ? '待前置复习' : locked ? '未解锁' : '可学习';
     group.appendChild(statusText);
 
     const label = String(node.title || node.id || '');
