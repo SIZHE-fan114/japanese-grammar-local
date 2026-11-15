@@ -793,6 +793,7 @@ class JapaneseGrammarUpgradeAndAiTests(unittest.TestCase):
         self.assertIn("neutralPlaceholder", app_js)
         self.assertIn("revealTitle", app_js)
         self.assertIn("createAiAssistant", app_js)
+        self.assertNotIn("busy: appState.busy", app_js)
 
         qw_js = (WEB_DIR / "question-widget.js").read_text(encoding="utf-8")
         self.assertIn("neutralPlaceholder", qw_js)

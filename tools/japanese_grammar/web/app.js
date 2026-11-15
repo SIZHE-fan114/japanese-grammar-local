@@ -969,16 +969,20 @@ async function loadAndRenderTopic(topicId) {
   if (seq !== appState.lastRenderSeq) {
     return;
   }
+  appState.busy = false;
   appState.topicState = state;
   appState.topicStatesById.set(topicId, { ...(appState.topicStatesById.get(topicId) || {}), ...state });
   await renderTopicState(state);
 }
 
-async function runTopicMutation(actionFn) {
+async function runTopicMutation(actionFn, triggerBtn = null) {
   if (appState.busy) {
     return;
   }
   appState.busy = true;
+  if (triggerBtn) {
+    triggerBtn.disabled = true;
+  }
   try {
     const nextState = await actionFn();
     if (nextState && typeof nextState === 'object' && nextState.phase) {
@@ -991,14 +995,21 @@ async function runTopicMutation(actionFn) {
     } else {
       await loadAndRenderTopic(appState.activeTopicId);
     }
-    await refreshSharedSummary();
+    appState.busy = false;
+    refreshSharedSummary().catch(() => {});
   } catch (err) {
+    appState.busy = false;
+    if (triggerBtn && triggerBtn.isConnected) {
+      triggerBtn.disabled = false;
+    }
     if (err.code === 'stale_revision') {
       showToast('学习进度已在其他标签页更新，正在为您自动同步…');
       await loadAndRenderTopic(appState.activeTopicId);
     } else {
       showToast(err.message || '操作未能完成', { error: true });
-      await renderTopicState(appState.topicState);
+      if (appState.topicState) {
+        await renderTopicState(appState.topicState);
+      }
     }
   } finally {
     appState.busy = false;
@@ -1145,10 +1156,10 @@ async function renderTopicState(state) {
       btn.className = `btn ${isPrimary ? 'btn--primary' : 'btn--ghost btn--sm'}`;
       if (canContinue) {
         btn.textContent = primaryLabel || '我已阅读指导，继续下一步';
-        btn.addEventListener('click', () => runTopicMutation(() => api.continueStep(topicId, actionGuard(state), DEFAULT_SUBJECT_ID)));
+        btn.addEventListener('click', () => runTopicMutation(() => api.continueStep(topicId, actionGuard(state), DEFAULT_SUBJECT_ID), btn));
       } else {
         btn.textContent = primaryLabel || '开始本课记忆与填空训练';
-        btn.addEventListener('click', () => runTopicMutation(() => api.choose(topicId, 'learn', actionGuard(state), DEFAULT_SUBJECT_ID)));
+        btn.addEventListener('click', () => runTopicMutation(() => api.choose(topicId, 'learn', actionGuard(state), DEFAULT_SUBJECT_ID), btn));
       }
       return btn;
     };
@@ -1241,7 +1252,7 @@ async function renderTopicState(state) {
           revBtn.type = 'button';
           revBtn.className = 'btn btn--secondary';
           revBtn.textContent = '进入原子卡片复习';
-          revBtn.addEventListener('click', () => runTopicMutation(() => api.choose(topicId, 'review', actionGuard(state), DEFAULT_SUBJECT_ID)));
+          revBtn.addEventListener('click', () => runTopicMutation(() => api.choose(topicId, 'review', actionGuard(state), DEFAULT_SUBJECT_ID), revBtn));
           rightRow.appendChild(revBtn);
         }
       } else {
@@ -1251,7 +1262,7 @@ async function renderTopicState(state) {
           revBtn.type = 'button';
           revBtn.className = 'btn btn--secondary btn--sm';
           revBtn.textContent = '进入原子卡片复习';
-          revBtn.addEventListener('click', () => runTopicMutation(() => api.choose(topicId, 'review', actionGuard(state), DEFAULT_SUBJECT_ID)));
+          revBtn.addEventListener('click', () => runTopicMutation(() => api.choose(topicId, 'review', actionGuard(state), DEFAULT_SUBJECT_ID), revBtn));
           rightRow.appendChild(revBtn);
         }
       }
@@ -1281,8 +1292,7 @@ async function renderTopicState(state) {
   if ((phase === 'chunk' || phase === 'memory_chunk') && state?.chunk) {
     const chunkHost = document.createElement('div');
     await renderMemoryChunkView(chunkHost, state.chunk, {
-      busy: appState.busy,
-      onContinue: () => runTopicMutation(() => api.continueStep(topicId, actionGuard(state), DEFAULT_SUBJECT_ID)),
+      onContinue: (btn) => runTopicMutation(() => api.continueStep(topicId, actionGuard(state), DEFAULT_SUBJECT_ID), btn),
     });
     root.appendChild(chunkHost);
     dom.mainView.replaceChildren(root);
@@ -1383,8 +1393,10 @@ async function renderTopicState(state) {
         } else {
           await loadAndRenderTopic(topicId);
         }
-        await refreshSharedSummary();
+        appState.busy = false;
+        refreshSharedSummary().catch(() => {});
       } catch (err) {
+        appState.busy = false;
         if (err.code === 'stale_revision') {
           showToast('状态已同步更新');
           await loadAndRenderTopic(topicId);
@@ -1438,7 +1450,7 @@ async function renderTopicState(state) {
         revealBtn.type = 'button';
         revealBtn.className = 'btn btn--secondary';
         revealBtn.textContent = '显示参考答案（自评）';
-        revealBtn.addEventListener('click', () => runTopicMutation(() => api.reveal(topicId, actionGuard(state), DEFAULT_SUBJECT_ID)));
+        revealBtn.addEventListener('click', () => runTopicMutation(() => api.reveal(topicId, actionGuard(state), DEFAULT_SUBJECT_ID), revealBtn));
         actionRow.appendChild(revealBtn);
       } else if (current.can_self_rate && current.revealed) {
         await renderFeedbackPanel(
@@ -1483,7 +1495,7 @@ async function renderTopicState(state) {
       nextBtn.type = 'button';
       nextBtn.className = 'btn btn--primary';
       nextBtn.textContent = '继续下一题 →';
-      nextBtn.addEventListener('click', () => runTopicMutation(() => api.continueStep(topicId, actionGuard(state), DEFAULT_SUBJECT_ID)));
+      nextBtn.addEventListener('click', () => runTopicMutation(() => api.continueStep(topicId, actionGuard(state), DEFAULT_SUBJECT_ID), nextBtn));
       actionRow.appendChild(nextBtn);
     }
 
@@ -1552,8 +1564,9 @@ async function renderTopicState(state) {
     tick();
     appState.cooldownTimerId = setInterval(tick, 1000);
 
-    card.querySelector('#cooldownCheckBtn')?.addEventListener('click', () =>
-      runTopicMutation(() => api.continueStep(topicId, actionGuard(state), DEFAULT_SUBJECT_ID)),
+    const cooldownCheckBtn = card.querySelector('#cooldownCheckBtn');
+    cooldownCheckBtn?.addEventListener('click', () =>
+      runTopicMutation(() => api.continueStep(topicId, actionGuard(state), DEFAULT_SUBJECT_ID), cooldownCheckBtn),
     );
     card.querySelector('#waitOverviewBtn')?.addEventListener('click', () => navigate('/overview'));
     card.querySelector('#waitReviewBtn')?.addEventListener('click', () => navigate('/review'));

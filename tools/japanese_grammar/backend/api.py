@@ -1267,10 +1267,14 @@ def create_app(
 
     def _serve_static_asset(request: Request, target: Path):
         media_type = _media_type_for(target)
+        headers: dict[str, str] = {}
+        if media_type:
+            headers["Content-Type"] = media_type
+        if target.suffix.lower() in {".html", ".js", ".css"}:
+            headers["Cache-Control"] = "no-cache"
         if request.method == "HEAD":
-            headers = {"Content-Type": media_type} if media_type else None
-            return Response(status_code=200, headers=headers)
-        return FileResponse(target, media_type=media_type)
+            return Response(status_code=200, headers=headers or None)
+        return FileResponse(target, media_type=media_type, headers=headers or None)
 
     @app.api_route("/", methods=["GET", "HEAD"])
     def web_root(request: Request):
