@@ -315,20 +315,28 @@ export async function renderMemoryChunkView(container, chunk, options = {}) {
       list.appendChild(li);
     }
     rightCard.appendChild(list);
-  } else {
+  } else if (!chunk?.editor_html) {
     const fallbackNote = document.createElement('p');
     fallbackNote.className = 'mutedText';
     fallbackNote.textContent = '请重点阅读左侧高亮标记的语法规则与例句结构。';
     rightCard.appendChild(fallbackNote);
   }
 
-  if (chunk?.mnemonic_html || chunk?.mnemonic?.html || chunk?.mnemonic?.text) {
+  if (chunk?.editor_html) {
+    const summary = document.createElement('div');
+    summary.className = 'lessonContent chunkEditorSummary';
+    await setRichHtml(summary, chunk.editor_html, { literalMath: false });
+    rightCard.appendChild(summary);
+  }
+
+  const mnemonicHtml = chunk?.editor_mnemonic_html ?? (chunk?.mnemonic_html || chunk?.mnemonic?.html || chunk?.mnemonic?.text);
+  if (mnemonicHtml) {
     const mnemonicBox = document.createElement('div');
     mnemonicBox.className = 'chunkMnemonicBox lessonContent';
     const label = document.createElement('div');
     label.innerHTML = '<strong>记忆线索：</strong>';
     const body = document.createElement('div');
-    await setRichText(body, chunk?.mnemonic_html || chunk?.mnemonic?.html || chunk?.mnemonic?.text, { literalMath: false });
+    await setRichText(body, mnemonicHtml, { literalMath: false });
     mnemonicBox.append(label, body);
     rightCard.appendChild(mnemonicBox);
   }

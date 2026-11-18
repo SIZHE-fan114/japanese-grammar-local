@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from contextlib import closing
+from dataclasses import replace
 from datetime import datetime, timedelta, timezone
 import json
 import os
@@ -42,6 +43,7 @@ from tools.japanese_grammar.backend import (
     per_blank_results,
     reconcile_compatible_topic_revisions,
 )
+from tools.japanese_grammar.backend.page_edit_store import EditPage, PageEditStore
 
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -114,6 +116,23 @@ def _wrong_fill_blank_answer(question: dict) -> str:
 
 class JapaneseGrammarCurriculumAndJudgeTests(unittest.TestCase):
     """Curriculum package schema invariants and offline JapaneseGrammarJudge contracts."""
+
+    def test_page_revision_freezes_existing_presentations_and_applies_to_later_ones(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="jp_page_revision_") as temporary:
+            clock = MutableClock()
+            store = PageEditStore(Path(temporary), clock=clock)
+            original = EditPage(JP01, "question", "test-card", {"html": "<p>原文 {{blank:b1}}</p>"})
+            existing = replace(original, presentation_id="previous-paper", presented_at=clock().isoformat())
+            clock.advance(seconds=1)
+            live_lesson = replace(original, presentation_id="current-lesson", presented_at=clock().isoformat())
+            edit = store.save(live_lesson, 0, {"html": "<p>新版 {{blank:b1}}</p>"})
+            self.assertEqual(store.view(live_lesson)["fields"], edit["fields"])
+            # A paper opened before the edit keeps its original even on its first read.
+            self.assertEqual(store.view(existing, pin=True)["fields"], dict(original.fields))
+            clock.advance(seconds=1)
+            future = replace(original, presentation_id="next-paper", presented_at=clock().isoformat())
+            self.assertEqual(store.view(future, pin=True)["fields"], edit["fields"])
+            self.assertEqual(store.view(existing)["fields"], dict(original.fields))
 
     def test_course_graph_and_pure_fill_blank_romaji_curriculum(self) -> None:
         graph_path = PACKAGES_DIR / "course_graph.json"
@@ -449,6 +468,167 @@ class JapaneseGrammarBackendE2ETests(unittest.TestCase):
             self.assertTrue(tested_chunk_spacing)
         return seen_intros
 
+    def test_page_editor_suggests_only_the_current_intro_and_saves_without_touching_progress(self) -> None:
+        data_dir, clock, port = self._make_env()
+        runtime, client = self._make_client(data_dir, clock, port)
+        state = client.get("/api/state", params={"topic_id": JP01}).json()
+        intro = state["introduction"]
+        pages = intro["pages"]
+        self.assertGreater(len(pages), 1)
+        target = {"view_id": "intro-tab", "sequence": 1, "kind": "introduction", "topic_id": JP01,
+                  "presentation_id": intro["id"], "step_index": 0}
+
+        with closing(sqlite3.connect(data_dir / "learning.sqlite3")) as connection:
+            before = connection.execute("SELECT version, body FROM topics WHERE topic=?", (JP01,)).fetchone()
+
+        opened = client.post("/api/page-edits/open", json=target)
+        self.assertEqual(opened.status_code, 200, opened.text)
+        editor = opened.json()
+        self.assertEqual(editor["fields"], pages[0])
+        suggestion = {**pages[0], "title": "更清楚的语法指导"}
+        sent = []
+
+        def upstream(request):
+            payload = json.loads(request.content)
+            sent.append(payload)
+            self.assertFalse(payload["stream"])
+            self.assertEqual(len(payload["messages"]), 2)
+            context = json.loads(payload["messages"][1]["content"])
+            self.assertEqual(context, {"kind": "introduction", "fields": pages[0], "instruction": "简化标题"})
+            return httpx.Response(200, json={"choices": [{"message": {"content": json.dumps(suggestion)}}]})
+
+        runtime.ai_transport = httpx.MockTransport(upstream)
+        edit_request = {"token": editor["token"], "revision": editor["revision"]}
+        with patch.dict(os.environ, {"OPENAI_BASE_URL": "https://example.invalid/v1",
+                                     "OPENAI_API_KEY": "fake-page-editor-key", "OPENAI_MODEL": "mock"}):
+            result = client.post("/api/page-edits/suggest", json={**edit_request, "instruction": "简化标题"})
+            runtime.ai_transport = httpx.MockTransport(lambda _request: httpx.Response(
+                200, json={"choices": [{"message": {"content": '{"point_ids": ["other-page"]}'}}]},
+            ))
+            invalid_suggestion = client.post("/api/page-edits/suggest", json={**edit_request, "instruction": "简化标题"})
+
+            def time_out(_request):
+                raise httpx.ReadTimeout("synthetic timeout")
+
+            runtime.ai_transport = httpx.MockTransport(time_out)
+            timed_out = client.post("/api/page-edits/suggest", json={**edit_request, "instruction": "简化标题"})
+        self.assertEqual(result.status_code, 200, result.text)
+        self.assertEqual(result.json()["fields"]["title"], suggestion["title"])
+        self.assertEqual(len(sent), 1)
+        self.assertNotIn("fake-page-editor-key", json.dumps(sent))
+        self.assertEqual(invalid_suggestion.status_code, 422)
+        self.assertEqual(timed_out.status_code, 502)
+        unchanged = client.get("/api/state", params={"topic_id": JP01}).json()
+        self.assertEqual(unchanged["introduction"]["pages"], pages)
+
+        other_view = client.post("/api/page-edits/open", json={**target, "view_id": "second-tab"}).json()
+        blocked = client.post("/api/page-edits/open", json={**target, "topic_id": JP02})
+        self.assertEqual(blocked.status_code, 409)
+        invalid = client.put("/api/page-edits/current", json={
+            **edit_request, "fields": {**suggestion, "html": '<p onclick="alert(1)">无效内容</p>'},
+        })
+        self.assertEqual(invalid.status_code, 422)
+        saved = client.put("/api/page-edits/current", json={**edit_request, "fields": result.json()["fields"]})
+        self.assertEqual(saved.status_code, 200, saved.text)
+        stale = client.put("/api/page-edits/current", json={
+            "token": other_view["token"], "revision": other_view["revision"], "fields": pages[0],
+        })
+        self.assertEqual(stale.status_code, 409)
+
+        # Switching subpages in the same view invalidates the previous token.
+        second = client.post("/api/page-edits/open", json={**target, "step_index": 1, "sequence": 2})
+        self.assertEqual(second.status_code, 200, second.text)
+        self.assertEqual(second.json()["fields"], pages[1])
+        self.assertEqual(client.post("/api/page-edits/open", json=target).status_code, 409)
+        retired = client.put("/api/page-edits/current", json={
+            "token": edit_request["token"], "revision": saved.json()["revision"], "fields": suggestion,
+        })
+        self.assertEqual(retired.status_code, 409)
+        with closing(sqlite3.connect(data_dir / "learning.sqlite3")) as connection:
+            self.assertEqual(connection.execute("SELECT version, body FROM topics WHERE topic=?", (JP01,)).fetchone(), before)
+
+        client.__exit__(None, None, None)
+        _, restarted = self._make_client(data_dir, clock, _pick_free_loopback_port())
+        refreshed = restarted.get("/api/state", params={"topic_id": JP01}).json()["introduction"]["pages"]
+        self.assertEqual(refreshed[0]["title"], suggestion["title"])
+        self.assertEqual(refreshed[1:], pages[1:])
+
+    def test_current_card_edits_preserve_blanks_grading_and_feedback_history(self) -> None:
+        data_dir, clock, port = self._make_env()
+        _, client = self._make_client(data_dir, clock, port)
+        params = {"topic_id": JP01}
+
+        def next_step(state):
+            response = client.post("/api/continue", params=params, json={
+                "request_id": str(uuid.uuid4()), "expected_revision": state["revision"],
+                "attempt_id": state["attempt_id"], "step_id": state["active_step_id"],
+            })
+            self.assertEqual(response.status_code, 200, response.text)
+            return response.json()
+
+        state = next_step(client.get("/api/state", params=params).json())
+        chunk = state["chunk"]
+        self.assertEqual(state["phase"], "chunk")
+        edit_chunk = client.post("/api/page-edits/open", json={
+            "view_id": "learning-tab", "kind": "chunk", "topic_id": JP01, "presentation_id": chunk["id"],
+        }).json()
+        updated_chunk = client.put("/api/page-edits/current", json={
+            "token": edit_chunk["token"], "revision": edit_chunk["revision"],
+            "fields": {**edit_chunk["fields"], "html": "<p>组块讲解测试</p>"},
+        })
+        self.assertEqual(updated_chunk.status_code, 200, updated_chunk.text)
+        new_chunk = client.get("/api/state", params=params).json()["chunk"]
+        self.assertEqual(new_chunk["editor_html"], "<p>组块讲解测试</p>")
+        self.assertEqual(new_chunk["anchors"], chunk["anchors"])
+        self.assertEqual(new_chunk["introduction"], chunk["introduction"])
+
+        state = next_step(state)
+        self.assertEqual(state["phase"], "answer")
+        card = state["current"]
+        target = {"view_id": "learning-tab", "topic_id": JP01, "presentation_id": card["id"]}
+        hidden = client.post("/api/page-edits/open", json={**target, "kind": "explanation"})
+        self.assertEqual(hidden.status_code, 409)
+        opened = client.post("/api/page-edits/open", json={**target, "kind": "question"}).json()
+        edit_request = {"token": opened["token"], "revision": opened["revision"]}
+        removed_blank = re.sub(r"\{\{blank:[^}]*\}\}", "", opened["fields"]["html"])
+        rejected = client.put("/api/page-edits/current", json={**edit_request, "fields": {"html": removed_blank}})
+        self.assertEqual(rejected.status_code, 422)
+        new_stem = "<p>补充题面提示</p>" + opened["fields"]["html"]
+        saved = client.put("/api/page-edits/current", json={**edit_request, "fields": {"html": new_stem}})
+        self.assertEqual(saved.status_code, 200, saved.text)
+        refreshed = client.get("/api/state", params=params).json()
+        self.assertEqual(refreshed["revision"], state["revision"])
+        for key in ("id", "card_id", "point_ids", "shown_at", "interaction"):
+            self.assertEqual(refreshed["current"][key], card[key])
+        self.assertIn("补充题面提示", refreshed["current"]["html"])
+        self.assertNotIn("reference_answer", refreshed["current"])
+
+        authored = next(item for item in _load_topic(JP01)["flashcards"] if item["id"] == card["card_id"])
+        submitted = client.post("/api/submit", params=params, json={
+            "request_id": str(uuid.uuid4()), "expected_revision": state["revision"], "attempt_id": state["attempt_id"],
+            "step_id": state["active_step_id"], "answer": demo_answer(authored), "elapsed_ms": 1100,
+        }).json()
+        self.assertTrue(submitted["correct"])
+        feedback = submitted["state"]
+        self.assertEqual(feedback["phase"], "feedback")
+        back = client.post("/api/page-edits/open", json={**target, "kind": "explanation"}).json()
+        explanation = "<p>修订后的解析</p>" + back["fields"]["html"]
+        saved_back = client.put("/api/page-edits/current", json={
+            "token": back["token"], "revision": back["revision"], "fields": {"html": explanation},
+        })
+        self.assertEqual(saved_back.status_code, 200, saved_back.text)
+        visible = client.get("/api/state", params=params).json()["current"]
+        self.assertEqual(visible["reference_answer"], feedback["current"]["reference_answer"])
+        self.assertIn("修订后的解析", visible["explanation_html"])
+
+        if feedback.get("next_available_at"):
+            clock.advance(seconds=180)
+        later = next_step(feedback)
+        history = next(item for item in later["history"] if item["id"] == card["id"])
+        self.assertEqual(history["html"], visible["html"])
+        self.assertEqual(history["explanation_html"], visible["explanation_html"])
+        self.assertEqual(client.post("/api/page-edits/open", json={**target, "kind": "explanation"}).status_code, 409)
+
     def test_jp01_progression_prereq_409_chunk_spacing_restart_and_review_papers(self) -> None:
         data_dir, clock, port = self._make_env()
         _rt1, client = self._make_client(data_dir, clock, port)
@@ -531,21 +711,27 @@ class JapaneseGrammarBackendE2ETests(unittest.TestCase):
         due_items = due.json()["items"]
         self.assertTrue(any(item["topic_id"] == JP01 and item["due_count"] >= 1 for item in due_items))
 
-        inbox_resp = client2.get("/api/review-papers/inbox", params={"subject_id": DEFAULT_SUBJECT_ID})
+        client2.app.state.review_paper_types = [{
+            "id": "jp-two-card-edit-test", "title": "隔离双题复习卷", "subject": DEFAULT_SUBJECT_ID,
+            "enabled": True, "requirements": {"fill_blank": 2},
+        }]
+        paper_scope = {"subject_id": DEFAULT_SUBJECT_ID}
+        inbox_resp = client2.get("/api/review-papers/inbox", params=paper_scope)
         self.assertEqual(inbox_resp.status_code, 200, inbox_resp.text)
         inbox = inbox_resp.json()
         self.assertGreaterEqual(inbox["due_count"], 1)
         self.assertGreaterEqual(len(inbox["items"]), 1)
 
+        candidate = next(item for item in inbox["items"] if item["kind"] == "paper")
         opened = client2.post(
             "/api/review-papers/open",
-            params={"subject_id": DEFAULT_SUBJECT_ID},
-            json={"request_id": str(uuid.uuid4()), "candidate_id": inbox["items"][0]["id"]},
+            params=paper_scope,
+            json={"request_id": str(uuid.uuid4()), "candidate_id": candidate["id"]},
         )
         self.assertEqual(opened.status_code, 200, opened.text)
         paper = opened.json()
         self.assertEqual(paper["phase"], "answer")
-        self.assertGreaterEqual(len(paper["items"]), 1)
+        self.assertEqual(len(paper["items"]), 2)
 
         all_cards = _all_flashcards()
         rev = paper["revision"]
@@ -571,6 +757,40 @@ class JapaneseGrammarBackendE2ETests(unittest.TestCase):
             self.assertEqual(draft_resp.status_code, 200, draft_resp.text)
             rev = draft_resp.json()["revision"]
 
+        before_edit = draft_resp.json()
+        edit_request = {
+            "view_id": str(uuid.uuid4()), "kind": "question", "paper_id": paper["id"], "item_index": 0,
+        }
+        back_request = {**edit_request, "kind": "explanation"}
+        hidden = client2.post("/api/page-edits/open", params=paper_scope, json=back_request)
+        self.assertEqual(hidden.status_code, 409, hidden.text)
+        edit_resp = client2.post("/api/page-edits/open", params=paper_scope, json=edit_request)
+        self.assertEqual(edit_resp.status_code, 200, edit_resp.text)
+        edit = edit_resp.json()
+        self.assertEqual(edit["fields"], {"html": before_edit["items"][0]["html"]})
+        edit_text = "修改后的作答提示"
+        save_resp = client2.put("/api/page-edits/current", params=paper_scope, json={
+            "token": edit["token"], "revision": edit["revision"],
+            "fields": {"html": f"<p>{edit_text}</p>" + edit["fields"]["html"]},
+        })
+        self.assertEqual(save_resp.status_code, 200, save_resp.text)
+        revised_html = save_resp.json()["fields"]["html"]
+        self.assertIn(edit_text, revised_html)
+        state_scope = {**paper_scope, "paper_id": paper["id"]}
+        edited_paper = {
+            **before_edit,
+            "items": [{**before_edit["items"][0], "html": revised_html}, before_edit["items"][1]],
+        }
+        self.assertEqual(client2.get("/api/review-papers/state", params=state_scope).json(), edited_paper)
+
+        # The saved display and existing answers survive another process restart.
+        client2.__exit__(None, None, None)
+        _rt3, client2 = self._make_client(data_dir, clock, _pick_free_loopback_port())
+        self.assertEqual(client2.get("/api/review-papers/state", params=state_scope).json(), edited_paper)
+        reopened = client2.post("/api/page-edits/open", params=paper_scope, json=edit_request)
+        self.assertEqual(reopened.status_code, 200, reopened.text)
+        self.assertEqual(reopened.json()["fields"], {"html": revised_html})
+
         sub_resp = client2.post(
             "/api/review-papers/submit",
             params={"subject_id": DEFAULT_SUBJECT_ID},
@@ -584,6 +804,14 @@ class JapaneseGrammarBackendE2ETests(unittest.TestCase):
         done_paper = sub_resp.json()
         self.assertEqual(done_paper["phase"], "done")
         self.assertTrue(all(item["result"]["correct"] for item in done_paper["items"]))
+        self.assertEqual(done_paper["items"][0]["html"], revised_html)
+        self.assertTrue(done_paper["items"][0]["explanation_html"])
+        terminal_open = client2.post("/api/page-edits/open", params=paper_scope, json=back_request)
+        self.assertEqual(terminal_open.status_code, 409, terminal_open.text)
+        terminal_save = client2.put("/api/page-edits/current", params=paper_scope, json={
+            key: reopened.json()[key] for key in ("token", "revision", "fields")
+        })
+        self.assertEqual(terminal_save.status_code, 409, terminal_save.text)
 
     def test_manual_pause_exact_unlock_and_security_boundaries(self) -> None:
         data_dir, clock, port = self._make_env()

@@ -9,6 +9,7 @@ import { createAiAssistant } from './ai-assistant.js';
 import { renderCourseGraph } from './course-graph.js';
 import { escapeHtml, setRichHtml, setRichText } from './math-render.js';
 import { openChunkPeekModal, renderMemoryChunkView } from './memory-chunk.js';
+import { createPageEditor } from './page-editor.js';
 import { createQuestionInputWidget, renderAnswerValue, renderFeedbackPanel } from './question-widget.js';
 
 const ROMAJI_STORAGE_KEY = 'grasp-jp-hide-romaji';
@@ -67,6 +68,14 @@ const appState = {
 function setAiContext(ctx) {
   appState.aiContext = ctx || null;
   appState.aiAssistant?.notifyContextChanged();
+}
+
+const pageEditor = createPageEditor({ showToast });
+
+function liveQuestionDraft(stem, widget) {
+  const inputs = [...stem.querySelectorAll('input[data-blank-id]')];
+  if (!inputs.length) return widget.getAnswerString();
+  return JSON.stringify(Object.fromEntries(inputs.map((input) => [input.dataset.blankId, input.value])));
 }
 
 function extractNodePlainText(node) {
@@ -1068,6 +1077,7 @@ async function runTopicMutation(actionFn, triggerBtn = null) {
 }
 
 async function renderTopicState(state) {
+  pageEditor.close();
   clearTimers();
   const topicId = state?.topic_id || appState.activeTopicId;
   appState.presenceTimerId = setInterval(() => {
@@ -1244,7 +1254,8 @@ async function renderTopicState(state) {
   if (phase === 'introduction' || state?.display === 'introduction') {
     const intro = state.introduction || {};
     const introKey = `${topicId}:${intro.id || intro.title || 'intro'}`;
-    const steps = splitIntroductionSteps(
+    const serverSteps = Array.isArray(intro.pages) && intro.pages.length > 0;
+    const steps = serverSteps ? intro.pages : splitIntroductionSteps(
       intro.html || intro.body_html || '<p>请阅读本节语法说明并继续。</p>',
       intro.title || '语法核心讲解',
     );
@@ -1252,6 +1263,7 @@ async function renderTopicState(state) {
     const savedIdx = Number(appState.introStepState.get(introKey) || 0);
     let stepIdx = Math.max(0, Math.min(totalSteps - 1, savedIdx));
     let expandAll = Boolean(appState.introExpandState.get(introKey));
+    let renderStepSeq = 0;
 
     const actions = Array.isArray(state.actions) ? state.actions : [];
     const canContinue = actions.includes('continue') || state.unified_topic || state.started_at;
@@ -1262,7 +1274,7 @@ async function renderTopicState(state) {
       <div class="introStepHeader">
         <div>
           <p class="sectionEyebrow" style="margin-bottom:4px;">本节语法指导 · Introduction</p>
-          <h2 class="pageTitle" style="margin:0;">${escapeHtml(intro.title || '语法核心讲解')}</h2>
+          <h2 class="pageTitle" id="introPageTitle" style="margin:0;"></h2>
         </div>
         <div class="introStepTools" id="introStepTools"></div>
       </div>
@@ -1271,6 +1283,7 @@ async function renderTopicState(state) {
       <div class="introStepNav" id="introStepNav"></div>
     `;
 
+    const titleEl = card.querySelector('#introPageTitle');
     const toolsEl = card.querySelector('#introStepTools');
     const pillsEl = card.querySelector('#introStepPills');
     const bodyEl = card.querySelector('#introHtmlBody');
@@ -1291,9 +1304,12 @@ async function renderTopicState(state) {
     };
 
     const renderIntroStep = async () => {
+      pageEditor.close();
+      const sequence = ++renderStepSeq;
       const activeStep = steps[stepIdx] || steps[0];
       appState.introStepState.set(introKey, stepIdx);
       appState.introExpandState.set(introKey, expandAll);
+      titleEl.textContent = ((!expandAll && serverSteps && activeStep?.title) || intro.title || '语法核心讲解');
 
       toolsEl.replaceChildren();
       if (totalSteps > 1) {
@@ -1311,6 +1327,17 @@ async function renderTopicState(state) {
           renderIntroStep();
         });
         toolsEl.appendChild(toggleBtn);
+      }
+
+      let editButton;
+      if (serverSteps && !expandAll) {
+        const index = stepIdx;
+        editButton = pageEditor.mount(toolsEl, {
+          kind: 'introduction', topic_id: topicId, presentation_id: intro.id, step_index: index,
+        }, (fields) => {
+          Object.assign(steps[index], fields);
+          return renderIntroStep();
+        }, { context: `语法指导 · 第 ${index + 1} 张` });
       }
 
       pillsEl.replaceChildren();
@@ -1333,9 +1360,10 @@ async function renderTopicState(state) {
       }
 
       const htmlToRender = expandAll
-        ? (intro.html || intro.body_html || '<p>请阅读本节语法说明并继续。</p>')
+        ? (serverSteps ? steps.map((step) => step.html).join('') : (intro.html || intro.body_html || '<p>请阅读本节语法说明并继续。</p>'))
         : (activeStep?.html || '<p>请阅读本节语法说明并继续。</p>');
       await setRichHtml(bodyEl, htmlToRender, { literalMath: false });
+      if (sequence !== renderStepSeq || !card.isConnected) return null;
 
       navEl.replaceChildren();
       const leftRow = document.createElement('div');
@@ -1406,6 +1434,7 @@ async function renderTopicState(state) {
         stepText: extractNodePlainText(bodyEl),
         label: expandAll ? `${intro.title || '语法讲解'}（全览）` : `第 ${stepIdx + 1}/${totalSteps} 张：${activeStep?.title || ''}`,
       });
+      return editButton;
     };
 
     root.appendChild(card);
@@ -1417,12 +1446,7 @@ async function renderTopicState(state) {
   // 4. Memory Chunk stage
   if ((phase === 'chunk' || phase === 'memory_chunk') && state?.chunk) {
     const chunkHost = document.createElement('div');
-    await renderMemoryChunkView(chunkHost, state.chunk, {
-      onContinue: (btn) => runTopicMutation(() => api.continueStep(topicId, actionGuard(state), DEFAULT_SUBJECT_ID), btn),
-    });
-    root.appendChild(chunkHost);
-    dom.mainView.replaceChildren(root);
-    setAiContext({
+    const updateChunkContext = () => setAiContext({
       view: 'chunk',
       topicId,
       topicTitle: state.title || topicId,
@@ -1431,6 +1455,25 @@ async function renderTopicState(state) {
       stepText: extractNodePlainText(chunkHost),
       label: `组块精读：${state.chunk.title || '语法组块'}`,
     });
+    const renderChunk = async () => {
+      await renderMemoryChunkView(chunkHost, state.chunk, {
+        onContinue: (btn) => runTopicMutation(() => api.continueStep(topicId, actionGuard(state), DEFAULT_SUBJECT_ID), btn),
+      });
+      if (chunkHost.isConnected) updateChunkContext();
+      const header = chunkHost.querySelector('.questionCardHeader');
+      return pageEditor.mount(header, {
+        kind: 'chunk', topic_id: topicId, presentation_id: state.chunk.id,
+      }, (fields) => {
+        state.chunk.title = fields.title;
+        state.chunk.editor_html = fields.html;
+        state.chunk.editor_mnemonic_html = fields.mnemonic_html;
+        return renderChunk();
+      }, { context: `知识点讲解 · ${state.chunk.title || '语法组块'}` });
+    };
+    await renderChunk();
+    root.appendChild(chunkHost);
+    dom.mainView.replaceChildren(root);
+    updateChunkContext();
     return;
   }
 
@@ -1475,7 +1518,7 @@ async function renderTopicState(state) {
 
     const shownAt = Date.now();
     const savedDraft = isFeedback ? (current.answer || '') : loadDraft(topicId, current.card_id || current.id);
-    const feedbackPayload = isFeedback ? current : null;
+    let feedbackPayload = isFeedback ? current : null;
 
     let submitBtn = null;
     let widget = null;
@@ -1538,9 +1581,9 @@ async function renderTopicState(state) {
       }
     };
 
-    widget = await createQuestionInputWidget(widgetHost, current, {
+    const mountWidget = (initialAnswer) => createQuestionInputWidget(widgetHost, current, {
       stemContainer: stemEl,
-      initialAnswer: savedDraft,
+      initialAnswer,
       disabled: isFeedback,
       neutralPlaceholder: !revealed,
       feedback: feedbackPayload,
@@ -1561,6 +1604,18 @@ async function renderTopicState(state) {
         }
       },
     });
+    widget = await mountWidget(savedDraft);
+
+    const address = { topic_id: topicId, presentation_id: current.id };
+    pageEditor.mount(peekBar, { ...address, kind: 'question' }, async ({ html }) => {
+      const draft = liveQuestionDraft(stemEl, widget);
+      current.html = html;
+      await setRichHtml(stemEl, html, { literalMath: false });
+      widget = await mountWidget(draft);
+      if (stemEl.isConnected && appState.aiContext?.cardId === (current.card_id || current.id)) {
+        appState.aiContext.stepText = extractNodePlainText(stemEl);
+      }
+    }, { label: '编辑题面', context: '当前练习题面' });
 
     if (!isFeedback) {
       if (current.can_self_rate && !current.revealed) {
@@ -1579,15 +1634,12 @@ async function renderTopicState(state) {
         revealBtn.addEventListener('click', () => runTopicMutation(() => api.reveal(topicId, actionGuard(state), DEFAULT_SUBJECT_ID), revealBtn));
         actionRow.appendChild(revealBtn);
       } else if (current.can_self_rate && current.revealed) {
-        await renderFeedbackPanel(
-          feedbackHost,
-          {
-            reference_answer: current.reference_answer,
-            reference_answer_html: current.reference_answer_html,
-            explanation_html: current.explanation_html,
-          },
-          current,
-        );
+        feedbackPayload = {
+          reference_answer: current.reference_answer,
+          reference_answer_html: current.reference_answer_html,
+          explanation_html: current.explanation_html,
+        };
+        await renderFeedbackPanel(feedbackHost, feedbackPayload, current);
         const ratingBar = document.createElement('div');
         ratingBar.className = 'selfRatingRow';
         const ratings = [
@@ -1623,6 +1675,14 @@ async function renderTopicState(state) {
       nextBtn.textContent = '继续下一题 →';
       nextBtn.addEventListener('click', () => runTopicMutation(() => api.continueStep(topicId, actionGuard(state), DEFAULT_SUBJECT_ID), nextBtn));
       actionRow.appendChild(nextBtn);
+    }
+
+    if (revealed && feedbackPayload && typeof current.explanation_html === 'string') {
+      pageEditor.mount(peekBar, { ...address, kind: 'explanation' }, async ({ html }) => {
+        current.explanation_html = html;
+        feedbackPayload.explanation_html = html;
+        await renderFeedbackPanel(feedbackHost, feedbackPayload, current);
+      }, { label: '编辑解析', context: '当前练习解析' });
     }
 
     card.append(cardHeader, stemEl, widgetHost, feedbackHost, actionRow);
@@ -2014,6 +2074,7 @@ async function pollPaperUntilSettled(paperId, initialPaper = null) {
 }
 
 async function renderActiveReviewPaper(paperId) {
+  pageEditor.close();
   let paper;
   try {
     paper = await api.reviewPaperState(paperId, DEFAULT_SUBJECT_ID);
@@ -2115,9 +2176,9 @@ async function renderActiveReviewPaper(paperId) {
       activeFocusCtx = itemCtxPayload(item.answer || '');
     }
 
-    const widget = await createQuestionInputWidget(widgetHost, { interaction: item.interaction, choice_feedback: item.choice_feedback }, {
+    const mountWidget = (initialAnswer) => createQuestionInputWidget(widgetHost, { interaction: item.interaction, choice_feedback: item.choice_feedback }, {
       stemContainer: stemEl,
-      initialAnswer: item.answer || '',
+      initialAnswer,
       disabled: isDone || Boolean(item.completed) || !paper.can_edit,
       neutralPlaceholder: !itemDone,
       feedback: itemFeedback,
@@ -2129,6 +2190,7 @@ async function renderActiveReviewPaper(paperId) {
         saveTimer = setTimeout(() => flushDraft(item.index, answerString), 450);
       },
     });
+    const widget = await mountWidget(item.answer || '');
     widgets.set(item.index, widget);
 
     block.addEventListener('focusin', () => {
@@ -2137,6 +2199,26 @@ async function renderActiveReviewPaper(paperId) {
 
     if (itemFeedback) {
       await renderFeedbackPanel(feedbackHost, itemFeedback, item);
+    }
+    if (paper.phase === 'answer' && item.source_kind === 'atomic') {
+      const address = { paper_id: paper.id, item_index: item.index };
+      const editTools = document.createElement('div');
+      editTools.className = 'pageEditorTools';
+      pageEditor.mount(editTools, { ...address, kind: 'question' }, async ({ html }) => {
+        const draft = liveQuestionDraft(stemEl, widgets.get(item.index));
+        item.html = html;
+        await setRichHtml(stemEl, html, { literalMath: false });
+        widgets.set(item.index, await mountWidget(draft));
+        if (stemEl.isConnected) setAiContext(itemCtxPayload());
+      }, { label: '编辑题面', context: `复习卷 · 第 ${item.index + 1} 题` });
+      if (itemFeedback && typeof item.explanation_html === 'string') {
+        pageEditor.mount(editTools, { ...address, kind: 'explanation' }, async ({ html }) => {
+          item.explanation_html = html;
+          itemFeedback.explanation_html = html;
+          await renderFeedbackPanel(feedbackHost, itemFeedback, item);
+        }, { label: '编辑解析', context: `复习卷 · 第 ${item.index + 1} 题解析` });
+      }
+      head.appendChild(editTools);
     }
     block.append(head, stemEl, widgetHost, feedbackHost);
     card.appendChild(block);
@@ -2332,6 +2414,7 @@ async function renderStatsView() {
 
 /* ---------------- Route Dispatcher & Global Bindings ---------------- */
 async function handleRouteChange() {
+  pageEditor.close();
   const parsed = parseRoute();
   appState.route = parsed.route === 'topic' ? 'learn' : parsed.route;
   updateNavBadges();

@@ -67,7 +67,8 @@ class Preference(Model):
 
 
 def register_paper_routes(app, training, catalog, dependencies, access_store, subjects,
-                          service_for, admission_lock, limits, schedule, outstanding_count, clock=None):
+                          service_for, admission_lock, limits, schedule, outstanding_count, clock=None, *,
+                          content_projection=None):
     app.state.review_paper_types = load_paper_types()
 
     def context(request, feature=None):
@@ -82,12 +83,18 @@ def register_paper_routes(app, training, catalog, dependencies, access_store, su
                                   app.state.service.judge, runtime=runtime, clock=clock, dependencies=dependencies, access=access)
         papers = PaperService(backend, catalog, dependencies, access, app.state.review_paper_types,
                               lambda tid: service_for(access['learner_id'], tid, token),
-                              refresh_access=lambda: access_store.resolve(token))
+                              refresh_access=lambda: access_store.resolve(token),
+                              content_projection=content_projection)
         return papers, subject
 
     def require_subject(subject):
         if not subject:
             raise DomainError('subject_required', '请先选择学科。', 422)
+
+    def with_editable_paper_page(request, paper_id, index, action):
+        backend, subject = context(request, 'learn')
+        require_subject(subject)
+        return backend.with_editable_content_page(paper_id, index, subject, action)
 
     def admit(request, backend, data, subject):
         with admission_lock:
@@ -218,3 +225,6 @@ def register_paper_routes(app, training, catalog, dependencies, access_store, su
     def update_preferences(payload: Preference, request: Request):
         backend, _ = context(request)
         return backend.preferences(payload.mode, payload.timeout_action)
+
+    if content_projection is not None:
+        return with_editable_paper_page

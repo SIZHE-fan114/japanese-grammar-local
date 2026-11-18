@@ -1428,6 +1428,126 @@ body.hide-romaji .jp-romaji {
   overflow-y: auto;
 }
 
+.pageEditorDialog {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  width: min(760px, calc(100% - 24px));
+  padding: 0;
+  color: var(--ink);
+}
+
+.pageEditorDialog::backdrop {
+  background: rgba(30, 18, 22, 0.5);
+}
+
+.pageEditorDialog [hidden] {
+  display: none;
+}
+
+.pageEditorBody,
+.pageEditorFields,
+.pageEditorField {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+  text-align: start;
+}
+
+.pageEditorBody > p {
+  margin-block: 0;
+}
+
+.pageEditorFormatting,
+.pageEditorTools,
+.pageEditorFooter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pageEditorField > label,
+.pageEditorField > span,
+.pageEditorAi summary {
+  font-weight: 600;
+}
+
+.pageEditorField input,
+.pageEditorAi textarea,
+.pageEditorEditable {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  background: var(--surface);
+  color: inherit;
+  font: inherit;
+}
+
+.pageEditorEditable {
+  min-height: 6rem;
+  max-height: 32vh;
+  overflow: auto;
+  overflow-wrap: anywhere;
+}
+
+.pageEditorDialog .pageEditorEditable rt {
+  display: ruby-text;
+}
+
+.pageEditorDialog .pageEditorEditable .jp-romaji {
+  display: revert;
+}
+
+.pageEditorBlank {
+  display: inline-block;
+  padding: 0 0.35em;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--surface-muted);
+  white-space: nowrap;
+}
+
+.pageEditorAi,
+.pageEditorPreview,
+.pageEditorNotice {
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-soft);
+}
+
+.pageEditorNotice {
+  color: var(--warning);
+  background: var(--warning-bg);
+  border-color: var(--warning-border);
+}
+
+.pageEditorAi summary {
+  cursor: pointer;
+}
+
+.pageEditorAi label {
+  display: block;
+  margin-block: 10px 4px;
+}
+
+.pageEditorAi textarea {
+  display: block;
+  margin-bottom: 8px;
+  resize: vertical;
+}
+
+.pageEditorStatus:empty {
+  display: none;
+}
+
+.pageEditorFooter {
+  justify-content: flex-end;
+  border-top: 1px solid var(--border);
+  padding: 14px 20px;
+}
+
 .toastHost {
   position: fixed;
   right: 18px;

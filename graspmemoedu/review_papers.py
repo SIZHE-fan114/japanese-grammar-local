@@ -23,11 +23,13 @@ from . import multi_step
 class PaperService:
     submission_table = 'paper_submissions'
 
-    def __init__(self, training, catalog, dependencies, access, templates, service_for, *, refresh_access=None):
+    def __init__(self, training, catalog, dependencies, access, templates, service_for, *,
+                 refresh_access=None, content_projection=None):
         self.training, self.runtime, self.clock = training, training.runtime, training.clock
         self._connect, self.transaction = training._connect, training.transaction
         self.learner_id, self.templates, self.access = access['learner_id'], templates, access
         self.refresh_access = refresh_access
+        self.content_projection = content_projection
         self.catalog = catalog
         with closing(self._connect()) as con:
             initialize_points(con)
@@ -231,6 +233,47 @@ class PaperService:
         timing = self.timing(paper)
         return bool(timing and timing['timed_out'] and timing['timeout_action'] == 'submit')
 
+    def _result_visible(self, paper, item):
+        return item.get('result') is not None and (
+            item['question'].get('multi_step') or self._mode(paper) == 'question'
+            or paper['phase'] in ('done', 'cancelled', 'expired', 'conflict'))
+
+    @staticmethod
+    def _content_page(paper, index, back_visible, editable, *, include_hidden_back=False):
+        item = paper['items'][index]
+        source, question = item['source'], item['question']
+        if source['kind'] != 'atomic' or question.get('multi_step'):
+            return None
+        page = {'paper_id': paper['id'], 'index': index, 'created_at': paper['created_at'],
+                'phase': paper['phase'], 'topic_id': source['container'], 'card_id': source['local_card'],
+                'content_version': source['version'], 'html': question['html'],
+                'back_visible': back_visible, 'editable': editable}
+        if back_visible:
+            page['explanation_html'] = question.get('explanation_html', '')
+        if include_hidden_back:
+            # Private to the projection hook, for pinning a back before it is shown.
+            page['base_explanation_html'] = question.get('explanation_html', '')
+        return page
+
+    def with_editable_content_page(self, paper_id, index, subject, action):
+        """Recheck one page while serialization prevents a concurrent paper transition."""
+        with self.transaction() as con:
+            paper = self._row(con, paper_id, subject)
+            untimed_expired = (not (paper['metadata'].get('timing') or {}).get('limit_minutes')
+                               and paper['expires_at'] < self._now().isoformat())
+            if paper['phase'] != 'answer' or untimed_expired or self._hard_expired(paper):
+                raise DomainError('content_page_inactive', '此复习已结束或不可编辑。', 409)
+            if not 0 <= index < len(paper['items']):
+                raise DomainError('content_page_not_found', '未找到这道复习题。', 404)
+            item = paper['items'][index]
+            back_visible = self._result_visible(paper, item) or bool(
+                item.get('revealed') and self_rating_enabled(self.access, con))
+            page = self._content_page(paper, index, back_visible, editable=True)
+            topic = self.catalog.topics.get(page['topic_id']) if page else None
+            if not topic or topic['version'] != page['content_version']:
+                raise DomainError('content_page_inactive', '此题的课程版本已变化或不可编辑。', 409)
+            return action(page)
+
     @staticmethod
     def _answered(item):
         if item.get('self_rating') is not None:
@@ -320,7 +363,7 @@ class PaperService:
             self_rating = self_rating_enabled(self.access, con)
         items = []
         for index, item in enumerate(paper['items']):
-            shown = item.get('result') is not None and (item['question'].get('multi_step') or self._mode(paper) == 'question' or paper['phase'] in ('done', 'cancelled', 'expired', 'conflict'))
+            shown = self._result_visible(paper, item)
             question = item['question']
             answer_question = (multi_step.step_question(question, len(item.get('multi_step_progress', [])))
                                if question.get('multi_step') and not shown else question)
@@ -364,16 +407,28 @@ class PaperService:
                     if current and current.get('audio') == question['audio']:
                         from .training_audio import public_audio
                         items[-1]['audio'] = public_audio(question, topic['id'], feedback=shown)
+        timing = self.timing(paper)
+        can_edit = paper['phase'] == 'answer' and not (
+            timing and timing['timed_out'] and timing['timeout_action'] == 'submit')
+        if self.content_projection is not None:
+            for index, visible_item in enumerate(items):
+                back_visible = visible_item['explanation_html'] is not None
+                page = self._content_page(paper, index, back_visible, can_edit, include_hidden_back=True)
+                if page and (replacement := self.content_projection(page)):
+                    if 'html' in replacement:
+                        visible_item['html'] = replacement['html']
+                    if back_visible and 'explanation_html' in replacement:
+                        visible_item['explanation_html'] = replacement['explanation_html']
         return {'id': paper['id'], 'title': paper['title'], 'subject': paper['subject'], 'mode': self._mode(paper),
                 'phase': paper['phase'], 'revision': paper['revision'], 'items': items,
                 'kind': paper['metadata'].get('kind'), 'paper_number': paper['metadata'].get('paper_number'),
-                'timing': self.timing(paper),
+                'timing': timing,
                 'math_css': '\n'.join(dict.fromkeys(i.get('math_css', '') for i in paper['items'])),
                 'job': paper['job'], 'job_status': job['status'] if job else None,
                 'error': job['reason'] if job and job['status'] == 'error' else None,
                 'retry_submission': json.loads(job['request_data']) if job and job['status'] == 'error' and paper['phase'] == 'grading' else None,
                 'can_submit': 'submit_answer' in self.access['features'],
-                'can_edit': paper['phase'] == 'answer' and not self._hard_expired(paper)}
+                'can_edit': can_edit}
 
     def save(self, paper_id, revision, answers, subject=None):
         with self.transaction() as con:
