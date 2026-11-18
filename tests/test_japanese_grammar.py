@@ -186,12 +186,21 @@ class JapaneseGrammarCurriculumAndJudgeTests(unittest.TestCase):
                             for ans in answers:
                                 self.assertNotIn("|", str(ans))
 
+                for sec_name in ("introductions", "memory_chunks", "flashcards"):
+                    for item in topic.get(sec_name, []):
+                        for field in ("title", "html", "question", "explanation_html"):
+                            text_val = item.get(field) or ""
+                            self.assertIsNone(
+                                re.search(r"(?<!\{)\{(?!\{)[^}]*\}", text_val),
+                                f"{tid}/{sec_name}/{item.get('id')}.{field} contains unexpanded single-brace expression",
+                            )
+
         self.assertEqual(total_intros, 13)
         self.assertEqual(total_chunks, 25)
         self.assertEqual(total_points, 47)
-        self.assertEqual(total_cards, 143)
-        self.assertEqual(single_cards, 131)
-        self.assertEqual(multi_cards, 12)
+        self.assertEqual(total_cards, 206)
+        self.assertEqual(single_cards, 188)
+        self.assertEqual(multi_cards, 18)
 
     def test_japanese_grammar_judge_accepts_all_variants_and_rejects_wrong(self) -> None:
         judge = JapaneseGrammarJudge()
@@ -200,7 +209,7 @@ class JapaneseGrammarCurriculumAndJudgeTests(unittest.TestCase):
         self.assertEqual(canonical_japanese("　がくせい です "), "がくせいです")
 
         all_cards = _all_flashcards()
-        self.assertEqual(len(all_cards), 143)
+        self.assertEqual(len(all_cards), 206)
 
         checked_multi_partial = False
         for cid, card in all_cards.items():
@@ -906,6 +915,8 @@ class JapaneseGrammarUpgradeAndAiTests(unittest.TestCase):
                         f"{tid}/{fc['id']} leaked spoiler token {tok!r}",
                     )
                 blanks = (fc.get("interaction") or {}).get("blanks") or []
+                zh_match = re.search(r'<p class="jp-zh">(.*?)</p>', fc.get("html", ""), re.S)
+                zh_text = zh_match.group(1) if zh_match else ""
                 for b in blanks:
                     for ans in b.get("accepted") or []:
                         ans_s = str(ans).strip()
@@ -915,6 +926,28 @@ class JapaneseGrammarUpgradeAndAiTests(unittest.TestCase):
                                 str(fc.get("question", "")),
                                 f"{tid}/{fc['id']} quoted its own blank answer {ans_s!r}",
                             )
+                    if "2222" in fc["id"]:
+                        for bad_gloss in ("五段动词", "一段动词", "知道（知る", "要る属于"):
+                            self.assertNotIn(
+                                bad_gloss,
+                                zh_text,
+                                f"{tid}/{fc['id']} leaked forbidden gloss {bad_gloss!r} in .jp-zh={zh_text!r}",
+                            )
+                        neutral_choice_zh = "一段 / 五段" in zh_text or "着る / 寝る / 知る / 出る" in zh_text
+                        for ans in b.get("answers") or []:
+                            ans_s = str(ans).strip()
+                            if ans_s:
+                                self.assertNotIn(
+                                    f"「{ans_s}」",
+                                    str(fc.get("question", "")),
+                                    f"{tid}/{fc['id']} quoted its own blank answer {ans_s!r}",
+                                )
+                                if len(ans_s) >= 2 and not neutral_choice_zh:
+                                    self.assertNotIn(
+                                        ans_s,
+                                        zh_text,
+                                        f"{tid}/{fc['id']} leaked answer {ans_s!r} in .jp-zh={zh_text!r}",
+                                    )
 
         index_html = (WEB_DIR / "index.html").read_text(encoding="utf-8")
         self.assertIn('id="aiSettingsBtn"', index_html)
@@ -1734,6 +1767,539 @@ class JapaneseGrammarUpgradeAndAiTests(unittest.TestCase):
         self.assertIn("autoContinueKeys", app_js)
         self.assertIn("alreadyReady", app_js)
         self.assertIn("triggerContinue", app_js)
+
+    def test_2222_integrated_cards_shared_point_fsrs_memory_and_rotation(self) -> None:
+        from graspmemoedu.atomic_content import plain_text
+        from tools.japanese_grammar.backend.judge import evaluate_question_offline
+
+        expected_point_counts = {
+            JP02: {
+                "p-jp02-o-marker": 3,
+                "p-jp02-ni-e-diff": 5,
+                "p-jp02-ni-vs-de": 6,
+                "p-jp02-double-o": 2,
+                "p-jp02-trans-rule": 4,
+                "p-jp02-trans-pairs": 3,
+                "p-jp02-iru-ga": 2,
+                "p-jp02-ni-experiencer": 1,
+            },
+            JP04: {
+                "p-jp04-verb-3classes": 3,
+                "p-jp04-iru-eru-exc": 4,
+                "p-jp04-aru-vs-iru": 2,
+                "p-jp04-past-ru": 2,
+                "p-jp04-past-u-4rules": 7,
+                "p-jp04-past-3exc": 2,
+                "p-jp04-past-neg-rule": 3,
+            },
+            JP06: {
+                "p-jp06-state-mod": 4,
+                "p-jp06-verb-mod": 3,
+                "p-jp06-sentence-order": 2,
+                "p-jp06-to-particle": 3,
+                "p-jp06-ya-toka": 2,
+                "p-jp06-no-3uses": 3,
+                "p-jp06-no-explain": 3,
+            },
+        }
+        expected_card_totals = {JP02: 24, JP04: 20, JP06: 19}
+
+        total_2222_cards = 0
+        for tid, expected_pts in expected_point_counts.items():
+            topic = _load_topic(tid)
+            valid_pts = {p["id"] for ch in topic["memory_chunks"] for p in ch["points"]}
+            new_cards = [fc for fc in topic["flashcards"] if "-2222-" in fc["id"]]
+            self.assertEqual(len(new_cards), expected_card_totals[tid], tid)
+            total_2222_cards += len(new_cards)
+            counts = {pid: 0 for pid in expected_pts}
+            for fc in new_cards:
+                for pid in fc["point_ids"]:
+                    self.assertIn(pid, valid_pts, f"{fc['id']} references unknown point {pid}")
+                    counts[pid] = counts.get(pid, 0) + 1
+            self.assertEqual(counts, expected_pts, f"Unexpected 2222 point mapping for {tid}")
+
+        self.assertEqual(total_2222_cards, 63)
+
+        # Verify 3.2 及物度标度 & 必要とする integration and intact anchors on JP02
+        jp02_topic = _load_topic(JP02)
+        trans_intro = next(i for i in jp02_topic["introductions"] if i["id"] == "intro-jp02-transitivity")
+        trans_plain = plain_text(trans_intro["html"])
+        self.assertIn("及物度标度", trans_plain)
+        self.assertIn("必要(ひつよう)とする", trans_plain)
+        self.assertNotIn("{r(", trans_intro["html"])
+        iru_chunk = next(ch for ch in jp02_topic["memory_chunks"] if ch["id"] == "chunk-jp02-iru-wakaru")
+        self.assertIn("必要とする", iru_chunk["html"])
+        for anchor in iru_chunk["anchors"]:
+            self.assertIn(anchor["quote"], trans_plain)
+
+        # Verify special romaji & short-answer variants for 2222 cards
+        all_fc = _all_flashcards()
+        for cid, romaji_val in (
+            ("fc-jp04-2222-01", "godan"),
+            ("fc-jp04-2222-02", "ichidan"),
+            ("fc-jp04-2222-04", "godan"),
+            ("fc-jp04-2222-05", "shiru"),
+            ("fc-jp04-2222-06", "godan"),
+            ("fc-jp04-2222-11", "oyoida"),
+            ("fc-jp04-2222-15", "kaetta"),
+            ("fc-jp04-2222-18", "tabenakatta"),
+            ("fc-jp04-2222-19", "kawanakatta"),
+            ("fc-jp04-2222-20", "inakatta"),
+            ("fc-jp06-2222-08", "tabeta"),
+            ("fc-jp06-2222-11", "b"),
+            ("fc-jp06-2222-19", "janakatta"),
+        ):
+            ok, reason = evaluate_question_offline(all_fc[cid], json.dumps({"b1": romaji_val}, ensure_ascii=False))
+            self.assertTrue(ok, f"{cid} rejected romaji/variant {romaji_val!r}: {reason}")
+
+        # E2E Lesson + Review Paper verification of shared FSRS point memory & card rotation
+        tmp = tempfile.TemporaryDirectory(prefix="jp_2222_shared_mem_")
+        self.addCleanup(tmp.cleanup)
+        data_dir = Path(tmp.name) / "data"
+        clock = MutableClock()
+        port = _pick_free_loopback_port()
+        rt = LocalRuntime(
+            packages_dir=PACKAGES_DIR,
+            data_dir=data_dir,
+            web_dir=WEB_DIR,
+            host="127.0.0.1",
+            port=port,
+            clock=clock,
+        )
+        jp01_fc = {fc["id"]: fc for fc in _load_topic(JP01)["flashcards"]}
+        jp02_fc = {fc["id"]: fc for fc in jp02_topic["flashcards"]}
+        expected_jp02_points = {p["id"] for ch in jp02_topic["memory_chunks"] for p in ch["points"]}
+
+        with TestClient(create_app(rt), base_url=f"http://127.0.0.1:{port}") as client:
+            # Complete JP01 prerequisite
+            self.assertEqual(self._drive_topic_cards(client, clock, JP01, jp01_fc).get("status"), "completed")
+
+            # Enter JP02 Lesson: intentionally miss p-jp02-o-marker's initial card twice so Lesson rotates to a 2222 variant
+            s2 = client.get("/api/state", params={"topic_id": JP02}).json()
+            seen_o_marker_cards: list[str] = []
+            for _ in range(40):
+                if s2.get("phase") == "answer" and s2["current"]["point_ids"] == ["p-jp02-o-marker"]:
+                    cid = s2["current"]["card_id"]
+                    seen_o_marker_cards.append(cid)
+                    if len(seen_o_marker_cards) <= 2:
+                        # Fail first two p-jp02-o-marker cards (fc-jp02-01, fc-jp02-02) to force rotation to 2222 variant
+                        sub = client.post(
+                            "/api/submit",
+                            params={"topic_id": JP02},
+                            json={
+                                "request_id": str(uuid.uuid4()),
+                                "expected_revision": s2["revision"],
+                                "attempt_id": s2["attempt_id"],
+                                "step_id": s2["active_step_id"],
+                                "answer": _wrong_fill_blank_answer(jp02_fc[cid]),
+                            },
+                        )
+                        self.assertEqual(sub.status_code, 200, sub.text)
+                        s2 = sub.json()["state"]
+                        continue
+                    # Third card for p-jp02-o-marker must be a 2222 card (least-used rotation)
+                    self.assertIn("-2222-", cid, f"Expected rotation to 2222 card, got {seen_o_marker_cards}")
+                    sub = client.post(
+                        "/api/submit",
+                        params={"topic_id": JP02},
+                        json={
+                            "request_id": str(uuid.uuid4()),
+                            "expected_revision": s2["revision"],
+                            "attempt_id": s2["attempt_id"],
+                            "step_id": s2["active_step_id"],
+                            "answer": demo_answer(jp02_fc[cid]),
+                        },
+                    )
+                    self.assertEqual(sub.status_code, 200, sub.text)
+                    s2 = sub.json()["state"]
+                    break
+                if s2.get("phase") in {"introduction", "chunk", "feedback", "waiting"}:
+                    if s2.get("next_available_at"):
+                        clock.advance(minutes=15)
+                    s2 = client.post(
+                        "/api/continue",
+                        params={"topic_id": JP02},
+                        json={
+                            "request_id": str(uuid.uuid4()),
+                            "expected_revision": s2["revision"],
+                            "attempt_id": s2["attempt_id"],
+                            "step_id": s2["active_step_id"],
+                        },
+                    ).json()
+                elif s2.get("phase") == "answer":
+                    cid = s2["current"]["card_id"]
+                    s2 = client.post(
+                        "/api/submit",
+                        params={"topic_id": JP02},
+                        json={
+                            "request_id": str(uuid.uuid4()),
+                            "expected_revision": s2["revision"],
+                            "attempt_id": s2["attempt_id"],
+                            "step_id": s2["active_step_id"],
+                            "answer": demo_answer(jp02_fc[cid]),
+                        },
+                    ).json()["state"]
+
+            self.assertEqual(len(set(seen_o_marker_cards)), 3)
+            with closing(sqlite3.connect(str(data_dir / "learning.sqlite3"))) as con:
+                body_after_o = json.loads(
+                    con.execute("SELECT body FROM topics WHERE learner=? AND topic=?", (LOCAL_LEARNER_ID, JP02)).fetchone()[0]
+                )
+            self.assertEqual(set(body_after_o["atomic"]["points"].keys()), expected_jp02_points)
+            self.assertTrue(body_after_o["atomic"]["points"]["p-jp02-o-marker"]["mastered"])
+
+            # Finish remaining JP02 points
+            self.assertEqual(self._drive_topic_cards(client, clock, JP02, jp02_fc).get("status"), "completed")
+
+            with closing(sqlite3.connect(str(data_dir / "learning.sqlite3"))) as con:
+                pre_review_body = json.loads(
+                    con.execute("SELECT body FROM topics WHERE learner=? AND topic=?", (LOCAL_LEARNER_ID, JP02)).fetchone()[0]
+                )
+            pre_o_point = pre_review_body["atomic"]["points"]["p-jp02-o-marker"]
+            pre_o_due = pre_o_point["due_at"]
+            pre_o_card = json.loads(pre_o_point["card_json"])
+
+            # Run Review Paper rounds (+3d, +14d, +30d, +45d), clearing JP01 reviews before each round so JP02 is unblocked.
+            # Round 1 uses remaining original uses=0 JP02 cards; later rounds rotate in 2222 single & multi cards.
+            observed_2222_review_cards: list[str] = []
+            reviewed_points: set[str] = set()
+            double_o_first_card_id: str | None = None
+            double_o_first_stability: float | None = None
+            double_o_first_due: str | None = None
+            for advance_days in (3, 14, 30, 45):
+                clock.advance(days=advance_days)
+                for _ in range(30):
+                    inbox = client.get("/api/review-papers/inbox", params={"subject_id": DEFAULT_SUBJECT_ID}).json()
+                    jp01_items = [it for it in inbox["items"] if (it.get("source") or {}).get("container") == JP01]
+                    if not jp01_items:
+                        break
+                    paper = client.post(
+                        "/api/review-papers/open",
+                        params={"subject_id": DEFAULT_SUBJECT_ID},
+                        json={"request_id": str(uuid.uuid4()), "candidate_id": jp01_items[0]["id"]},
+                    ).json()
+                    rev = paper["revision"]
+                    entries = [
+                        {
+                            "index": item["index"],
+                            "answer": demo_answer(jp01_fc[item["content_context"]["question_id"]]),
+                            "elapsed_ms": 800,
+                        }
+                        for item in paper["items"]
+                    ]
+                    for start in range(0, len(entries), 2):
+                        rev = client.post(
+                            "/api/review-papers/draft",
+                            params={"subject_id": DEFAULT_SUBJECT_ID},
+                            json={"paper_id": paper["id"], "expected_revision": rev, "answers": entries[start : start + 2]},
+                        ).json()["revision"]
+                    done = client.post(
+                        "/api/review-papers/submit",
+                        params={"subject_id": DEFAULT_SUBJECT_ID},
+                        json={"paper_id": paper["id"], "request_id": str(uuid.uuid4()), "expected_revision": rev},
+                    ).json()
+                    self.assertEqual(done["phase"], "done")
+                    clock.advance(seconds=185)
+
+                for _ in range(25):
+                    inbox = client.get("/api/review-papers/inbox", params={"subject_id": DEFAULT_SUBJECT_ID}).json()
+                    jp02_items = [it for it in inbox["items"] if (it.get("source") or {}).get("container") == JP02]
+                    if not jp02_items:
+                        break
+                    paper = client.post(
+                        "/api/review-papers/open",
+                        params={"subject_id": DEFAULT_SUBJECT_ID},
+                        json={"request_id": str(uuid.uuid4()), "candidate_id": jp02_items[0]["id"]},
+                    ).json()
+                    rev = paper["revision"]
+                    entries = []
+                    for item in paper["items"]:
+                        qid = item["content_context"]["question_id"]
+                        if "-2222-" in qid:
+                            observed_2222_review_cards.append(qid)
+                        reviewed_points.update(jp02_fc[qid]["point_ids"])
+                        entries.append({"index": item["index"], "answer": demo_answer(jp02_fc[qid]), "elapsed_ms": 900})
+                    for start in range(0, len(entries), 2):
+                        rev = client.post(
+                            "/api/review-papers/draft",
+                            params={"subject_id": DEFAULT_SUBJECT_ID},
+                            json={"paper_id": paper["id"], "expected_revision": rev, "answers": entries[start : start + 2]},
+                        ).json()["revision"]
+                    done = client.post(
+                        "/api/review-papers/submit",
+                        params={"subject_id": DEFAULT_SUBJECT_ID},
+                        json={"paper_id": paper["id"], "request_id": str(uuid.uuid4()), "expected_revision": rev},
+                    ).json()
+                    self.assertEqual(done["phase"], "done")
+                    clock.advance(seconds=185)
+
+                if double_o_first_card_id is None:
+                    with closing(sqlite3.connect(str(data_dir / "learning.sqlite3"))) as con:
+                        mid_body = json.loads(
+                            con.execute("SELECT body FROM topics WHERE learner=? AND topic=?", (LOCAL_LEARNER_ID, JP02)).fetchone()[0]
+                        )
+                    mid_do = mid_body["atomic"]["points"]["p-jp02-double-o"]
+                    if mid_do.get("card_json"):
+                        mid_do_card = json.loads(mid_do["card_json"])
+                        double_o_first_card_id = mid_do_card["card_id"]
+                        double_o_first_stability = mid_do_card["stability"]
+                        double_o_first_due = mid_do["due_at"]
+
+            self.assertGreaterEqual(len(observed_2222_review_cards), 3, f"Expected 2222 cards in JP02 reviews, got {observed_2222_review_cards}")
+            self.assertIn("fc-jp02-2222-15", observed_2222_review_cards)
+            self.assertIn("fc-jp02-2222-16", observed_2222_review_cards)
+            self.assertIn("fc-jp02-2222-24", observed_2222_review_cards)
+            self.assertEqual(reviewed_points, expected_jp02_points)
+
+            with closing(sqlite3.connect(str(data_dir / "learning.sqlite3"))) as con:
+                post_review_body = json.loads(
+                    con.execute("SELECT body FROM topics WHERE learner=? AND topic=?", (LOCAL_LEARNER_ID, JP02)).fetchone()[0]
+                )
+            self.assertEqual(set(post_review_body["atomic"]["points"].keys()), expected_jp02_points)
+            for qid in observed_2222_review_cards:
+                self.assertGreaterEqual(post_review_body["atomic"]["card_uses"].get(qid, 0), 1)
+            post_o_point = post_review_body["atomic"]["points"]["p-jp02-o-marker"]
+            post_o_due = post_o_point["due_at"]
+            post_o_card = json.loads(post_o_point["card_json"])
+            self.assertEqual(post_o_card["card_id"], pre_o_card["card_id"])
+            self.assertNotEqual(post_o_due, pre_o_due)
+            self.assertGreater(
+                datetime.fromisoformat(post_o_card["last_review"]),
+                datetime.fromisoformat(pre_o_card["last_review"]),
+            )
+            self.assertGreater(post_o_card["stability"], pre_o_card["stability"])
+            # Also confirm p-jp02-double-o kept the SAME FSRS card_id across original + 2222 card reviews
+            self.assertIsNotNone(double_o_first_card_id)
+            post_do = post_review_body["atomic"]["points"]["p-jp02-double-o"]
+            post_do_card = json.loads(post_do["card_json"])
+            self.assertEqual(post_do_card["card_id"], double_o_first_card_id)
+            self.assertNotEqual(post_do["due_at"], double_o_first_due)
+            self.assertGreater(post_do_card["stability"], double_o_first_stability)
+
+    def test_compatible_migration_from_in_progress_waiting_jp02_and_completed_jp01(self) -> None:
+        tmp = tempfile.TemporaryDirectory(prefix="jp_waiting_migrate_")
+        self.addCleanup(tmp.cleanup)
+        root_tmp = Path(tmp.name)
+        old_pkg_dir = root_tmp / "old_packages"
+        shutil.copytree(PACKAGES_DIR, old_pkg_dir)
+
+        legacy_version = "jp-grammar-legacy-pre2222"
+        legacy_cv = "legacypre2222cv1"
+        for tid in (JP02, JP04, JP06):
+            tp = old_pkg_dir / tid / "topic.json"
+            data = json.loads(tp.read_text(encoding="utf-8"))
+            data["version"] = legacy_version
+            data["content_version"] = legacy_cv
+            data["flashcards"] = [fc for fc in data["flashcards"] if "-2222-" not in fc["id"]]
+            tp.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+
+        data_dir = root_tmp / "data"
+        clock = MutableClock()
+        port = _pick_free_loopback_port()
+
+        rt_old = LocalRuntime(
+            packages_dir=old_pkg_dir,
+            data_dir=data_dir,
+            web_dir=WEB_DIR,
+            host="127.0.0.1",
+            port=port,
+            clock=clock,
+        )
+        jp01_fc = {fc["id"]: fc for fc in json.loads((old_pkg_dir / JP01 / "topic.json").read_text(encoding="utf-8"))["flashcards"]}
+        jp02_fc = {fc["id"]: fc for fc in json.loads((old_pkg_dir / JP02 / "topic.json").read_text(encoding="utf-8"))["flashcards"]}
+
+        with TestClient(create_app(rt_old), base_url=f"http://127.0.0.1:{port}") as client_old:
+            # Complete JP01 advancing only 181s per chunk cooldown so JP01's 6h first review stays in the future
+            s1 = client_old.get("/api/state", params={"topic_id": JP01}).json()
+            for _ in range(120):
+                if s1.get("status") == "completed" or s1.get("phase") == "completed":
+                    break
+                p1 = s1.get("phase")
+                if p1 in {"introduction", "chunk", "feedback", "waiting"}:
+                    if s1.get("next_available_at"):
+                        clock.advance(seconds=181)
+                    s1 = client_old.post(
+                        "/api/continue",
+                        params={"topic_id": JP01},
+                        json={
+                            "request_id": str(uuid.uuid4()),
+                            "expected_revision": s1["revision"],
+                            "attempt_id": s1["attempt_id"],
+                            "step_id": s1["active_step_id"],
+                        },
+                    ).json()
+                elif p1 == "answer":
+                    cid = s1["current"]["card_id"]
+                    s1 = client_old.post(
+                        "/api/submit",
+                        params={"topic_id": JP01},
+                        json={
+                            "request_id": str(uuid.uuid4()),
+                            "expected_revision": s1["revision"],
+                            "attempt_id": s1["attempt_id"],
+                            "step_id": s1["active_step_id"],
+                            "answer": demo_answer(jp01_fc[cid]),
+                        },
+                    ).json()["state"]
+                else:
+                    self.fail(f"Unexpected JP01 state: {s1}")
+            self.assertEqual(s1.get("status"), "completed")
+
+            # Drive JP02 so 8/10 points are mastered and 2/10 (p-jp02-ni-vs-de, p-jp02-trans-pairs) stay unmastered in atomic.phase='waiting'
+            target_unmastered = {"p-jp02-ni-vs-de", "p-jp02-trans-pairs"}
+            s2 = client_old.get("/api/state", params={"topic_id": JP02}).json()
+            last_was_target = False
+            for _ in range(120):
+                if s2.get("phase") == "waiting" and s2.get("learned_count") == 8:
+                    break
+                phase = s2.get("phase")
+                if phase in {"introduction", "chunk"}:
+                    s2 = client_old.post(
+                        "/api/continue",
+                        params={"topic_id": JP02},
+                        json={
+                            "request_id": str(uuid.uuid4()),
+                            "expected_revision": s2["revision"],
+                            "attempt_id": s2["attempt_id"],
+                            "step_id": s2["active_step_id"],
+                        },
+                    ).json()
+                elif phase == "answer":
+                    cid = s2["current"]["card_id"]
+                    pts = set(s2["current"]["point_ids"])
+                    last_was_target = bool(pts & target_unmastered)
+                    ans = _wrong_fill_blank_answer(jp02_fc[cid]) if last_was_target else demo_answer(jp02_fc[cid])
+                    s2 = client_old.post(
+                        "/api/submit",
+                        params={"topic_id": JP02},
+                        json={
+                            "request_id": str(uuid.uuid4()),
+                            "expected_revision": s2["revision"],
+                            "attempt_id": s2["attempt_id"],
+                            "step_id": s2["active_step_id"],
+                            "answer": ans,
+                        },
+                    ).json()["state"]
+                elif phase == "feedback":
+                    # Do NOT advance clock after intentionally failing a target point so UnifiedLearningService
+                    # moves forward through sections without re-serving the target point inside the same section.
+                    if not last_was_target and s2.get("learned_count", 0) < 8 and s2.get("next_available_at"):
+                        clock.advance(seconds=181)
+                    last_was_target = False
+                    s2 = client_old.post(
+                        "/api/continue",
+                        params={"topic_id": JP02},
+                        json={
+                            "request_id": str(uuid.uuid4()),
+                            "expected_revision": s2["revision"],
+                            "attempt_id": s2["attempt_id"],
+                            "step_id": s2["active_step_id"],
+                        },
+                    ).json()
+                elif phase == "waiting":
+                    if s2.get("learned_count") == 8:
+                        break
+                    clock.advance(seconds=181)
+                    s2 = client_old.post(
+                        "/api/continue",
+                        params={"topic_id": JP02},
+                        json={
+                            "request_id": str(uuid.uuid4()),
+                            "expected_revision": s2["revision"],
+                            "attempt_id": s2["attempt_id"],
+                            "step_id": s2["active_step_id"],
+                        },
+                    ).json()
+                else:
+                    self.fail(f"Unexpected JP02 state before migration: {s2}")
+
+        with closing(sqlite3.connect(str(data_dir / "learning.sqlite3"))) as con:
+            pre_jp01_row = con.execute("SELECT version, body FROM topics WHERE learner=? AND topic=?", (LOCAL_LEARNER_ID, JP01)).fetchone()
+            pre_jp02_row = con.execute("SELECT version, body FROM topics WHERE learner=? AND topic=?", (LOCAL_LEARNER_ID, JP02)).fetchone()
+            pre_jp01_rps = con.execute("SELECT id, source_point FROM review_points WHERE container=?", (JP01,)).fetchall()
+            pre_jp02_rps = con.execute("SELECT id, source_point FROM review_points WHERE container=? AND version=?", (JP02, legacy_version)).fetchall()
+
+        pre_jp02_body = json.loads(pre_jp02_row[1])
+        self.assertEqual(pre_jp02_row[0], legacy_version)
+        self.assertEqual(pre_jp02_body["status"], "in_progress")
+        self.assertEqual(pre_jp02_body["display"], "atomic")
+        self.assertTrue(pre_jp02_body.get("atomic_catch_up"))
+        self.assertEqual(pre_jp02_body["atomic"]["phase"], "waiting")
+        pre_mastered = {k for k, v in pre_jp02_body["atomic"]["points"].items() if v.get("mastered")}
+        pre_unmastered = {k for k, v in pre_jp02_body["atomic"]["points"].items() if not v.get("mastered")}
+        self.assertEqual(len(pre_mastered), 8)
+        self.assertEqual(pre_unmastered, target_unmastered)
+        self.assertEqual(len(pre_jp01_rps), 9)
+        self.assertEqual(len(pre_jp02_rps), 10)
+
+        # Upgrade to rebuilt PACKAGES_DIR
+        rt_new = LocalRuntime(
+            packages_dir=PACKAGES_DIR,
+            data_dir=data_dir,
+            web_dir=WEB_DIR,
+            host="127.0.0.1",
+            port=port,
+            clock=clock,
+        )
+        migrated_ids = [m["topic_id"] for m in rt_new.revision_migration["migrated_topics"]]
+        self.assertIn(JP02, migrated_ids)
+        self.assertNotIn(JP01, migrated_ids)
+        self.assertTrue(list((data_dir / "backups").glob("learning-pre-migrate-*.sqlite3")))
+
+        new_jp01 = _load_topic(JP01)
+        new_jp02 = _load_topic(JP02)
+        with closing(sqlite3.connect(str(data_dir / "learning.sqlite3"))) as con:
+            post_jp01_row = con.execute("SELECT version, body FROM topics WHERE learner=? AND topic=?", (LOCAL_LEARNER_ID, JP01)).fetchone()
+            post_jp02_row = con.execute("SELECT version, body FROM topics WHERE learner=? AND topic=?", (LOCAL_LEARNER_ID, JP02)).fetchone()
+            post_jp01_rps = con.execute("SELECT id, source_point FROM review_points WHERE container=? AND version=?", (JP01, new_jp01["version"])).fetchall()
+            post_jp02_rps = con.execute("SELECT id, source_point FROM review_points WHERE container=? AND version=?", (JP02, new_jp02["version"])).fetchall()
+            leftover_legacy_rps = con.execute("SELECT COUNT(*) FROM review_points WHERE version=?", (legacy_version,)).fetchone()[0]
+
+        self.assertEqual(post_jp01_row[0], pre_jp01_row[0])
+        self.assertEqual(post_jp01_rps, pre_jp01_rps)
+        self.assertEqual(post_jp02_row[0], new_jp02["version"])
+        self.assertEqual(len(post_jp02_rps), 10)
+        self.assertEqual(leftover_legacy_rps, 0)
+
+        post_jp02_body = json.loads(post_jp02_row[1])
+        self.assertEqual(post_jp02_body["status"], "in_progress")
+        self.assertEqual(post_jp02_body["display"], "atomic")
+        self.assertTrue(post_jp02_body.get("atomic_catch_up"))
+        self.assertEqual(post_jp02_body["atomic"]["phase"], "waiting")
+        post_mastered = {k for k, v in post_jp02_body["atomic"]["points"].items() if v.get("mastered")}
+        self.assertEqual(post_mastered, pre_mastered)
+        self.assertEqual(len(post_jp02_body["atomic"]["history"]), len(pre_jp02_body["atomic"]["history"]))
+        for item in post_jp02_body["atomic"]["history"]:
+            self.assertIsInstance(item.get("snapshot"), dict)
+            self.assertEqual(item.get("snapshot_version"), legacy_version)
+
+        # Resume JP02 from phase='waiting', enforce cooldown 409, then finish remaining 2 points cleanly
+        new_jp02_fc = {fc["id"]: fc for fc in new_jp02["flashcards"]}
+        with TestClient(create_app(rt_new), base_url=f"http://127.0.0.1:{port}") as client_new:
+            resumed1 = client_new.get("/api/state", params={"topic_id": JP01}).json()
+            self.assertEqual(resumed1["status"], "completed")
+            resumed2 = client_new.get("/api/state", params={"topic_id": JP02}).json()
+            self.assertEqual(resumed2["status"], "in_progress")
+            self.assertEqual(resumed2["phase"], "waiting")
+            self.assertEqual(resumed2["learned_count"], 8)
+            self.assertEqual(resumed2["point_count"], 10)
+
+            early = client_new.post(
+                "/api/continue",
+                params={"topic_id": JP02},
+                json={
+                    "request_id": str(uuid.uuid4()),
+                    "expected_revision": resumed2["revision"],
+                    "attempt_id": resumed2["attempt_id"],
+                    "step_id": resumed2["active_step_id"],
+                },
+            )
+            self.assertEqual(early.status_code, 200)
+            self.assertEqual(early.json()["phase"], "waiting")
+            self.assertEqual(early.json()["learned_count"], 8)
+
+            finished2 = self._drive_topic_cards(client_new, clock, JP02, new_jp02_fc)
+            self.assertEqual(finished2.get("status"), "completed")
 
 
 if __name__ == "__main__":
