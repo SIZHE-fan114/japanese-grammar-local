@@ -154,6 +154,22 @@ export const api = {
     return request(withQuery('/api/state', { topic_id: topicId, subject_id: subjectId }));
   },
 
+  openPageEdit(body, signal) {
+    return request(withQuery('/api/page-edits/open', { subject_id: DEFAULT_SUBJECT_ID }), { method: 'POST', body, signal });
+  },
+
+  suggestPageEdit(body, signal) {
+    return request(withQuery('/api/page-edits/suggest', { subject_id: DEFAULT_SUBJECT_ID }), { method: 'POST', body, signal });
+  },
+
+  savePageEdit(body, signal) {
+    return request(withQuery('/api/page-edits/current', { subject_id: DEFAULT_SUBJECT_ID }), { method: 'PUT', body, signal });
+  },
+
+  closePageEdit(token) {
+    return request(withQuery('/api/page-edits/close', { subject_id: DEFAULT_SUBJECT_ID }), { method: 'POST', body: { token } });
+  },
+
   choose(topicId, choice, payload = {}, subjectId = DEFAULT_SUBJECT_ID) {
     return request(withQuery('/api/choose', { topic_id: topicId, subject_id: subjectId }), {
       method: 'POST',

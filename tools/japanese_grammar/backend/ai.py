@@ -702,6 +702,7 @@ def complete_chat(
     temperature: float | None = None,
     transport: httpx.BaseTransport | None = None,
     dotenv_path: Path | None = None,
+    timeout_seconds: float = DEFAULT_AI_TIMEOUT_SECONDS,
 ) -> dict[str, Any]:
     """Perform a non-streaming OpenAI-compatible chat completion."""
     cfg = resolve_ai_config(data_dir, dotenv_path=dotenv_path)
@@ -716,7 +717,7 @@ def complete_chat(
     )
     headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
     try:
-        with httpx.Client(transport=transport, timeout=DEFAULT_AI_TIMEOUT_SECONDS) as client:
+        with httpx.Client(transport=transport, timeout=timeout_seconds) as client:
             for attempt in range(2):
                 resp = client.post(chat_url, headers=headers, json=payload)
                 if (

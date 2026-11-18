@@ -38,6 +38,7 @@ from .ai import (
     update_ai_config,
 )
 from .judge import per_blank_results
+from .page_editor import PageEditor, register_page_editor_routes
 from .runtime import (
     DEFAULT_HOST,
     DEFAULT_PORT,
@@ -429,6 +430,37 @@ def _describe_blocker(
     return entry
 
 
+def _normalize_topic_phase(state: dict[str, Any]) -> None:
+    """Project a unified course's current step into the Japanese view."""
+    steps = state.get("steps")
+    if state.get("phase"):
+        return
+    if not isinstance(steps, list) or not steps:
+        if state.get("completed_at"):
+            state["phase"] = "completed"
+        return
+    active_id = state.get("active_step_id") or state.get("current_step_id")
+    latest = next(
+        (step for step in reversed(steps) if isinstance(step, dict) and
+         ((active_id and step.get("id") == active_id) or step.get("current") or step.get("active"))),
+        steps[-1],
+    )
+    if not isinstance(latest, dict):
+        return
+    if latest.get("kind") == "introduction" and not state.get("current") and not state.get("chunk"):
+        intro = {key: latest[key] for key in (
+            "introduction_id", "title", "html", "explanation_html", "example", "footnotes", "section"
+        ) if key in latest}
+        intro["id"] = latest.get("introduction_id") or latest.get("id")
+        state.update(phase="introduction", introduction=intro)
+    elif latest.get("kind") == "completion" or state.get("completed_at"):
+        state["phase"] = latest.get("phase") or "completed"
+    else:
+        return
+    if not state.get("actions") and isinstance(latest.get("actions"), list):
+        state["actions"] = list(latest["actions"])
+
+
 def _public_state(access: dict[str, Any], runtime: LocalRuntime, topic_id: str) -> dict[str, Any]:
     learner = runtime.service_for(access["learner_id"], topic_id)
     state = dict(learner.state())
@@ -505,46 +537,7 @@ def _public_state(access: dict[str, Any], runtime: LocalRuntime, topic_id: str) 
     state["content_references"] = runtime.references_for(access, topic_id)
     state["access"] = access
 
-    # Project UnifiedLearningService step-based section introductions and completions
-    # into top-level phase/introduction/actions expected by web/app.js.
-    if (
-        not state.get("phase")
-        and isinstance(state.get("steps"), list)
-        and state["steps"]
-    ):
-        active_step_id = state.get("active_step_id") or state.get("current_step_id")
-        latest = next(
-            (
-                step
-                for step in reversed(state["steps"])
-                if isinstance(step, dict)
-                and (
-                    (active_step_id and step.get("id") == active_step_id)
-                    or step.get("current")
-                    or step.get("active")
-                )
-            ),
-            state["steps"][-1],
-        )
-        if isinstance(latest, dict):
-            kind = latest.get("kind")
-            if kind == "introduction" and not state.get("current") and not state.get("chunk"):
-                intro = {
-                    key: latest[key]
-                    for key in ("introduction_id", "title", "html", "explanation_html", "example", "footnotes", "section")
-                    if key in latest
-                }
-                intro["id"] = latest.get("introduction_id") or latest.get("id")
-                state["phase"] = "introduction"
-                state["introduction"] = intro
-                if not state.get("actions") and isinstance(latest.get("actions"), list):
-                    state["actions"] = list(latest["actions"])
-            elif kind == "completion" or state.get("completed_at"):
-                state["phase"] = latest.get("phase") or "completed"
-                if not state.get("actions") and isinstance(latest.get("actions"), list):
-                    state["actions"] = list(latest["actions"])
-    elif not state.get("phase") and state.get("completed_at"):
-        state["phase"] = "completed"
+    _normalize_topic_phase(state)
 
     current = state.get("current")
     if isinstance(current, dict):
@@ -585,6 +578,8 @@ def _public_state(access: dict[str, Any], runtime: LocalRuntime, topic_id: str) 
             else:
                 enriched_steps.append(step)
         state["steps"] = enriched_steps
+
+    runtime.page_editor.project_topic(learner, state)
 
     app_services = getattr(runtime, "_app_services_view", None)
     if app_services is not None:
@@ -685,6 +680,7 @@ def create_app(
         port=port,
         reset=reset,
     )
+    active_runtime.page_editor = PageEditor(active_runtime)
     session_nonce = secrets.token_urlsafe(24)
 
     @asynccontextmanager
@@ -1215,7 +1211,7 @@ def create_app(
         active_runtime.dependency_policy,
         active_runtime.references_for,
     )
-    register_paper_routes(
+    with_editable_paper_page = register_paper_routes(
         app,
         active_runtime.training,
         active_runtime.catalog,
@@ -1228,7 +1224,10 @@ def create_app(
         active_runtime.schedule_submission,
         active_runtime.outstanding_submissions,
         clock=active_runtime.clock,
+        content_projection=active_runtime.page_editor.project_paper_item,
     )
+    register_page_editor_routes(app, active_runtime.page_editor, identity, resolve_access,
+                                _normalize_topic_phase, with_editable_paper_page)
     register_admin_student_routes(
         app,
         active_runtime.catalog,
