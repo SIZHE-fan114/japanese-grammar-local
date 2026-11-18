@@ -7,11 +7,11 @@
   "topic_format_version": 2,
   "topic_kind": "lesson",
   "training_mode": "atomic_retrieval",
-  "version": "jp-grammar-3fe05abe2efe",
-  "content_version": "3fe05abe2efe7a59",
-  "course_version": "2c0589397073ff8a",
+  "version": "jp-grammar-2764f0bc26fa",
+  "content_version": "2764f0bc26fa7f8e",
+  "course_version": "dd1996f7620de297",
   "source_rem_id": "Pu9aItzklny3OlLlK",
-  "source_sha256": "3fe05abe2efe7a593be688a63779b928215b92946e6d050b126c96caae01791c",
+  "source_sha256": "2764f0bc26fa7f8e8cb5902c301d9da1a2c8bbb7c0f425318e8438b9d94d910f",
   "sections": [
     {
       "id": "sec-jp06-modifiers",
@@ -902,6 +902,605 @@
             "answers": [
               "買う",
               "かう"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp06-2222-01",
+      "title": "状态否定小句修饰名词：「この部屋に入らない」",
+      "point_ids": [
+        "p-jp06-state-mod"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "填入状态非过去否定形式，直接置于名词前作定语（“不是学生的人不进这房间”）：\n学生{{blank:b1}}人は、この部屋に入らない。（不是学生的人，不进这个房间。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">填入状态非过去否定形式，直接置于名词前作定语（“不是学生的人不进这房间”）：</p><p class=\"jp-ja\"><ruby>学生<rp>(</rp><rt>がくせい</rt><rp>)</rp></ruby>{{blank:b1}}<ruby>人<rp>(</rp><rt>ひと</rt><rp>)</rp></ruby>は、この<ruby>部屋<rp>(</rp><rt>へや</rt><rp>)</rp></ruby>に<ruby>入<rp>(</rp><rt>はい</rt><rp>)</rp></ruby>らない。</p><p class=\"jp-romaji\">gakusei [ ? ] hito wa, kono heya ni hairanai.</p><p class=\"jp-zh\">不是学生的人，不进这个房间。</p></div>",
+      "reference_answer": "じゃない",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>学生<rp>(</rp><rt>がくせい</rt><rp>)</rp></ruby><strong>じゃない</strong><ruby>人<rp>(</rp><rt>ひと</rt><rp>)</rp></ruby>は、この<ruby>部屋<rp>(</rp><rt>へや</rt><rp>)</rp></ruby>に<ruby>入<rp>(</rp><rt>はい</rt><rp>)</rp></ruby>らない。</div><div class=\"jp-romaji\">gakusei janai hito wa, kono heya ni hairanai.</div><p>状态表达的否定形（〜じゃない / 〜ではない）形态不变，无需借助「の/な」即可直接置在名词前作定语。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "否定状态（简体）",
+            "answers": [
+              "じゃない",
+              "ではない"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp06-2222-02",
+      "title": "状态过去小句修饰名词：「先生だった彼女」",
+      "point_ids": [
+        "p-jp06-state-mod"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "填入状态过去肯定形式，直接修饰后面的「彼女」：\n先週まで先生{{blank:b1}}彼女は、仕事を辞めた。（上周为止还是老师的她，辞掉了工作。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">填入状态过去肯定形式，直接修饰后面的「彼女」：</p><p class=\"jp-ja\"><ruby>先週<rp>(</rp><rt>せんしゅう</rt><rp>)</rp></ruby>まで<ruby>先生<rp>(</rp><rt>せんせい</rt><rp>)</rp></ruby>{{blank:b1}}<ruby>彼女<rp>(</rp><rt>かのじょ</rt><rp>)</rp></ruby>は、<ruby>仕事<rp>(</rp><rt>しごと</rt><rp>)</rp></ruby>を<ruby>辞<rp>(</rp><rt>や</rt><rp>)</rp></ruby>めた。</p><p class=\"jp-romaji\">senshū made sensei [ ? ] kanojo wa, shigoto o yameta.</p><p class=\"jp-zh\">上周为止还是老师的她，辞掉了工作。</p></div>",
+      "reference_answer": "だった",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>先週<rp>(</rp><rt>せんしゅう</rt><rp>)</rp></ruby>まで<ruby>先生<rp>(</rp><rt>せんせい</rt><rp>)</rp></ruby><strong>だった</strong><ruby>彼女<rp>(</rp><rt>かのじょ</rt><rp>)</rp></ruby>は、<ruby>仕事<rp>(</rp><rt>しごと</rt><rp>)</rp></ruby>を<ruby>辞<rp>(</rp><rt>や</rt><rp>)</rp></ruby>めた。</div><div class=\"jp-romaji\">senshū made sensei datta kanojo wa, shigoto o yameta.</div><p>过去肯定「〜だった」（及过去否定「〜じゃなかった」）均可直接修饰后面的名词。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "过去状态（简体）",
+            "answers": [
+              "だった"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp06-2222-03",
+      "title": "非过去肯定修饰名词禁用「だ」纠错",
+      "point_ids": [
+        "p-jp06-state-mod"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "不能说「*学生だ人」；非过去肯定直接修饰名词时不可用「だ」，此处中间必须改用：\n学生{{blank:b1}}人（是学生的人）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">不能说「*学生だ人」；非过去肯定直接修饰名词时不可用「だ」，此处中间必须改用：</p><p class=\"jp-ja\"><ruby>学生<rp>(</rp><rt>がくせい</rt><rp>)</rp></ruby>{{blank:b1}}<ruby>人<rp>(</rp><rt>ひと</rt><rp>)</rp></ruby></p><p class=\"jp-romaji\">gakusei [ ? ] hito</p><p class=\"jp-zh\">是学生的人</p></div>",
+      "reference_answer": "の",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>学生<rp>(</rp><rt>がくせい</rt><rp>)</rp></ruby><strong>の</strong><ruby>人<rp>(</rp><rt>ひと</rt><rp>)</rp></ruby></div><div class=\"jp-romaji\">gakusei no hito</div><p>只有非过去肯定的「だ」被禁止直接放名词前，名词必须由修饰助词「の」接管（な形容词用「な」）。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "名词定语助词",
+            "answers": [
+              "の"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp06-2222-04",
+      "title": "动词过去小句修饰名词：「昨日、手紙を書いた人」",
+      "point_ids": [
+        "p-jp06-verb-mod"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "用「書く」的【过去肯定简体】直接修饰「人」，表达“昨天写信的人是谁？”：\n昨日、手紙を{{blank:b1}}人は誰？（昨天写了信的人是谁？）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">用「書く」的【过去肯定简体】直接修饰「人」，表达“昨天写信的人是谁？”：</p><p class=\"jp-ja\"><ruby>昨日<rp>(</rp><rt>きのう</rt><rp>)</rp></ruby>、<ruby>手紙<rp>(</rp><rt>てがみ</rt><rp>)</rp></ruby>を{{blank:b1}}<ruby>人<rp>(</rp><rt>ひと</rt><rp>)</rp></ruby>は<ruby>誰<rp>(</rp><rt>だれ</rt><rp>)</rp></ruby>？</p><p class=\"jp-romaji\">kinō, tegami o [ ? ] hito wa dare?</p><p class=\"jp-zh\">昨天写了信的人是谁？</p></div>",
+      "reference_answer": "書いた",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>昨日<rp>(</rp><rt>きのう</rt><rp>)</rp></ruby>、<ruby>手紙<rp>(</rp><rt>てがみ</rt><rp>)</rp></ruby>を<strong><ruby>書<rp>(</rp><rt>か</rt><rp>)</rp></ruby>いた</strong><ruby>人<rp>(</rp><rt>ひと</rt><rp>)</rp></ruby>は<ruby>誰<rp>(</rp><rt>だれ</rt><rp>)</rp></ruby>？</div><div class=\"jp-romaji\">kinō, tegami o kaita hito wa dare?</div><p>日语没有关系代词，完整动词小句保持简体直接挂到被修饰名词「人」前面。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "書く 过去简体",
+            "answers": [
+              "書いた",
+              "かいた"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp06-2222-05",
+      "title": "动词现在肯定小句修饰名词：「赤い靴を買う友達」",
+      "point_ids": [
+        "p-jp06-verb-mod"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "用表示“买”的动词【现在肯定辞书形】补全连体修饰小句：\n赤い靴を{{blank:b1}}友達は、あそこにいる。（买红鞋的朋友就在那边。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">用表示“买”的动词【现在肯定辞书形】补全连体修饰小句：</p><p class=\"jp-ja\"><ruby>赤<rp>(</rp><rt>あか</rt><rp>)</rp></ruby>い<ruby>靴<rp>(</rp><rt>くつ</rt><rp>)</rp></ruby>を{{blank:b1}}<ruby>友達<rp>(</rp><rt>ともだち</rt><rp>)</rp></ruby>は、あそこにいる。</p><p class=\"jp-romaji\">akai kutsu o [ ? ] tomodachi wa, asoko ni iru.</p><p class=\"jp-zh\">买红鞋的朋友就在那边。</p></div>",
+      "reference_answer": "買う",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>赤<rp>(</rp><rt>あか</rt><rp>)</rp></ruby>い<ruby>靴<rp>(</rp><rt>くつ</rt><rp>)</rp></ruby>を<strong><ruby>買<rp>(</rp><rt>か</rt><rp>)</rp></ruby>う</strong><ruby>友達<rp>(</rp><rt>ともだち</rt><rp>)</rp></ruby>は、あそこにいる。</div><div class=\"jp-romaji\">akai kutsu o kau tomodachi wa, asoko ni iru.</div><p>以辞书形结尾的动词小句可直接置于「友達」前面修饰名词，无需关系代词。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "买（辞书形）",
+            "answers": [
+              "買う",
+              "かう"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp06-2222-06",
+      "title": "双层嵌套动词定语小句：「昨日見た店」",
+      "point_ids": [
+        "p-jp06-verb-mod"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "前句否定修饰「友達」，后句用「見る」的【过去肯定简体】修饰「店」完成双层嵌套：\n朝ご飯を食べなかった友達は、昨日{{blank:b1}}店に行った。（没吃早饭的朋友，去了昨天看过的店。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">前句否定修饰「友達」，后句用「見る」的【过去肯定简体】修饰「店」完成双层嵌套：</p><p class=\"jp-ja\"><ruby>朝<rp>(</rp><rt>あさ</rt><rp>)</rp></ruby>ご<ruby>飯<rp>(</rp><rt>はん</rt><rp>)</rp></ruby>を<ruby>食<rp>(</rp><rt>た</rt><rp>)</rp></ruby>べなかった<ruby>友達<rp>(</rp><rt>ともだち</rt><rp>)</rp></ruby>は、<ruby>昨日<rp>(</rp><rt>きのう</rt><rp>)</rp></ruby>{{blank:b1}}<ruby>店<rp>(</rp><rt>みせ</rt><rp>)</rp></ruby>に<ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>った。</p><p class=\"jp-romaji\">asagohan o tabenakatta tomodachi wa, kinō [ ? ] mise ni itta.</p><p class=\"jp-zh\">没吃早饭的朋友，去了昨天看过的店。</p></div>",
+      "reference_answer": "見た",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>朝<rp>(</rp><rt>あさ</rt><rp>)</rp></ruby>ご<ruby>飯<rp>(</rp><rt>はん</rt><rp>)</rp></ruby>を<ruby>食<rp>(</rp><rt>た</rt><rp>)</rp></ruby>べなかった<ruby>友達<rp>(</rp><rt>ともだち</rt><rp>)</rp></ruby>は、<ruby>昨日<rp>(</rp><rt>きのう</rt><rp>)</rp></ruby><strong><ruby>見<rp>(</rp><rt>み</rt><rp>)</rp></ruby>た</strong><ruby>店<rp>(</rp><rt>みせ</rt><rp>)</rp></ruby>に<ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>った。</div><div class=\"jp-romaji\">asagohan o tabenakatta tomodachi wa, kinō mita mise ni itta.</div><p>前句修饰「友達」（过去否定），后句「昨日見た」修饰「店」（过去肯定），各自在所属名词前用简体收束。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "見る 过去简体",
+            "answers": [
+              "見た",
+              "みた"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp06-2222-07",
+      "title": "日语语序铁律：唯一固定锁定句末的谓语动词",
+      "point_ids": [
+        "p-jp06-sentence-order"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "无论把「私は・公園で・お弁当を」怎么调换前部语序，全句唯一必须锁定在句末的核心动词（“吃”的过去简体）是：\nお弁当を私は公園で{{blank:b1}}。（我在公园吃了便当。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">无论把「私は・公園で・お弁当を」怎么调换前部语序，全句唯一必须锁定在句末的核心动词（“吃”的过去简体）是：</p><p class=\"jp-ja\">お<ruby>弁当<rp>(</rp><rt>べんとう</rt><rp>)</rp></ruby>を<ruby>私<rp>(</rp><rt>わたし</rt><rp>)</rp></ruby>は<ruby>公園<rp>(</rp><rt>こうえん</rt><rp>)</rp></ruby>で{{blank:b1}}。</p><p class=\"jp-romaji\">obentō o watashi wa kōen de [ ? ].</p><p class=\"jp-zh\">我在公园吃了便当。</p></div>",
+      "reference_answer": "食べた",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\">お<ruby>弁当<rp>(</rp><rt>べんとう</rt><rp>)</rp></ruby>を<ruby>私<rp>(</rp><rt>わたし</rt><rp>)</rp></ruby>は<ruby>公園<rp>(</rp><rt>こうえん</rt><rp>)</rp></ruby>で<strong><ruby>食<rp>(</rp><rt>た</rt><rp>)</rp></ruby>べた</strong>。</div><div class=\"jp-romaji\">obentō o watashi wa kōen de tabeta.</div><p>格助词（は / で / を）已标明语法角色，所以动词前的成分顺序自由，唯独主句核心动词「食べた」不可移出句末。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "句末核心动词",
+            "answers": [
+              "食べた",
+              "たべた"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp06-2222-08",
+      "title": "极简完整句：单动词即可成句",
+      "point_ids": [
+        "p-jp06-sentence-order"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "在对话中表示“（已经）吃过了”时，日语省略主语与宾语，仅用这一个动词（过去简体）即可构成语法完整的句子：\n{{blank:b1}}（吃过了。（极简完整句））",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">在对话中表示“（已经）吃过了”时，日语省略主语与宾语，仅用这一个动词（过去简体）即可构成语法完整的句子：</p><p class=\"jp-ja\">{{blank:b1}}</p><p class=\"jp-romaji\">[ ? ]（“吃”的过去简体，单动词成句）</p><p class=\"jp-zh\">吃过了。（极简完整句）</p></div>",
+      "reference_answer": "食べた",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><strong><ruby>食<rp>(</rp><rt>た</rt><rp>)</rp></ruby>べた。</strong></div><div class=\"jp-romaji\">tabeta.</div><p>日语唯一不可缺少的核心成分只有句末谓语/动词，已知语境下的主语与宾语均可省略。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "单动词完整句",
+            "answers": [
+              "食べた",
+              "たべた",
+              "食べた。",
+              "たべた。"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp06-2222-09",
+      "title": "穷尽式完全列举：「本と手紙」",
+      "point_ids": [
+        "p-jp06-to-particle"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "一共只买了书和信纸这两样（不含其他），填入穷尽式完全列举助词：\n店で本{{blank:b1}}手紙を買った。（在店里买了书和信纸（仅此两样）。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">一共只买了书和信纸这两样（不含其他），填入穷尽式完全列举助词：</p><p class=\"jp-ja\"><ruby>店<rp>(</rp><rt>みせ</rt><rp>)</rp></ruby>で<ruby>本<rp>(</rp><rt>ほん</rt><rp>)</rp></ruby>{{blank:b1}}<ruby>手紙<rp>(</rp><rt>てがみ</rt><rp>)</rp></ruby>を<ruby>買<rp>(</rp><rt>か</rt><rp>)</rp></ruby>った。</p><p class=\"jp-romaji\">mise de hon [ ? ] tegami o katta.</p><p class=\"jp-zh\">在店里买了书和信纸（仅此两样）。</p></div>",
+      "reference_answer": "と",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>店<rp>(</rp><rt>みせ</rt><rp>)</rp></ruby>で<ruby>本<rp>(</rp><rt>ほん</rt><rp>)</rp></ruby><strong>と</strong><ruby>手紙<rp>(</rp><rt>てがみ</rt><rp>)</rp></ruby>を<ruby>買<rp>(</rp><rt>か</rt><rp>)</rp></ruby>った。</div><div class=\"jp-romaji\">mise de hon to tegami o katta.</div><p>「と」用于列出全部项目（不含“等其他物品”），仅连接名词或名词短语。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "完全列举助词",
+            "answers": [
+              "と"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp06-2222-10",
+      "title": "共同动作伴随对象：「友達と公園で遊んだ」",
+      "point_ids": [
+        "p-jp06-to-particle"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "与动作动词「遊ぶ」连用时，填入标记“和某人一起”的伴随助词：\n日曜日、友達{{blank:b1}}公園で遊んだ。（周日和朋友在公园玩了。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">与动作动词「遊ぶ」连用时，填入标记“和某人一起”的伴随助词：</p><p class=\"jp-ja\"><ruby>日曜日<rp>(</rp><rt>にちようび</rt><rp>)</rp></ruby>、<ruby>友達<rp>(</rp><rt>ともだち</rt><rp>)</rp></ruby>{{blank:b1}}<ruby>公園<rp>(</rp><rt>こうえん</rt><rp>)</rp></ruby>で<ruby>遊<rp>(</rp><rt>あそ</rt><rp>)</rp></ruby>んだ。</p><p class=\"jp-romaji\">nichiyōbi, tomodachi [ ? ] kōen de asonda.</p><p class=\"jp-zh\">周日和朋友在公园玩了。</p></div>",
+      "reference_answer": "と",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>日曜日<rp>(</rp><rt>にちようび</rt><rp>)</rp></ruby>、<ruby>友達<rp>(</rp><rt>ともだち</rt><rp>)</rp></ruby><strong>と</strong><ruby>公園<rp>(</rp><rt>こうえん</rt><rp>)</rp></ruby>で<ruby>遊<rp>(</rp><rt>あそ</rt><rp>)</rp></ruby>んだ。</div><div class=\"jp-romaji\">nichiyōbi, tomodachi to kōen de asonda.</div><p>与动作动词「遊ぶ」「話す」「会う」连用时，「と」标记“和某人一起”。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "伴随对象助词",
+            "answers": [
+              "と"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp06-2222-11",
+      "title": "「と」词性连接限制纠错（只连名词）",
+      "point_ids": [
+        "p-jp06-to-particle"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "助词「と」有严格的词性连接限制；下列两句中，语法错误的是（请填选项字母 A 或 B）：\nA. 先生と話した ／ B. 高いと新しい本を買った → {{blank:b1}}（选出违反「と」连接限制的错句（A / B））",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">助词「と」有严格的词性连接限制；下列两句中，语法错误的是（请填选项字母 A 或 B）：</p><p class=\"jp-ja\">A. <ruby>先生<rp>(</rp><rt>せんせい</rt><rp>)</rp></ruby>と<ruby>話<rp>(</rp><rt>はな</rt><rp>)</rp></ruby>した ／ B. <ruby>高<rp>(</rp><rt>たか</rt><rp>)</rp></ruby>いと<ruby>新<rp>(</rp><rt>あたら</rt><rp>)</rp></ruby>しい<ruby>本<rp>(</rp><rt>ほん</rt><rp>)</rp></ruby>を<ruby>買<rp>(</rp><rt>か</rt><rp>)</rp></ruby>った → {{blank:b1}}</p><p class=\"jp-romaji\">A. sensei to hanashita / B. takai to atarashii hon o katta → [ ? ]</p><p class=\"jp-zh\">选出违反「と」连接限制的错句（A / B）</p></div>",
+      "reference_answer": "B",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><strong>B</strong>（<ruby>正<rp>(</rp><rt>ただ</rt><rp>)</rp></ruby>しい<ruby>例<rp>(</rp><rt>れい</rt><rp>)</rp></ruby>：A. <ruby>先生<rp>(</rp><rt>せんせい</rt><rp>)</rp></ruby>と<ruby>話<rp>(</rp><rt>はな</rt><rp>)</rp></ruby>した）</div><div class=\"jp-romaji\">B is ungrammatical (correct: A. sensei to hanashita)</div><p>错句为 B：日语的「と」只能连接名词或名词短语，绝不能像英语 and 那样直接连接两个形容词或两个动词小句。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "错误句选项",
+            "answers": [
+              "B",
+              "b"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp06-2222-12",
+      "title": "不完全列举「や」：「冷たい水やお茶など」",
+      "point_ids": [
+        "p-jp06-ya-toka"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "暗示除了凉水和茶之外还有其他未尽举的饮料，填入标准模糊列举助词：\n冷たい水{{blank:b1}}お茶などは、いらない？（凉水、茶之类的东西，不需要吗？）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">暗示除了凉水和茶之外还有其他未尽举的饮料，填入标准模糊列举助词：</p><p class=\"jp-ja\"><ruby>冷<rp>(</rp><rt>つめ</rt><rp>)</rp></ruby>たい<ruby>水<rp>(</rp><rt>みず</rt><rp>)</rp></ruby>{{blank:b1}}お<ruby>茶<rp>(</rp><rt>ちゃ</rt><rp>)</rp></ruby>などは、いらない？</p><p class=\"jp-romaji\">tsumetai mizu [ ? ] ocha nado wa, iranai?</p><p class=\"jp-zh\">凉水、茶之类的东西，不需要吗？</p></div>",
+      "reference_answer": "や",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>冷<rp>(</rp><rt>つめ</rt><rp>)</rp></ruby>たい<ruby>水<rp>(</rp><rt>みず</rt><rp>)</rp></ruby><strong>や</strong>お<ruby>茶<rp>(</rp><rt>ちゃ</rt><rp>)</rp></ruby>などは、いらない？</div><div class=\"jp-romaji\">tsumetai mizu ya ocha nado wa, iranai?</div><p>当想表达“A 和 B 等（言外还有别的）”时使用不完全列举助词「や」。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "模糊列举助词",
+            "answers": [
+              "や"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp06-2222-13",
+      "title": "口语模糊列举「とか」：「靴とか服」",
+      "point_ids": [
+        "p-jp06-ya-toka"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "用比「や」更口语随性的模糊列举助词补全“鞋子、衣服什么的”：\n休みに靴{{blank:b1}}服を買うつもりだ。（打算放假时买点鞋子、衣服什么的。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">用比「や」更口语随性的模糊列举助词补全“鞋子、衣服什么的”：</p><p class=\"jp-ja\"><ruby>休<rp>(</rp><rt>やす</rt><rp>)</rp></ruby>みに<ruby>靴<rp>(</rp><rt>くつ</rt><rp>)</rp></ruby>{{blank:b1}}<ruby>服<rp>(</rp><rt>ふく</rt><rp>)</rp></ruby>を<ruby>買<rp>(</rp><rt>か</rt><rp>)</rp></ruby>うつもりだ。</p><p class=\"jp-romaji\">yasumi ni kutsu [ ? ] fuku o kau tsumori da.</p><p class=\"jp-zh\">打算放假时买点鞋子、衣服什么的。</p></div>",
+      "reference_answer": "とか",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>休<rp>(</rp><rt>やす</rt><rp>)</rp></ruby>みに<ruby>靴<rp>(</rp><rt>くつ</rt><rp>)</rp></ruby><strong>とか</strong><ruby>服<rp>(</rp><rt>ふく</rt><rp>)</rp></ruby>を<ruby>買<rp>(</rp><rt>か</rt><rp>)</rp></ruby>うつもりだ。</div><div class=\"jp-romaji\">yasumi ni kutsu toka fuku o kau tsumori da.</div><p>「とか」与「や」一样表不完全列举，但语气更口语、随性。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "口语列举助词",
+            "answers": [
+              "とか"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp06-2222-14",
+      "title": "「の」属性修饰链顺序：「日本の大学の学生」",
+      "point_ids": [
+        "p-jp06-no-3uses"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "按日语从前向后逐层收窄修饰的顺序，填入缺少的名词连接助词：\n彼は日本{{blank:b1}}大学の学生だ。（他是日本一所大学的学生。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">按日语从前向后逐层收窄修饰的顺序，填入缺少的名词连接助词：</p><p class=\"jp-ja\"><ruby>彼<rp>(</rp><rt>かれ</rt><rp>)</rp></ruby>は<ruby>日本<rp>(</rp><rt>にほん</rt><rp>)</rp></ruby>{{blank:b1}}<ruby>大学<rp>(</rp><rt>だいがく</rt><rp>)</rp></ruby>の<ruby>学生<rp>(</rp><rt>がくせい</rt><rp>)</rp></ruby>だ。</p><p class=\"jp-romaji\">kare wa nihon [ ? ] daigaku no gakusei da.</p><p class=\"jp-zh\">他是日本一所大学的学生。</p></div>",
+      "reference_answer": "の",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>彼<rp>(</rp><rt>かれ</rt><rp>)</rp></ruby>は<ruby>日本<rp>(</rp><rt>にほん</rt><rp>)</rp></ruby><strong>の</strong><ruby>大学<rp>(</rp><rt>だいがく</rt><rp>)</rp></ruby>の<ruby>学生<rp>(</rp><rt>がくせい</rt><rp>)</rp></ruby>だ。</div><div class=\"jp-romaji\">kare wa nihon no daigaku no gakusei da.</div><p>日语修饰关系用「の」从前向后逐层收窄（日本の大学 → 日本の大学の学生），不可倒装。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "属性连接助词",
+            "answers": [
+              "の"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp06-2222-15",
+      "title": "「の」替代已知重复名词：「私のだ」",
+      "point_ids": [
+        "p-jp06-no-3uses"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "上下文已明确讨论「本」，用代称助词省略重复中心名词“（我的）那本”：\nその本は誰の本？ ああ、私{{blank:b1}}だ。（那本书是谁的书？ 哦，是我（的那本）。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">上下文已明确讨论「本」，用代称助词省略重复中心名词“（我的）那本”：</p><p class=\"jp-ja\">その<ruby>本<rp>(</rp><rt>ほん</rt><rp>)</rp></ruby>は<ruby>誰<rp>(</rp><rt>だれ</rt><rp>)</rp></ruby>の<ruby>本<rp>(</rp><rt>ほん</rt><rp>)</rp></ruby>？ ああ、<ruby>私<rp>(</rp><rt>わたし</rt><rp>)</rp></ruby>{{blank:b1}}だ。</p><p class=\"jp-romaji\">sono hon wa dare no hon? aa, watashi [ ? ] da.</p><p class=\"jp-zh\">那本书是谁的书？ 哦，是我（的那本）。</p></div>",
+      "reference_answer": "の",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\">その<ruby>本<rp>(</rp><rt>ほん</rt><rp>)</rp></ruby>は<ruby>誰<rp>(</rp><rt>だれ</rt><rp>)</rp></ruby>の<ruby>本<rp>(</rp><rt>ほん</rt><rp>)</rp></ruby>？ ああ、<ruby>私<rp>(</rp><rt>わたし</rt><rp>)</rp></ruby><strong>の</strong>だ。</div><div class=\"jp-romaji\">sono hon wa dare no hon? aa, watashi no da.</div><p>上下文已经明确讨论「本」时，用「私の」即可替代「私の本」，省略重复中心名词。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "代称助词",
+            "answers": [
+              "の"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp06-2222-16",
+      "title": "「の」将动词小句名词化：「行くのを忘れた」",
+      "point_ids": [
+        "p-jp06-no-3uses"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "填入将动词短语「学校に行く」直接名词化以衔接宾格「を」的助词：\n昨日、学校に行く{{blank:b1}}を忘れた。（昨天忘了要去上学（这件事）。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">填入将动词短语「学校に行く」直接名词化以衔接宾格「を」的助词：</p><p class=\"jp-ja\"><ruby>昨日<rp>(</rp><rt>きのう</rt><rp>)</rp></ruby>、<ruby>学校<rp>(</rp><rt>がっこう</rt><rp>)</rp></ruby>に<ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>く{{blank:b1}}を<ruby>忘<rp>(</rp><rt>わす</rt><rp>)</rp></ruby>れた。</p><p class=\"jp-romaji\">kinō, gakkō ni iku [ ? ] o wasureta.</p><p class=\"jp-zh\">昨天忘了要去上学（这件事）。</p></div>",
+      "reference_answer": "の",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>昨日<rp>(</rp><rt>きのう</rt><rp>)</rp></ruby>、<ruby>学校<rp>(</rp><rt>がっこう</rt><rp>)</rp></ruby>に<ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>く<strong>の</strong>を<ruby>忘<rp>(</rp><rt>わす</rt><rp>)</rp></ruby>れた。</div><div class=\"jp-romaji\">kinō, gakkō ni iku no o wasureta.</div><p>动词短语后接「の」即可直接名词化，从而接上宾格「を」充当「忘れる」的对象。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "名词化助词",
+            "answers": [
+              "の"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp06-2222-17",
+      "title": "句尾说明语气：名词后接「のだ」须加「な」",
+      "point_ids": [
+        "p-jp06-no-explain"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "用「のだ」对“其实他是我朋友呀”作解释说明时，名词后必须插入防歧义连接假名：\n彼は私の友達{{blank:b1}}のだ。（其实他是我朋友呀。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">用「のだ」对“其实他是我朋友呀”作解释说明时，名词后必须插入防歧义连接假名：</p><p class=\"jp-ja\"><ruby>彼<rp>(</rp><rt>かれ</rt><rp>)</rp></ruby>は<ruby>私<rp>(</rp><rt>わたし</rt><rp>)</rp></ruby>の<ruby>友達<rp>(</rp><rt>ともだち</rt><rp>)</rp></ruby>{{blank:b1}}のだ。</p><p class=\"jp-romaji\">kare wa watashi no tomodachi [ ? ] no da.</p><p class=\"jp-zh\">其实他是我朋友呀。</p></div>",
+      "reference_answer": "な",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\"><ruby>彼<rp>(</rp><rt>かれ</rt><rp>)</rp></ruby>は<ruby>私<rp>(</rp><rt>わたし</rt><rp>)</rp></ruby>の<ruby>友達<rp>(</rp><rt>ともだち</rt><rp>)</rp></ruby><strong>な</strong>のだ。</div><div class=\"jp-romaji\">kare wa watashi no tomodachi na no da.</div><p>若直接说「友達のだ」会被听成“是朋友的（东西）”，名词后接说明语气「の / んだ」必须先加「な」防歧义。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "防歧义连接假名",
+            "answers": [
+              "な"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp06-2222-18",
+      "title": "日常口语追问/解释：「どこに行くの？」",
+      "point_ids": [
+        "p-jp06-no-explain"
+      ],
+      "learning_phases": [
+        "learn",
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "疑问句中柔和打听缘由/近况（与答句「〜んだ」配对），填入句尾说明语气助词：\nこれからどこに行く{{blank:b1}}？ 友達に会いに行くんだ。（你这是要去哪儿呀？ 我要去见朋友（呢）。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">疑问句中柔和打听缘由/近况（与答句「〜んだ」配对），填入句尾说明语气助词：</p><p class=\"jp-ja\">これからどこに<ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>く{{blank:b1}}？ <ruby>友達<rp>(</rp><rt>ともだち</rt><rp>)</rp></ruby>に<ruby>会<rp>(</rp><rt>あ</rt><rp>)</rp></ruby>いに<ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>くんだ。</p><p class=\"jp-romaji\">kore kara doko ni iku [ ? ]? tomodachi ni ai ni ikun da.</p><p class=\"jp-zh\">你这是要去哪儿呀？ 我要去见朋友（呢）。</p></div>",
+      "reference_answer": "の",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\">これからどこに<ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>く<strong>の</strong>？ <ruby>友達<rp>(</rp><rt>ともだち</rt><rp>)</rp></ruby>に<ruby>会<rp>(</rp><rt>あ</rt><rp>)</rp></ruby>いに<ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>くんだ。</div><div class=\"jp-romaji\">kore kara doko ni iku no? tomodachi ni ai ni ikun da.</div><p>疑问句中常用「の？」柔和地打听缘由/近况，回答则配对说明语气「〜んだ」给出解释。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "说明语气助词",
+            "answers": [
+              "の"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc-jp06-2222-19",
+      "title": "综合复盘：「〜んじゃない／んじゃなかった」懊悔解释语气",
+      "point_ids": [
+        "p-jp06-no-explain",
+        "p-jp06-state-mod"
+      ],
+      "learning_phases": [
+        "review"
+      ],
+      "answer_type": "fill_blank",
+      "constraints": "请填写日语假名或汉字（系统自动忽略全半角空白）。",
+      "question": "将说明语气「んだ」的句尾「だ」作【过去否定简体】活用，表达“早知道不吃早饭好了”：\nお腹が痛くて、朝ご飯を食べるん{{blank:b1}}。（肚子痛，真不该吃早饭的啊。）",
+      "html": "<div class=\"jp-card\"><p class=\"jp-prompt\">将说明语气「んだ」的句尾「だ」作【过去否定简体】活用，表达“早知道不吃早饭好了”：</p><p class=\"jp-ja\">お<ruby>腹<rp>(</rp><rt>なか</rt><rp>)</rp></ruby>が<ruby>痛<rp>(</rp><rt>いた</rt><rp>)</rp></ruby>くて、<ruby>朝<rp>(</rp><rt>あさ</rt><rp>)</rp></ruby>ご<ruby>飯<rp>(</rp><rt>はん</rt><rp>)</rp></ruby>を<ruby>食<rp>(</rp><rt>た</rt><rp>)</rp></ruby>べるん{{blank:b1}}。</p><p class=\"jp-romaji\">onaka ga itakute, asagohan o taberun [ ? ].</p><p class=\"jp-zh\">肚子痛，真不该吃早饭的啊。</p></div>",
+      "reference_answer": "じゃなかった",
+      "explanation_html": "<div class=\"jp-expl\"><div class=\"jp-ja\">お<ruby>腹<rp>(</rp><rt>なか</rt><rp>)</rp></ruby>が<ruby>痛<rp>(</rp><rt>いた</rt><rp>)</rp></ruby>くて、<ruby>朝<rp>(</rp><rt>あさ</rt><rp>)</rp></ruby>ご<ruby>飯<rp>(</rp><rt>はん</rt><rp>)</rp></ruby>を<ruby>食<rp>(</rp><rt>た</rt><rp>)</rp></ruby>べるん<strong>じゃなかった</strong>。</div><div class=\"jp-romaji\">onaka ga itakute, asagohan o taberun janakatta.</div><p>先把动词句名词化接「ん(だ)」，再对句尾「だ」做过去否定活用「じゃなかった」，表达“本来不该……”的懊悔解释语气。</p></div>",
+      "interaction": {
+        "version": 1,
+        "type": "fill_blank",
+        "grading": "exact",
+        "blanks": [
+          {
+            "id": "b1",
+            "label": "过去否定简体",
+            "answers": [
+              "じゃなかった",
+              "ではなかった"
             ]
           }
         ]
